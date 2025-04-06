@@ -16,6 +16,8 @@ import {
   ChatResponse,
   ChatMessage,
 } from "./types";
+import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
+import { DeploymentResult } from "./deployment.type";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080";
 
 // User response interface
@@ -146,6 +148,15 @@ class ApiService {
     });
   }
 
+  async createDeploymentNew(
+    data: CreateDeploymentSchemaType
+  ): Promise<DeploymentResult> {
+    return this.request<DeploymentResult>("/api/deployments/deploy", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
   // Deployment Services
   async getUserDeployments(
     user: string,
@@ -236,48 +247,47 @@ class ApiService {
       // Process the stream using the ReadableStream API
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let buffer = '';
+      let buffer = "";
       let accumulatedText = "";
 
       try {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          
+
           // Decode the chunk and add to buffer
           buffer += decoder.decode(value, { stream: true });
-          
+
           // Process complete lines in the buffer
-          const lines = buffer.split('\n');
+          const lines = buffer.split("\n");
           // Keep the last potentially incomplete line in the buffer
-          buffer = lines.pop() || '';
-          
+          buffer = lines.pop() || "";
+
           for (const line of lines) {
-            if (line.startsWith('data: ')) {
+            if (line.startsWith("data: ")) {
               const data = line.substring(6).trim();
-              
-              if (data === '[DONE]') {
+
+              if (data === "[DONE]") {
                 return { text: accumulatedText };
               }
-              
+
               // Skip empty data
               if (!data) {
                 continue;
               }
-              
+
               try {
                 // Ensure we're parsing valid JSON
                 const parsed = JSON.parse(data);
-                if (parsed.choices && 
-                    parsed.choices[0]) {
-                  const deltaContent = parsed.choices[0]?.delta?.content || '';
+                if (parsed.choices && parsed.choices[0]) {
+                  const deltaContent = parsed.choices[0]?.delta?.content || "";
                   if (deltaContent) {
                     accumulatedText += deltaContent;
                     onStream(deltaContent);
                   }
                 }
               } catch (e) {
-                console.error('Error parsing SSE data:', e, data);
+                console.error("Error parsing SSE data:", e, data);
                 // Continue processing other chunks instead of breaking
                 continue;
               }
@@ -285,7 +295,7 @@ class ApiService {
           }
         }
       } catch (error) {
-        console.error('Stream reading error:', error);
+        console.error("Stream reading error:", error);
         throw error;
       } finally {
         reader.releaseLock();
