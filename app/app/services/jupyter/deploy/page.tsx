@@ -7,10 +7,6 @@ import { useAuth } from "@/lib/auth/AuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import DeploymentOptionCard from "@/components/services/common/DeploymentOptionCard";
 import { ArrowRight, Layers, Server } from "lucide-react";
-import {
-  useDeployDefaultJupyter,
-  useDeployCustomJupyter,
-} from "@/hooks/queries/useJupyter";
 
 import {
   CPU_CONSTRAINTS,
@@ -27,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import ResourceSettingSection from "@/components/services/backend/ResourceSettingSection";
 import { ResourceValueOptions } from "../../custom/deploy/interface";
-import { useRouter } from "next/navigation";
+import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
 
 export default function JupyterDeployment() {
   const [selectedProvider, setSelectedProvider] =
@@ -36,16 +32,9 @@ export default function JupyterDeployment() {
   const [selectedOption, setSelectedOption] = useState<"default" | "custom">(
     "default"
   );
-  const router = useRouter();
 
-  // Use TanStack Query mutation hooks
-  const { mutate: deployDefaultJupyter, isPending: isDefaultDeploying } =
-    useDeployDefaultJupyter();
-  const { mutate: deployCustomJupyter, isPending: isCustomDeploying } =
-    useDeployCustomJupyter();
-
-  // Combined loading state
-  const isLoading = isDefaultDeploying || isCustomDeploying;
+  const { mutate: createDeployment, isPending: isLoading } =
+    useCreateDeployment("/app/services/jupyter");
 
   // Resource settings for custom deployment
   const [values, setValues] = useState<ResourceValueOptions>({
@@ -72,15 +61,12 @@ export default function JupyterDeployment() {
   }
 
   const handleDefaultDeploy = () => {
-    deployDefaultJupyter(
-      { provider: selectedProvider },
-      {
-        // redirect after successful deployment
-        onSuccess: () => {
-          router.push("/app/services/jupyter");
-        },
-      }
-    );
+    createDeployment({
+      provider: selectedProvider,
+      service: "JUPYTER",
+      tier: "DEFAULT",
+      userId: 2,
+    });
   };
 
   const handleCustomDeploy = () => {
@@ -99,11 +85,12 @@ export default function JupyterDeployment() {
       provider: selectedProvider,
     };
 
-    deployCustomJupyter(data, {
-      // redirect after successful deployment
-      onSuccess: () => {
-        router.push("/app/services/jupyter");
-      },
+    createDeployment({
+      provider: selectedProvider,
+      service: "JUPYTER",
+      tier: "CUSTOM",
+      userId: 2,
+      config: data,
     });
   };
 

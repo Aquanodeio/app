@@ -11,8 +11,7 @@ import {
   ENVIRONMENT_VARS_DEFAULT,
 } from "@/constants/constrains";
 import { toast } from "sonner";
-import { DeploymentConfig, EnvironmentVars, ProviderType } from "@/lib/api";
-import { useCreateDeployment } from "@/hooks/queries/useCustomDeployment";
+import { EnvironmentVars, ProviderType } from "@/lib/api";
 import { deploymentOptions } from "./helpers";
 import SourceControlSection from "@/components/services/backend/SourceControlSection";
 import EnviromentVariableSection from "@/components/services/backend/EnviromentVariableSection";
@@ -29,6 +28,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getProviderFromEnv } from "@/lib/utils";
+import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
+import { DeploymentConfig } from "@/services/deployment.type";
 
 export default function BackendPage() {
   const { user, isLoading } = useAuth();
@@ -80,14 +81,6 @@ export default function BackendPage() {
     }
 
     try {
-      const config: DeploymentConfig = {
-        appPort: portNumber,
-        deploymentDuration: `${values.deploymentDuration}h`,
-        appCpuUnits: parseFloat(values.cpuValue),
-        appMemorySize: `${values.memoryValue}${values.memoryUnit}`,
-        appStorageSize: `${values.ephemeralValue}${values.ephemeralUnit}`,
-      };
-
       let env: EnvironmentVars = {};
       try {
         env = JSON.parse(envVarsJson);
@@ -97,12 +90,20 @@ export default function BackendPage() {
         );
       }
 
+      const config: DeploymentConfig = {
+        appPort: portNumber,
+        env: env,
+        repoUrl: repoUrl,
+        branchName: branchName,
+        serviceType: "BACKEND",
+      };
+
       createDeployment({
-        userId,
-        repoUrl,
-        branchName,
+        provider: selectedProvider,
+        service: "BACKEND",
+        tier: "DEFAULT",
+        userId: 2,
         config,
-        env,
       });
     } catch (error) {
       console.error("Error preparing deployment data:", error);
