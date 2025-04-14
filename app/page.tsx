@@ -24,42 +24,16 @@ const Hero = () => {
 
   return (
     <div className="relative min-h-screen pt-20 overflow-hidden bg-[#050814]">
-      {/* Dynamic backdrop */}
-      <div className="absolute inset-0 bg-[url('/network-grid.svg')] bg-no-repeat bg-cover opacity-10"></div>
       
-      {/* Animated orbital circles representing the ecosystem */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-blue-500/5 animate-[spin_60s_linear_infinite] opacity-20"></div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-blue-400/10 animate-[spin_40s_linear_infinite_reverse] opacity-30"></div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-blue-300/15 animate-[spin_30s_linear_infinite] opacity-40"></div>
-      
-      {/* Enhanced glow effects */}
-      <div className="absolute top-40 left-20 w-72 h-72 bg-blue-600/10 rounded-full blur-[100px] animate-pulse-glow"></div>
-      <div className="absolute bottom-40 right-20 w-80 h-80 bg-blue-400/10 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: "1.5s" }}></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "0.8s" }}></div>
-      
-      {/* Improved stars */}
-      {Array.from({ length: 20 }).map((_, i) => (
-        <div 
-          key={i}
-          className="star h-1.5 w-1.5 absolute bg-blue-200 animate-star-pulse"
-          style={{ 
-            top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: 0.4 + Math.random() * 0.6
-          }}
-        ></div>
-      ))}
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 relative z-10">
         <div className="flex flex-col lg:flex-row items-center">
-          <div className="lg:w-1/2 lg:pr-12 fade-in-up" style={{ animationDelay: "0.1s" }}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+          <div className="lg:w-3/5 lg:pr-12 fade-in-up" style={{ animationDelay: "0.1s" }}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">The World's Largest</span>
               <br />
               Compute Ecosystem
             </h1>
-            <p className="text-xl md:text-2xl text-blue-200/80 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-blue-200/80 mb-8 leading-relaxed max-w-3xl">
               The world's largest compute ecosystem, deploying customizable Aqua services through the Aqua layer
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -73,30 +47,9 @@ const Hero = () => {
                 </Button>
               </Link>
             </div>
-            
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="flex items-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.1s" }}>
-                <div className="rounded-full bg-blue-900/30 p-2 mr-3">
-                  <Zap className="h-5 w-5 text-blue-400" />
-                </div>
-                <p className="font-medium text-blue-100">60% Cost Savings</p>
-              </div>
-              <div className="flex items-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.3s" }}>
-                <div className="rounded-full bg-blue-900/30 p-2 mr-3">
-                  <Cpu className="h-5 w-5 text-blue-400" />
-                </div>
-                <p className="font-medium text-blue-100">Instant Deployment</p>
-              </div>
-              <div className="flex items-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.5s" }}>
-                <div className="rounded-full bg-blue-900/30 p-2 mr-3">
-                  <Server className="h-5 w-5 text-blue-400" />
-                </div>
-                <p className="font-medium text-blue-100">Global Infrastructure</p>
-              </div>
-            </div>
           </div>
           
-          <div className="lg:w-1/2 mt-12 lg:mt-0 fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <div className="lg:w-2/5 mt-12 lg:mt-0 fade-in-up" style={{ animationDelay: "0.4s" }}>
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/30 to-blue-400/30 rounded-lg blur-sm opacity-30 animate-pulse-glow"></div>
               <div className="bg-[#0a1022]/90 border border-blue-500/20 p-6 sm:p-8 rounded-lg relative shadow-lg hover-effect"
@@ -137,6 +90,42 @@ const Hero = () => {
             </div>
           </div>
         </div>
+        
+        {/* Feature cards centered at bottom */}
+        <div className="mt-16 max-w-4xl mx-auto fade-in-up" style={{ animationDelay: "0.6s" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.1s" }}>
+              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+                <Zap className="h-5 w-5 text-blue-400" />
+              </div>
+              <p className="font-medium text-blue-100">60% Cost Savings</p>
+            </div>
+            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.3s" }}>
+              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+                <Cpu className="h-5 w-5 text-blue-400" />
+              </div>
+              <p className="font-medium text-blue-100">Instant Deployment</p>
+            </div>
+            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.5s" }}>
+              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+                <Server className="h-5 w-5 text-blue-400" />
+              </div>
+              <p className="font-medium text-blue-100">Global Providers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Wave SVG at the bottom */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+        <svg className="relative block w-full h-16 sm:h-24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,120 C150,80 350,0 500,80 C650,160 750,40 900,20 C1050,0 1150,80 1200,120 L1200,120 L0,120 Z" 
+                fill="#080f1e" opacity="0.8"></path>
+          <path d="M0,120 C200,100 400,40 600,100 C800,160 1000,60 1200,120 L1200,120 L0,120 Z" 
+                fill="#080f1e" opacity="0.6"></path>
+          <path d="M0,120 C250,60 450,100 650,60 C850,20 1050,80 1200,120 L1200,120 L0,120 Z" 
+                fill="#080f1e" opacity="0.4"></path>
+        </svg>
       </div>
     </div>
   );
@@ -144,10 +133,7 @@ const Hero = () => {
 
 const Solutions = () => {
   return (
-    <div id="solutions" className="py-24 bg-[#080f1e] relative overflow-hidden">
-      {/* Dark theme decorative elements */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
+    <div className="py-24 bg-[#080f1e] relative overflow-hidden">
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -261,21 +247,7 @@ const AquaLayer = () => {
   
   return (
     <div id="aqua-layer" className="py-24 relative overflow-hidden bg-[#050814]">
-      {/* Dark theme decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
-      <div className="absolute top-20 -right-20 w-96 h-96 bg-blue-400/5 rounded-full blur-[120px] animate-pulse-glow"></div>
-      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "1.5s" }}></div>
-      
-      {/* Background code pattern */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/code-pattern.svg')] bg-repeat"></div>
-      
-      {/* Animated stars */}
-      <div className="star h-1 w-1 bg-blue-200" style={{ top: '15%', left: '10%', animationDelay: '0.2s' }}></div>
-      <div className="star h-1.5 w-1.5 bg-blue-200" style={{ top: '25%', left: '20%', animationDelay: '0.7s' }}></div>
-      <div className="star h-1 w-1 bg-blue-200" style={{ top: '35%', right: '10%', animationDelay: '1.1s' }}></div>
-      <div className="star h-2 w-2 bg-blue-200" style={{ bottom: '25%', right: '15%', animationDelay: '1.4s' }}></div>
-      <div className="star h-1 w-1 bg-blue-200" style={{ bottom: '35%', left: '15%', animationDelay: '1.8s' }}></div>
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2 fade-in-up" style={{ animationDelay: "0.1s" }}>
@@ -351,11 +323,11 @@ const AquaLayer = () => {
                 </div>
               </div>
             </div>
-            
+{/*             
             <Button className="bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-900/30 group">
               Learn More About Aqua Layer
               <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
+            </Button> */}
           </div>
           
           <div className="lg:w-1/2 fade-in-up" style={{ animationDelay: "0.4s" }}>
@@ -422,11 +394,6 @@ const AquaLayer = () => {
 const Services = () => {
   return (
     <div id="services" className="py-24 bg-[#080f1e] relative overflow-hidden">
-      {/* Dark theme decorative elements */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
-      <div className="absolute top-20 -right-20 w-96 h-96 bg-blue-400/5 rounded-full blur-[120px] animate-pulse-glow"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -440,13 +407,23 @@ const Services = () => {
         </div>
 
         <Tabs defaultValue="public" className="max-w-5xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-12 bg-blue-900/20 text-blue-200">
-            <TabsTrigger value="public" className="data-[state=active]:bg-blue-800/30 data-[state=active]:text-blue-50">Open Source Aqua Services</TabsTrigger>
-            <TabsTrigger value="private" className="data-[state=active]:bg-blue-800/30 data-[state=active]:text-blue-50">Private Aqua Services</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-12 bg-[#0a1022]/50 border border-blue-700/10 rounded-md overflow-hidden text-blue-300">
+            <TabsTrigger 
+              value="public" 
+              className="py-3 transition-all data-[state=active]:bg-[#111a2c]/40 data-[state=active]:text-blue-100 data-[state=active]:border-b-2 data-[state=active]:border-blue-500/40"
+            >
+              Open Source Aqua Services
+            </TabsTrigger>
+            <TabsTrigger 
+              value="private" 
+              className="py-3 transition-all data-[state=active]:bg-[#111a2c]/40 data-[state=active]:text-blue-100 data-[state=active]:border-b-2 data-[state=active]:border-blue-500/40"
+            >
+              Private Aqua Services
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="public">
-            <div className="glass-card rounded-lg p-6 border border-blue-800/40 shadow-xl shadow-black/20 bg-gradient-to-b from-[#0d1424] to-[#091020]/60">
+            <div className="rounded-lg p-6 border border-blue-800/20 bg-gradient-to-b from-[#0d1424]/90 to-[#091020]/90">
               <div className="flex flex-col lg:flex-row gap-10">
                 <div className="lg:w-1/2">
                   <h3 className="text-2xl font-bold mb-4 text-blue-100">Open Source Aqua Services</h3>
@@ -478,9 +455,9 @@ const Services = () => {
                     </div>
                   </div>
                   
-                  <Button className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30">
+                  {/* <Button className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30">
                     Build Public Aqua Service
-                  </Button>
+                  </Button> */}
                 </div>
                 
                 <div className="lg:w-1/2 bg-gradient-to-b from-[#0d1424]/70 to-[#091020]/70 backdrop-blur-sm p-6 rounded-lg border border-blue-800/30">
@@ -520,7 +497,7 @@ const Services = () => {
           </TabsContent>
           
           <TabsContent value="private">
-            <div className="glass-card rounded-lg p-6 border border-blue-800/40 shadow-xl shadow-black/20 bg-gradient-to-b from-[#0d1424] to-[#091020]/60">
+            <div className="rounded-lg p-6 border border-blue-800/20 bg-gradient-to-b from-[#0d1424]/90 to-[#091020]/90">
               <div className="flex flex-col lg:flex-row gap-10">
                 <div className="lg:w-1/2">
                   <h3 className="text-2xl font-bold mb-4 text-blue-100">Private Aqua Services</h3>
@@ -552,9 +529,6 @@ const Services = () => {
                     </div>
                   </div>
                   
-                  <Button className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30">
-                    Deploy Private Aqua Service
-                  </Button>
                 </div>
                 
                 <div className="lg:w-1/2 bg-gradient-to-b from-[#0d1424]/70 to-[#091020]/70 backdrop-blur-sm p-6 rounded-lg border border-blue-800/30">
@@ -597,26 +571,6 @@ const Services = () => {
 const CTA = () => {
   return (
     <div className="py-24 relative overflow-hidden bg-[#050814]">
-      {/* Dark theme decorative elements */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/5 via-blue-600/5 to-blue-900/5"></div>
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"></div>
-      <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] animate-pulse-glow"></div>
-      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-blue-400/5 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "1.5s" }}></div>
-      
-      {/* Animated stars */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <div 
-          key={i}
-          className="star h-1 w-1 absolute bg-blue-200 animate-star-pulse"
-          style={{ 
-            top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: 0.4 + Math.random() * 0.6
-          }}
-        ></div>
-      ))}
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
@@ -642,42 +596,39 @@ const CTA = () => {
           </div>
           
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-800/40 bg-gradient-to-b from-[#0d1424] to-[#091020]/60">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative z-10">
-                <h3 className="font-bold text-lg mb-3 text-blue-100">For Builders</h3>
-                <p className="text-blue-200/80 mb-4">
+            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
+              <div className="p-8 text-center">
+                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
+                  <Server className="h-6 w-6 text-blue-300" />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-blue-100">For Builders</h3>
+                <p className="text-blue-200 mb-6">
                   Deploy your workloads at 60% less cost without the complexity of managing infrastructure.
                 </p>
-                <a href="#" className="text-blue-400 font-medium flex items-center group">
-                  Learn More <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
               </div>
             </div>
             
-            <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-800/40 bg-gradient-to-b from-[#0d1424] to-[#091020]/60">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative z-10">
-                <h3 className="font-bold text-lg mb-3 text-blue-100">For Developers</h3>
-                <p className="text-blue-200/80 mb-4">
+            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
+              <div className="p-8 text-center">
+                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
+                  <Code className="h-6 w-6 text-blue-300" />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-blue-100">For Developers</h3>
+                <p className="text-blue-200 mb-6">
                   Create and monetize Aqua Services with our SDK, focusing on your application, not infrastructure.
                 </p>
-                <a href="#" className="text-blue-400 font-medium flex items-center group">
-                  Learn More <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
               </div>
             </div>
             
-            <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-800/40 bg-gradient-to-b from-[#0d1424] to-[#091020]/60">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative z-10">
-                <h3 className="font-bold text-lg mb-3 text-blue-100">For Enterprises</h3>
-                <p className="text-blue-200/80 mb-4">
+            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
+              <div className="p-8 text-center">
+                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
+                  <BarChart className="h-6 w-6 text-blue-300" />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-blue-100">For Enterprises</h3>
+                <p className="text-blue-200 mb-6">
                   Reduce cloud costs significantly while maintaining performance, security, and reliability.
                 </p>
-                <a href="#" className="text-blue-400 font-medium flex items-center group">
-                  Learn More <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
               </div>
             </div>
           </div>
