@@ -321,20 +321,18 @@ export default function BackendPage() {
                       <SelectValue placeholder="Select a provider" />
                     </SelectTrigger>
                     <SelectContent>
-                      {defaultProvider ? (
+                      {defaultProvider === "auto" ? (
+                        <>
+                          <SelectItem value="auto">Auto (Default)</SelectItem>
+                          <SelectItem value="akash">Akash Network</SelectItem>
+                          <SelectItem value="spheron">Spheron Network</SelectItem>
+                        </>
+                      ) : (
                         <SelectItem value={defaultProvider}>
                           {defaultProvider.charAt(0).toUpperCase() +
                             defaultProvider.slice(1)}{" "}
                           Network
                         </SelectItem>
-                      ) : (
-                        <>
-                          <SelectItem value="auto">Auto (Default)</SelectItem>
-                          <SelectItem value="akash">Akash Network</SelectItem>
-                          <SelectItem value="spheron">
-                            Spheron Network
-                          </SelectItem>
-                        </>
                       )}
                     </SelectContent>
                   </Select>
