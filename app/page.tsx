@@ -5,7 +5,6 @@ import { ChevronRight, Server, Cpu, Zap, CloudCog, DollarSign, Clock, Layers, Ne
 import { useState } from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Pricing from '@/components/Pricing';
 
 export default function LandingPage() {
   return (
@@ -14,7 +13,6 @@ export default function LandingPage() {
       <Solutions />
       <AquaLayer />
       <Services />
-      <Pricing />
       <CTA />
       <Footer />
     </div>

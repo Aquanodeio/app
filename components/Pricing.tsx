@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DollarSign, Server, Zap } from "lucide-react";
+import { DollarSign, Server, Zap, X } from "lucide-react";
 
 interface GPUOption {
   name: string;
@@ -18,68 +20,74 @@ const gpuOptions: GPUOption[] = [
     name: 'H100',
     memory: '80GB',
     type: 'SXM',
-    price: '$1.50/hr',
-    azure: '$13.50/hr',
-    savings: '89%',
+    price: '$1.13/hr',
+    azure: '$12.29/hr',
+    savings: '91%',
     performance: 'Highest'
   },
   {
     name: 'A100',
     memory: '80GB',
     type: 'SXM',
-    price: '$1.14/hr',
-    azure: '$9.50/hr',
-    savings: '88%',
+    price: '$0.76/hr',
+    azure: '$0.96/hr',
+    savings: '21%',
     performance: 'Very High'
   },
   {
     name: 'V100',
     memory: '32GB',
     type: 'SXM',
-    price: '$0.30/hr',
+    price: '$0.20/hr',
     azure: '$3.06/hr',
-    savings: '90%',
+    savings: '93%',
     performance: 'High'
   },
   {
     name: 'RTX 4090',
     memory: '24GB',
     type: 'PCIe',
-    price: '$0.57/hr',
+    price: '$0.38/hr',
     performance: 'High'
   },
   {
     name: 'RTX A6000',
     memory: '48GB',
     type: 'PCIe',
-    price: '$0.45/hr',
+    price: '$0.33/hr',
     performance: 'High'
   },
   {
     name: 'RTX 3090',
     memory: '24GB',
     type: 'PCIe',
-    price: '$0.41/hr',
+    price: '$0.24/hr',
     performance: 'Medium'
   },
   {
     name: 'RTX 3070',
     memory: '8GB',
     type: 'PCIe',
-    price: '$0.29/hr',
+    price: '$0.19/hr',
     performance: 'Medium'
   },
   {
     name: 'T4',
     memory: '16GB',
     type: 'PCIe',
-    price: '$0.18/hr',
+    price: '$0.13/hr',
+    azure: '$0.34/hr',
+    savings: '62%',
     performance: 'Entry'
   }
 ];
 
 const PricingComponent: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="py-24 bg-[#080f1e] relative overflow-hidden" id="pricing">
@@ -96,10 +104,10 @@ const PricingComponent: React.FC = () => {
         <Tabs defaultValue="all" className="w-full mb-8">
           <div className="flex justify-center">
             <TabsList className="bg-blue-800/30 border border-blue-200/30">
-              <TabsTrigger value="all" className="data-[state=active]:bg-blue-800">All GPUs</TabsTrigger>
-              <TabsTrigger value="high-end" className="data-[state=active]:bg-blue-800">High-End</TabsTrigger>
-              <TabsTrigger value="mid-range" className="data-[state=active]:bg-blue-800">Mid-Range</TabsTrigger>
-              <TabsTrigger value="budget" className="data-[state=active]:bg-blue-800">Budget</TabsTrigger>
+              <TabsTrigger value="all" className="data-[state=active]:bg-blue-1000">All GPUs</TabsTrigger>
+              <TabsTrigger value="high-end" className="data-[state=active]:bg-blue-1000">High-End</TabsTrigger>
+              <TabsTrigger value="mid-range" className="data-[state=active]:bg-blue-1000">Mid-Range</TabsTrigger>
+              <TabsTrigger value="budget" className="data-[state=active]:bg-blue-1000">Budget</TabsTrigger>
             </TabsList>
           </div>
 
@@ -144,12 +152,12 @@ const PricingComponent: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      {gpu.azure && (
+                      {(
                         <p className="text-sm text-blue-300/70 mb-4">
-                          vs. {gpu.azure} on Azure
+                          {gpu.azure ? `vs. ${gpu.azure} on Azure` : '\u00A0'}
                         </p>
                       )}
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={() => window.location.href = 'mailto:contact@aquanode.io'}>
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
                         <Zap className="h-4 w-4 mr-2" />
                         Deploy Now
                       </Button>
@@ -204,7 +212,7 @@ const PricingComponent: React.FC = () => {
                           vs. {gpu.azure} on Azure
                         </p>
                       )}
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
                         <Zap className="h-4 w-4 mr-2" />
                         Deploy Now
                       </Button>
@@ -259,7 +267,7 @@ const PricingComponent: React.FC = () => {
                           vs. {gpu.azure} on Azure
                         </p>
                       )}
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
                         <Zap className="h-4 w-4 mr-2" />
                         Deploy Now
                       </Button>
@@ -314,7 +322,7 @@ const PricingComponent: React.FC = () => {
                           vs. {gpu.azure} on Azure
                         </p>
                       )}
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
                         <Zap className="h-4 w-4 mr-2" />
                         Deploy Now
                       </Button>
@@ -335,12 +343,36 @@ const PricingComponent: React.FC = () => {
             <p className="text-blue-200/80 mb-6">
               Need a large number of GPUs or long-term reservations? Contact us for custom pricing.
             </p>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={openModal}>
               Contact Sales
             </Button>
           </div>
         </div>
       </div>
+      {/* Contact Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-[2px] flex items-center justify-center z-50">
+          <div className="bg-blue-900 border border-blue-500/50 rounded-2xl p-8 max-w-sm w-full relative shadow-xl shadow-blue-500/20">
+            <button
+              onClick={closeModal}
+              className="absolute top-3 right-3 text-blue-300 hover:text-blue-100 transition-colors"
+              aria-label="Close modal"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <h3 className="text-xl font-bold text-blue-50 mb-4">Contact Us</h3>
+            <p className="text-blue-200 mb-6">
+              To deploy or inquire about volume discounts, please reach out to us at:
+            </p>
+            <a
+              href="mailto:contact@aquanode.io"
+              className="block text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl transition-colors"
+            >
+              Email: contact@aquanode.io
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

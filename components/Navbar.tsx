@@ -78,6 +78,9 @@ export default function Navbar({
           <a href="#services" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
             Aqua Services
           </a>
+          <Link href="/pricing" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
+            Pricing
+          </Link>
         <div className="hidden md:flex items-center space-x-4">
 
         </div>
