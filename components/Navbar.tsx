@@ -66,18 +66,21 @@ export default function Navbar({
             href="/"
             className="text-xl font-bold gradient-text transition-colors duration-300"
           >
-            AQUANODE
+            Aquanode
           </Link>
         </div>
         
         
         <div className="flex items-center gap-4">
           <a href="#aqua-layer" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
-            AQUA LAYER
+            Aqua Layer
           </a>
           <a href="#services" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
-            AQUA SERVICES
+            Aqua Services
           </a>
+          <Link href="/pricing" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
+            Pricing
+          </Link>
         <div className="hidden md:flex items-center space-x-4">
 
         </div>

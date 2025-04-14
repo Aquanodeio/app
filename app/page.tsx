@@ -99,7 +99,7 @@ const Hero = () => {
               <div className="rounded-full bg-blue-900/40 p-2 mr-3 backdrop-blur-sm">
                 <Zap className="h-5 w-5 text-blue-400" />
               </div>
-              <p className="font-medium text-blue-100">60% Cost Savings</p>
+              <p className="font-medium text-blue-100">3-10x Cost Savings</p>
             </div>
             <div className="flex items-center justify-center rounded-lg p-4 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10" style={{ animationDelay: "0.3s" }}>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full animate-shine"></div>
