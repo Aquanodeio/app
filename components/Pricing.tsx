@@ -11,7 +11,6 @@ interface GPUOption {
   type: string;
   price: string;
   azure?: string;
-  savings?: string;
   performance?: string;
 }
 
@@ -20,64 +19,60 @@ const gpuOptions: GPUOption[] = [
     name: 'H100',
     memory: '80GB',
     type: 'SXM',
-    price: '$1.13/hr',
-    azure: '$12.29/hr',
-    savings: '91%',
+    price: '1.13',
+    azure: '12.29',
     performance: 'Highest'
   },
   {
     name: 'A100',
     memory: '80GB',
     type: 'SXM',
-    price: '$0.76/hr',
-    azure: '$0.96/hr',
-    savings: '21%',
+    price: '0.76',
+    azure: '0.96',
     performance: 'Very High'
   },
   {
     name: 'V100',
     memory: '32GB',
     type: 'SXM',
-    price: '$0.20/hr',
-    azure: '$3.06/hr',
-    savings: '93%',
+    price: '0.20',
+    azure: '3.06',
     performance: 'High'
   },
   {
     name: 'RTX 4090',
     memory: '24GB',
     type: 'PCIe',
-    price: '$0.38/hr',
+    price: '0.38',
     performance: 'High'
   },
   {
     name: 'RTX A6000',
     memory: '48GB',
     type: 'PCIe',
-    price: '$0.33/hr',
+    price: '0.33',
     performance: 'High'
   },
   {
     name: 'RTX 3090',
     memory: '24GB',
     type: 'PCIe',
-    price: '$0.24/hr',
+    price: '0.24',
     performance: 'Medium'
   },
   {
     name: 'RTX 3070',
     memory: '8GB',
     type: 'PCIe',
-    price: '$0.19/hr',
+    price: '0.19',
     performance: 'Medium'
   },
   {
     name: 'T4',
     memory: '16GB',
     type: 'PCIe',
-    price: '$0.13/hr',
-    azure: '$0.34/hr',
-    savings: '62%',
+    price: '0.13',
+    azure: '0.34',
     performance: 'Entry'
   }
 ];
@@ -144,17 +139,17 @@ const PricingComponent: React.FC = () => {
                     <div className="mt-auto">
                       <div className="flex items-baseline justify-between mb-2">
                         <p className="text-2xl font-bold text-blue-50">
-                          {gpu.price}
+                          ${gpu.price}/hr
                         </p>
-                        {gpu.savings && (
+                        {gpu.azure && (
                           <span className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full">
-                            Save {gpu.savings}
+                            Save {((Number(gpu.azure) / Number(gpu.price))).toFixed(2)}x
                           </span>
                         )}
                       </div>
                       {(
                         <p className="text-sm text-blue-300/70 mb-4">
-                          {gpu.azure ? `vs. ${gpu.azure} on Azure` : '\u00A0'}
+                          {gpu.azure ? `vs. $${gpu.azure}/hr on Azure` : '\u00A0'}
                         </p>
                       )}
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
@@ -199,17 +194,17 @@ const PricingComponent: React.FC = () => {
                     <div className="mt-auto">
                       <div className="flex items-baseline justify-between mb-2">
                         <p className="text-2xl font-bold text-blue-50">
-                          {gpu.price}
+                          ${gpu.price}/hr
                         </p>
-                        {gpu.savings && (
+                        {gpu.azure && (
                           <span className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full">
-                            Save {gpu.savings}
+                            Save {((Number(gpu.azure) / Number(gpu.price))).toFixed(2)}x
                           </span>
                         )}
                       </div>
                       {gpu.azure && (
                         <p className="text-sm text-blue-300/70 mb-4">
-                          vs. {gpu.azure} on Azure
+                          vs. ${gpu.azure}/hr on Azure
                         </p>
                       )}
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
@@ -254,17 +249,17 @@ const PricingComponent: React.FC = () => {
                     <div className="mt-auto">
                       <div className="flex items-baseline justify-between mb-2">
                         <p className="text-2xl font-bold text-blue-50">
-                          {gpu.price}
+                          ${gpu.price}/hr
                         </p>
-                        {gpu.savings && (
+                        {gpu.azure && (
                           <span className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full">
-                            Save {gpu.savings}
+                            Save {((Number(gpu.azure) / Number(gpu.price))).toFixed(2)}x
                           </span>
                         )}
                       </div>
                       {gpu.azure && (
                         <p className="text-sm text-blue-300/70 mb-4">
-                          vs. {gpu.azure} on Azure
+                          vs. ${gpu.azure}/hr on Azure
                         </p>
                       )}
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
@@ -309,17 +304,17 @@ const PricingComponent: React.FC = () => {
                     <div className="mt-auto">
                       <div className="flex items-baseline justify-between mb-2">
                         <p className="text-2xl font-bold text-blue-50">
-                          {gpu.price}
+                          ${gpu.price}/hr
                         </p>
-                        {gpu.savings && (
+                        {gpu.azure && (
                           <span className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full">
-                            Save {gpu.savings}
+                            Save {((Number(gpu.azure) / Number(gpu.price))).toFixed(2)}x
                           </span>
                         )}
                       </div>
                       {gpu.azure && (
                         <p className="text-sm text-blue-300/70 mb-4">
-                          vs. {gpu.azure} on Azure
+                          vs. ${gpu.azure}/hr on Azure
                         </p>
                       )}
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-2 group-hover:bg-blue-500" onClick={openModal}>
