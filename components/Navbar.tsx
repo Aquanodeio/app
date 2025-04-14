@@ -110,8 +110,8 @@ export default function Navbar({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Link href="/app">
-                <Button className="bg-accent hover:bg-accent/90">
+              <Link href="/app/services">
+                <Button className="bg-blue-600 hover:bg-blue-700">
                   Launch App
                 </Button>
               </Link>
@@ -127,7 +127,7 @@ export default function Navbar({
                   <User className="w-4 h-4 sm:hidden" />
                 </Button>
               </Link>
-              <Link href="/app">
+              <Link href="/app/services">
                 <Button className="bg-accent hover:bg-accent/90 hidden sm:flex">
                   Launch App
                 </Button>
