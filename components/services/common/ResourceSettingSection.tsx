@@ -13,10 +13,9 @@ import {
   CPU_CONSTRAINTS,
   MEMORY_CONSTRAINTS,
   DURATION_CONSTRAINTS,
-  Unit,
 } from "@/constants/constrains";
 import { useState } from "react";
-import { ResourceValueOptions } from "@/app/app/services/custom/deploy/interface";
+import { ResourceValueOptions, Unit } from "@/components/services/common/interfaces";
 
 interface ResourceSettingSectionProps {
   values: ResourceValueOptions;
@@ -116,7 +115,6 @@ export default function ResourceSettingSection({
                   return;
                 }
 
-                console.log(value, inputValue);
                 if (!isNaN(value)) {
                   setValues({ ...values, cpuValue: inputValue });
                   validateCpu(value);
@@ -249,7 +247,7 @@ export default function ResourceSettingSection({
               }}
             >
               <SelectTrigger className="w-24 h-10 text-sm bg-secondary/10 border-border/30">
-                <SelectValue />
+                <SelectValue placeholder="Unit" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Mi">Mi</SelectItem>
@@ -261,101 +259,94 @@ export default function ResourceSettingSection({
             <p className="text-xs text-red-400 mt-1.5">{memoryError}</p>
           ) : (
             <p className="text-xs text-muted-foreground mt-1.5">
-              Max: {MEMORY_CONSTRAINTS.MAX_GI}Gi (
+              Range:{" "}
               {values.memoryUnit === "Mi"
-                ? `${MEMORY_CONSTRAINTS.MAX_MI}Mi`
-                : `${MEMORY_CONSTRAINTS.MAX_GI}Gi`}
-              )
+                ? `${MEMORY_CONSTRAINTS.MIN_MI}Mi to ${MEMORY_CONSTRAINTS.MAX_GI * 1024}Mi`
+                : `${MEMORY_CONSTRAINTS.MIN_GI}Gi to ${MEMORY_CONSTRAINTS.MAX_GI}Gi`}
             </p>
           )}
         </div>
 
-        <div className="md:col-span-2">
+        <div>
           <Label
-            htmlFor="deployment-duration"
+            htmlFor="storage-value"
+            className="text-sm font-medium mb-2 block"
+          >
+            Storage Allocation
+          </Label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="storage-value"
+              value={values.ephemeralValue}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (!isNaN(value)) {
+                  setValues({ ...values, ephemeralValue: value });
+                }
+              }}
+              className="w-full h-10 text-sm bg-secondary/10 border-border/30"
+              type="number"
+              placeholder="5"
+            />
+            <Select
+              value={values.ephemeralUnit}
+              onValueChange={(value: Unit) => {
+                setValues({ ...values, ephemeralUnit: value });
+              }}
+            >
+              <SelectTrigger className="w-24 h-10 text-sm bg-secondary/10 border-border/30">
+                <SelectValue placeholder="Unit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Mi">Mi</SelectItem>
+                <SelectItem value="Gi">Gi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1.5">
+            Recommended: 5Gi for most applications
+          </p>
+        </div>
+
+        <div>
+          <Label
+            htmlFor="duration-value"
             className="text-sm font-medium mb-2 block"
           >
             Deployment Duration
           </Label>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 grid grid-cols-4 gap-3">
-              {DURATION_CONSTRAINTS.QUICK_SELECTIONS.map((hours) => (
-                <button
-                  key={hours}
-                  type="button"
-                  onClick={() => {
-                    setValues({ ...values, deploymentDuration: hours });
-                    validateDuration(hours);
-                  }}
-                  className={`flex items-center justify-center py-2 px-2 rounded-md border transition-all ${
-                    values.deploymentDuration === hours
-                      ? "bg-primary/10 border-primary/40 text-primary font-medium"
-                      : "bg-secondary/10 border-border/30 hover:bg-secondary/20"
-                  }`}
-                >
-                  {hours === 1
-                    ? "1 hour"
-                    : hours === 24
-                      ? "1 day"
-                      : hours === 72
-                        ? "3 days"
-                        : "7 days"}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2 w-40">
-              <Input
-                id="deployment-duration"
-                value={
-                  values.deploymentDuration === 0
-                    ? ""
-                    : values.deploymentDuration
+          <div className="flex items-center gap-2">
+            <Input
+              id="duration-value"
+              value={values.deploymentDuration}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (!isNaN(value)) {
+                  setValues({ ...values, deploymentDuration: value });
+                  validateDuration(value);
                 }
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  if (inputValue === "") {
-                    setValues({ ...values, deploymentDuration: 0 });
-                    setDurationError("Duration value is required");
-                  } else {
-                    const value = parseFloat(inputValue);
-                    if (!isNaN(value)) {
-                      setValues({ ...values, deploymentDuration: value });
-                      validateDuration(value);
-                    }
-                  }
-                }}
-                onBlur={() => {
-                  // If empty on blur, set to min value
-                  if (values.deploymentDuration === 0) {
-                    setValues({
-                      ...values,
-                      deploymentDuration: DURATION_CONSTRAINTS.MIN_HOURS,
-                    });
-                    setDurationError("");
-                  }
-                }}
-                className={`flex-1 h-10 text-sm bg-secondary/10 border-border/30 ${
-                  durationError ? "border-red-400" : ""
-                }`}
-                type="text"
-                placeholder={DURATION_CONSTRAINTS.MIN_HOURS.toString()}
-              />
-              <div className="bg-secondary/20 px-3 py-2 rounded-md text-sm whitespace-nowrap">
-                hours
-              </div>
+              }}
+              className={`w-full h-10 text-sm bg-secondary/10 border-border/30 ${
+                durationError ? "border-red-400" : ""
+              }`}
+              type="number"
+              placeholder={DURATION_CONSTRAINTS.DEFAULT_HOURS.toString()}
+            />
+            <div className="bg-secondary/20 px-3 py-2 rounded-md text-sm whitespace-nowrap">
+              hours
             </div>
           </div>
           {durationError ? (
             <p className="text-xs text-red-400 mt-1.5">{durationError}</p>
           ) : (
             <p className="text-xs text-muted-foreground mt-1.5">
-              Range: {DURATION_CONSTRAINTS.MIN_HOURS} hour to{" "}
-              {DURATION_CONSTRAINTS.MAX_HOURS / 24} days (
-              {DURATION_CONSTRAINTS.MAX_HOURS} hours)
+              Range: {DURATION_CONSTRAINTS.MIN_HOURS} to{" "}
+              {DURATION_CONSTRAINTS.MAX_HOURS} hours (
+              {DURATION_CONSTRAINTS.MAX_HOURS / 24} days)
             </p>
           )}
         </div>
       </div>
     </div>
   );
-}
+} 

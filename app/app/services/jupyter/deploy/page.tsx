@@ -4,35 +4,21 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DeployCustomJupyterRequest, ProviderType } from "@/services/types";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { getProviderFromEnv } from "@/lib/utils";
-import DeploymentOptionCard from "@/components/services/common/DeploymentOptionCard";
-import { ArrowRight, Layers, Server } from "lucide-react";
-
+import { Layers, Server } from "lucide-react";
 import {
   CPU_CONSTRAINTS,
   MEMORY_CONSTRAINTS,
   DURATION_CONSTRAINTS,
 } from "@/constants/constrains";
 import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import ResourceSettingSection from "@/components/services/backend/ResourceSettingSection";
-import { ResourceValueOptions } from "../../custom/deploy/interface";
+import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
+import { ResourceValueOptions } from "@/components/services/common/interfaces";
 import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
+import ServiceDeployForm from "@/components/services/common/ServiceDeployForm";
+import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 
 export default function JupyterDeployment() {
-  const [selectedProvider, setSelectedProvider] =
-    useState<ProviderType>(getProviderFromEnv());
   const { user } = useAuth();
-  const [selectedOption, setSelectedOption] = useState<"default" | "custom">(
-    "default"
-  );
-
   const { mutate: createDeployment, isPending: isLoading } =
     useCreateDeployment("/app/services/jupyter");
 
@@ -60,16 +46,16 @@ export default function JupyterDeployment() {
     );
   }
 
-  const handleDefaultDeploy = () => {
+  const handleDefaultDeploy = (provider: ProviderType) => {
     createDeployment({
-      provider: selectedProvider,
+      provider: provider,
       service: "JUPYTER",
       tier: "DEFAULT",
       userId: 2,
     });
   };
 
-  const handleCustomDeploy = () => {
+  const handleCustomDeploy = (provider: ProviderType) => {
     // Calculate the duration
     const duration = `${values.deploymentDuration}h`;
 
@@ -82,19 +68,17 @@ export default function JupyterDeployment() {
       memorySize: memorySize,
       storageSize: storageSize,
       duration: duration,
-      provider: selectedProvider,
+      provider: provider,
     };
 
     createDeployment({
-      provider: selectedProvider,
+      provider: provider,
       service: "JUPYTER",
       tier: "CUSTOM",
       userId: 2,
       config: data,
     });
   };
-
-  const defaultProvider = getProviderFromEnv();
 
   const deploymentOptions = [
     {
@@ -118,149 +102,31 @@ export default function JupyterDeployment() {
     },
   ];
 
+  const defaultResources = [
+    { label: "CPU", value: "1 Unit" },
+    { label: "Memory", value: "1 Gi" },
+    { label: "Storage", value: "5 Gi" },
+    { label: "Duration", value: "1 Hours" },
+  ];
+
   return (
-    <div className="bg-background text-foreground">
-      <div className="container mx-auto px-0 sm:px-6 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8 px-4 sm:px-0">
-          <div>
-            <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
-              Deploy Jupyter Notebook
-            </h1>
-            <p className="text-muted-foreground text-sm sm:text-base">
-              Create a new Jupyter notebook instance with your preferred
-              configuration
-            </p>
-          </div>
-        </div>
-
-        <div className="px-4 sm:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            {deploymentOptions.map((option, index) => (
-              <DeploymentOptionCard
-                key={index}
-                title={option.title}
-                description={option.description}
-                resources={option.resources}
-                selected={
-                  selectedOption === (index === 0 ? "default" : "custom")
-                }
-                onClick={() =>
-                  setSelectedOption(index === 0 ? "default" : "custom")
-                }
-                free={option.free}
-                icon={option.icon}
-              />
-            ))}
-          </div>
-
-          <div className="dashboard-card subtle-glow mb-6 sm:mb-8">
-            {/* Provider Selection (Common for both default and custom) */}
-            <div className="mb-4 sm:mb-5">
-              <label className="block text-xs font-medium mb-1">
-                Deployment Provider
-              </label>
-              <div className="w-full sm:w-1/3">
-                <Select
-                  value={selectedProvider}
-                  onValueChange={(value) =>
-                    setSelectedProvider(value as ProviderType)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a provider" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {defaultProvider === "auto" ? (
-                      <>
-                        <SelectItem value="auto">Auto (Default)</SelectItem>
-                        <SelectItem value="akash">Akash Network</SelectItem>
-                        <SelectItem value="spheron">Spheron Network</SelectItem>
-                      </>
-                    ) : (
-                      <SelectItem value={defaultProvider}>
-                        {defaultProvider.charAt(0).toUpperCase() +
-                          defaultProvider.slice(1)}{" "}
-                        Network
-                      </SelectItem>
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {selectedOption === "default" ? (
-              <div className="space-y-4">
-                <div className="dashboard-card mb-6 sm:mb-8">
-                  <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                    Quick Deploy
-                  </h3>
-
-                  {/* <p className="text-muted-foreground mb-4">
-                    Deploy with our recommended standard configuration:
-                  </p> */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4 sm:mb-5">
-                    <div className="p-3 rounded-lg bg-secondary/5 border border-border/30">
-                      <p className="text-xs text-muted-foreground mb-1">CPU</p>
-                      <p className="text-base sm:text-lg font-medium">1 Unit</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-secondary/5 border border-border/30">
-                      <p className="text-xs text-muted-foreground mb-1">
-                        Memory
-                      </p>
-                      <p className="text-base sm:text-lg font-medium">1 Gi</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-secondary/5 border border-border/30">
-                      <p className="text-xs text-muted-foreground mb-1">
-                        Storage
-                      </p>
-                      <p className="text-base sm:text-lg font-medium">5 Gi</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-secondary/5 border border-border/30">
-                      <p className="text-xs text-muted-foreground mb-1">
-                        Duration
-                      </p>
-                      <p className="text-base sm:text-lg font-medium">
-                        1 Hours
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end">
-                  <Button
-                    className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                    size="default"
-                    onClick={handleDefaultDeploy}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Deploying..." : "Deploy Default Instance"}
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <ResourceSettingSection values={values} setValues={setValues} />
-
-                <div className="flex justify-end mt-4 sm:mt-5">
-                  <Button
-                    size="default"
-                    className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                    onClick={() => {
-                      toast.message("Want to use custom deployment?", {
-                        description:
-                          "Contact us at contact@aquanode.io, or try our Standard deployment for free!",
-                      });
-                    }}
-                  >
-                    <span>Deploy Custom Backend</span>
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <ServiceDeployForm
+      title="Deploy Jupyter Notebook"
+      description="Create a new Jupyter notebook instance with your preferred configuration"
+      deploymentOptions={deploymentOptions}
+      defaultResourceView={<DefaultResourceView resources={defaultResources} />}
+      customResourceView={<ResourceSettingSection values={values} setValues={setValues} />}
+      onDefaultDeploy={handleDefaultDeploy}
+      customDeployButton={{
+        text: "Deploy Custom Backend",
+        onClick: () => {
+          toast.message("Want to use custom deployment?", {
+            description:
+              "Contact us at contact@aquanode.io, or try our Standard deployment for free!",
+          });
+        },
+      }}
+      isLoading={isLoading}
+    />
   );
 }
