@@ -127,8 +127,7 @@ export default function Dashboard() {
         <Link href="/app/services" className="w-full sm:w-auto">
           <Button
             size="default"
-            variant="gradient"
-            className="shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
+            className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
           >
             Deploy New Service
           </Button>

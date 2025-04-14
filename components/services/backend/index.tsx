@@ -345,7 +345,7 @@ const SDLBuilder: React.FC = () => {
                         <div className="mt-8 flex justify-end">
                             <Button 
                                 size="lg"
-                                className="btn-primary shadow-lg shadow-primary/10 hover-effect"
+                                className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30"
                             >
                                 Create Deployment
                             </Button>

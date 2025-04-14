@@ -57,14 +57,14 @@ export const TemplateCard: React.FC<{ template: Template }> = ({ template }) => 
     <Link href={template.url} className="block group">
       <div className="dashboard-card subtle-glow">
         <div className="flex flex-col h-full">
-          <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors duration-300">
+          <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
             {template.name}
           </h3>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground">
             {template.description}
           </p>
-          <div className="mt-6 text-right">
-            <span className="text-primary font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
+          <div className="mt-4 text-right">
+            <span className="text-sm text-primary font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
               Use template →
             </span>
           </div>
@@ -77,7 +77,7 @@ export const TemplateCard: React.FC<{ template: Template }> = ({ template }) => 
 // Template Grid Component
 export const TemplateGrid: React.FC<{ templates: Template[] }> = ({ templates }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {templates.map((template, index) => (
         <TemplateCard key={index} template={template} />
       ))}

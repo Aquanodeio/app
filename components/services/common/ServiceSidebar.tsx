@@ -34,8 +34,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
             Refresh Deployments
           </Button>
           <Button
-            className="w-full hover-effect"
-            variant="outline"
+            className="w-full hover-effect bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 text-white"
             onClick={onCreateNew}
           >
             Create New Instance

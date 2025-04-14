@@ -228,7 +228,7 @@ export default function JupyterDeployment() {
 
                 <div className="flex justify-end">
                   <Button
-                    className="btn-primary shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
+                    className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                     size="default"
                     onClick={handleDefaultDeploy}
                     disabled={isLoading}
@@ -244,7 +244,7 @@ export default function JupyterDeployment() {
                 <div className="flex justify-end mt-4 sm:mt-5">
                   <Button
                     size="default"
-                    className="btn-primary shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
+                    className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                     onClick={() => {
                       toast.message("Want to use custom deployment?", {
                         description:

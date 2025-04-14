@@ -261,7 +261,7 @@ export default function BackendPage() {
             <div className="flex justify-end mt-6">
               <Button
                 size="default"
-                className="btn-primary shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
+                className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                 // disabled={!isJsonValid}
                 // disabled={true}
                 onClick={() => {

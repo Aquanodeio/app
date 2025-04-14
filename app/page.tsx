@@ -92,22 +92,25 @@ const Hero = () => {
         </div>
         
         {/* Feature cards centered at bottom */}
-        <div className="mt-16 max-w-4xl mx-auto fade-in-up" style={{ animationDelay: "0.6s" }}>
+        <div className="mt-20 max-w-4xl mx-auto fade-in-up" style={{ animationDelay: "0.6s" }}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.1s" }}>
-              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+            <div className="flex items-center justify-center rounded-lg p-4 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10" style={{ animationDelay: "0.1s" }}>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full animate-shine"></div>
+              <div className="rounded-full bg-blue-900/40 p-2 mr-3 backdrop-blur-sm">
                 <Zap className="h-5 w-5 text-blue-400" />
               </div>
               <p className="font-medium text-blue-100">60% Cost Savings</p>
             </div>
-            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.3s" }}>
-              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+            <div className="flex items-center justify-center rounded-lg p-4 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10" style={{ animationDelay: "0.3s" }}>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full animate-shine"></div>
+              <div className="rounded-full bg-blue-900/40 p-2 mr-3 backdrop-blur-sm">
                 <Cpu className="h-5 w-5 text-blue-400" />
               </div>
               <p className="font-medium text-blue-100">Instant Deployment</p>
             </div>
-            <div className="flex items-center justify-center hover-effect rounded-lg p-4 bg-blue-900/10 border border-blue-500/10 animate-float-sm" style={{ animationDelay: "0.5s" }}>
-              <div className="rounded-full bg-blue-900/30 p-2 mr-3">
+            <div className="flex items-center justify-center rounded-lg p-4 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10" style={{ animationDelay: "0.5s" }}>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent -translate-x-full animate-shine"></div>
+              <div className="rounded-full bg-blue-900/40 p-2 mr-3 backdrop-blur-sm">
                 <Server className="h-5 w-5 text-blue-400" />
               </div>
               <p className="font-medium text-blue-100">Global Providers</p>
@@ -148,14 +151,13 @@ const Solutions = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Cost Efficiency */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <DollarSign className="h-6 w-6 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <DollarSign className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Cost Efficiency</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Cost Efficiency</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Save up to 90% on compute costs compared to traditional cloud providers. 
                 We provide H100 GPUs at ~$1.50/hour vs. $13.50/hour on Azure.
               </p>
@@ -163,14 +165,13 @@ const Solutions = () => {
           </div>
           
           {/* Instant Deployment */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <Clock className="h-6 w-6 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <Clock className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Instant Deployment</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Instant Deployment</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 No frustrating delays or KYC barriers. Deploy your workloads instantly 
                 with a smooth, integrated compute layer.
               </p>
@@ -178,14 +179,13 @@ const Solutions = () => {
           </div>
           
           {/* Unified Infrastructure */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <Layers className="h-6 w-6 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <Layers className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Unified Infrastructure</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Unified Infrastructure</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 We aggregate decentralized compute providers into a unified, powerful backend 
                 that's easy to build on.
               </p>
@@ -193,14 +193,13 @@ const Solutions = () => {
           </div>
           
           {/* Full Orchestration */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <CloudCog className="h-6 w-6 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <CloudCog className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Full Orchestration</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Full Orchestration</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Our orchestration layer handles deployment, scaling, and monitoring so you 
                 can focus on building your applications.
               </p>
@@ -208,14 +207,13 @@ const Solutions = () => {
           </div>
           
           {/* Flexible Payments */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <ShieldCheck className="h-5 w-5 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <ShieldCheck className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Flexible Payments</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Flexible Payments</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Support for both crypto and fiat, converted into GPU credits that can be used 
                 across any service deployed on the Aqua Layer.
               </p>
@@ -223,14 +221,13 @@ const Solutions = () => {
           </div>
           
           {/* Global Resources */}
-          <div className="glass-card rounded-2xl p-6 transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl hover:shadow-blue-500/10 overflow-hidden relative group border border-blue-500/20 bg-gradient-to-b from-[#0d1424] to-[#091020]">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-blue-700/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
             <div className="relative z-10">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-lg shadow-blue-500/20">
-                <Cpu className="h-6 w-6 text-white" />
+              <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-14 h-14 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                <Cpu className="h-7 w-7 text-white/90" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-blue-50">Global Resources</h3>
-              <p className="text-blue-200/80">
+              <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Global Resources</h3>
+              <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Access compute resources from around the world, with decentralized infrastructure 
                 that's resilient and always available.
               </p>
@@ -463,28 +460,32 @@ const Services = () => {
                 <div className="lg:w-1/2 bg-gradient-to-b from-[#0d1424]/70 to-[#091020]/70 backdrop-blur-sm p-6 rounded-lg border border-blue-800/30">
                   <h4 className="font-medium text-lg mb-4 text-blue-100">Available Public Services</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <Globe className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">Web Hosting</h5>
                       <p className="text-sm text-blue-200/80 mb-3">Deploy static and dynamic websites with minimal configuration</p>
                       <span className="text-xs px-2 py-1 bg-blue-900/30 text-blue-300 rounded-full">Available Now</span>
                     </div>
                     
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <BookOpen className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">Jupyter Notebooks</h5>
                       <p className="text-sm text-blue-200/80 mb-3">Interactive computing environments for data science and ML</p>
                       <span className="text-xs px-2 py-1 bg-blue-900/30 text-blue-300 rounded-full">Available Now</span>
                     </div>
                     
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <Server className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">Virtual Machines</h5>
                       <p className="text-sm text-blue-200/80 mb-3">GPU or CPU VMs for customized workloads</p>
                       <span className="text-xs px-2 py-1 bg-blue-400/20 text-blue-300 rounded-full">On Request</span>
                     </div>
                     
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <Database className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">ML Models</h5>
                       <p className="text-sm text-blue-200/80 mb-3">Deploy pretrained models with scalable inference</p>
@@ -534,7 +535,8 @@ const Services = () => {
                 <div className="lg:w-1/2 bg-gradient-to-b from-[#0d1424]/70 to-[#091020]/70 backdrop-blur-sm p-6 rounded-lg border border-blue-800/30">
                   <h4 className="font-medium text-lg mb-4 text-blue-100">Private Deployment Options</h4>
                   <div className="space-y-4">
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <h5 className="font-medium mb-2 text-blue-100">Dedicated Resources</h5>
                       <p className="text-sm text-blue-200/80">
                         Purchase GPU credits (with fiat or crypto) and use them to run your own workloads 
@@ -542,7 +544,8 @@ const Services = () => {
                       </p>
                     </div>
                     
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <h5 className="font-medium mb-2 text-blue-100">Custom Interface</h5>
                       <p className="text-sm text-blue-200/80">
                         Build and deploy your own frontend, connected to the Aqua Layer's powerful backend. 
@@ -550,7 +553,8 @@ const Services = () => {
                       </p>
                     </div>
                     
-                    <div className="bg-gradient-to-b from-[#111a2c]/60 to-[#0d1424]/60 border border-blue-800/40 rounded-lg p-4 backdrop-blur-sm hover:border-blue-500/40 transition-colors duration-300">
+                    <div className="bg-blue-900/10 backdrop-blur-md border border-blue-400/20 rounded-lg p-4 hover:border-blue-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 group">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <h5 className="font-medium mb-2 text-blue-100">Enterprise Options</h5>
                       <p className="text-sm text-blue-200/80">
                         For teams who need enhanced security, dedicated support, and custom SLAs. 
@@ -596,37 +600,37 @@ const CTA = () => {
           </div>
           
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
-              <div className="p-8 text-center">
-                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
-                  <Server className="h-6 w-6 text-blue-300" />
+            <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
+              <div className="p-8 text-center relative z-10">
+                <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                  <Server className="h-8 w-8 text-white/90" />
                 </div>
-                <h3 className="font-bold text-xl mb-4 text-blue-100">For Builders</h3>
-                <p className="text-blue-200 mb-6">
+                <h3 className="font-bold text-xl mb-4 text-blue-50 group-hover:text-white transition-colors duration-300">For Builders</h3>
+                <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300 mb-6">
                   Deploy your workloads at 60% less cost without the complexity of managing infrastructure.
                 </p>
               </div>
             </div>
             
-            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
-              <div className="p-8 text-center">
-                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
-                  <Code className="h-6 w-6 text-blue-300" />
+            <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
+              <div className="p-8 text-center relative z-10">
+                <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                  <Code className="h-8 w-8 text-white/90" />
                 </div>
-                <h3 className="font-bold text-xl mb-4 text-blue-100">For Developers</h3>
-                <p className="text-blue-200 mb-6">
+                <h3 className="font-bold text-xl mb-4 text-blue-50 group-hover:text-white transition-colors duration-300">For Developers</h3>
+                <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300 mb-6">
                   Create and monetize Aqua Services with our SDK, focusing on your application, not infrastructure.
                 </p>
               </div>
             </div>
             
-            <div className="rounded-2xl overflow-hidden relative bg-[#0a1530] border border-blue-900/30 transition-all duration-300 hover:border-blue-700/30">
-              <div className="p-8 text-center">
-                <div className="bg-[#12203e] w-14 h-14 rounded-xl flex items-center justify-center mb-5 mx-auto">
-                  <BarChart className="h-6 w-6 text-blue-300" />
+            <div className="rounded-lg p-6 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md relative overflow-hidden group transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10">
+              <div className="p-8 text-center relative z-10">
+                <div className="bg-gradient-to-br from-blue-600 to-blue-400 w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto shadow-lg shadow-blue-500/30 transform transition-all duration-300 group-hover:scale-110">
+                  <BarChart className="h-8 w-8 text-white/90" />
                 </div>
-                <h3 className="font-bold text-xl mb-4 text-blue-100">For Enterprises</h3>
-                <p className="text-blue-200 mb-6">
+                <h3 className="font-bold text-xl mb-4 text-blue-50 group-hover:text-white transition-colors duration-300">For Enterprises</h3>
+                <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300 mb-6">
                   Reduce cloud costs significantly while maintaining performance, security, and reliability.
                 </p>
               </div>

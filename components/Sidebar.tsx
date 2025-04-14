@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { FileText, Server, Sparkles, Grid, LayoutDashboard } from "lucide-react";
+import { FileText, Server, Sparkles, Grid, LayoutDashboard, Lock, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { templates } from "@/components/templates";
 
@@ -16,22 +16,22 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
 
   return (
     <div
-      className={`fixed h-[calc(100vh-4rem)] w-60 bg-secondary/30 backdrop-blur-sm border-r border-border/30 flex flex-col p-4 overflow-y-auto z-40 transition-transform duration-300 md:translate-x-0 ${
+      className={`fixed h-[calc(100vh-4rem)] w-72 bg-secondary/30 backdrop-blur-sm border-r border-border/30 flex flex-col p-4 overflow-y-auto z-40 transition-transform duration-300 md:translate-x-0 ${
         isMobileOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <nav className="flex-1 flex flex-col gap-2 mt-6">
+      <nav className="flex-1 flex flex-col gap-3 mt-6">
       <Button
           variant="ghost"
           className={`w-full justify-start gap-3 ${
             pathname?.includes("/app/dashboard")
               ? "text-primary bg-primary/10"
               : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
+          } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
           onClick={() => router.push("/app/dashboard")}
         >
           <LayoutDashboard
-            size={20}
+            size={22}
             className={`${
               pathname?.includes("/app/dashboard")
                 ? "text-primary"
@@ -47,11 +47,11 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             pathname?.includes("/app/services")
               ? "text-primary bg-primary/10"
               : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
+          } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
           onClick={() => router.push("/app/services")}
         >
           <Server
-            size={20}
+            size={22}
             className={`${
               pathname?.includes("/app/services")
                 ? "text-primary"
@@ -67,11 +67,11 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             pathname?.includes("/app/templates")
               ? "text-primary bg-primary/10"
               : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
+          } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
           onClick={() => router.push("/app/templates")}
         >
           <FileText
-            size={20}
+            size={22}
             className={`${
               pathname?.includes("/app/templates")
                 ? "text-primary"
@@ -87,11 +87,11 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             pathname?.includes("/app/chatbot")
               ? "text-primary bg-primary/10"
               : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
+          } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
           onClick={() => router.push("/app/chatbot")}
         >
           <Sparkles
-            size={20}
+            size={22}
             className={`${
               pathname?.includes("/app/chatbot")
                 ? "text-primary"
@@ -99,6 +99,30 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             } group-hover:text-primary transition-colors`}
           />
           <span>AI Assistant</span>
+        </Button>
+
+        <Button
+          variant="ghost"
+          className="w-full justify-between items-center text-muted-foreground py-5 rounded-xl group text-base"
+          disabled
+        >
+          <div className="flex items-center gap-3">
+            <CreditCard size={22} className="text-muted-foreground" />
+            <span>Payments</span>
+          </div>
+          <Lock size={18} className="text-muted-foreground" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          className="w-full justify-between items-center text-muted-foreground py-5 rounded-xl group text-base"
+          disabled
+        >
+          <div className="flex items-center gap-3">
+            <Grid size={22} className="text-muted-foreground" />
+            <span>Service Builder</span>
+          </div>
+          <Lock size={18} className="text-muted-foreground" />
         </Button>
       </nav>
 
@@ -110,7 +134,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             <Link 
               key={index} 
               href={template.url}
-              className="block text-sm text-muted-foreground hover:text-primary transition-colors py-1.5 px-2 rounded hover:bg-primary/5"
+              className="block text-base text-muted-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-primary/5"
             >
               {template.name}
             </Link>
@@ -118,7 +142,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         </div>
       </div>
 
-      <div className="mt-auto pt-6 border-t border-border/30 text-muted-foreground/70 text-sm flex items-center">
+      <div className="mt-auto pt-6 border-t border-border/30 text-muted-foreground/70 text-base flex items-center">
         <a
           href="https://github.com/Aquanodeio"
           target="_blank"
@@ -127,8 +151,8 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
