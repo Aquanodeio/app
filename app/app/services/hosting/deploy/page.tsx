@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { DeployCustomBackendRequest, ProviderType } from "@/services/types";
+import { useState, useMemo } from "react";
+import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Database, Layers } from "lucide-react";
 import {
@@ -15,30 +15,65 @@ import ResourceSettingSection from "@/components/services/common/ResourceSetting
 import SourceControlSection from "@/components/services/hosting/SourceControlSection";
 import EnviromentVariableSection from "@/components/services/hosting/EnviromentVariableSection";
 import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
-import ServiceDeployForm from "@/components/services/common/ServiceDeployForm";
+import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProviderFromEnv } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function CustomServiceDeployment() {
   const { user } = useAuth();
   const [repoUrl, setRepoUrl] = useState<string>("");
   const [branchName, setBranchName] = useState<string>("main");
   const [portNumber, setPortNumber] = useState<number>(3000);
-  const [envVarsJson, setEnvVarsJson] = useState<string>(ENVIRONMENT_VARS_DEFAULT);
-  const [selectedProvider, setSelectedProvider] = useState<ProviderType>(getProviderFromEnv());
+  const [envVarsJson, setEnvVarsJson] = useState<string>(
+    ENVIRONMENT_VARS_DEFAULT
+  );
+  const [selectedProvider, setSelectedProvider] =
+    useState<ProviderType>(getProviderFromEnv());
 
   const [values, setValues] = useState<ResourceValueOptions>({
-    cpuValue: String(CPU_CONSTRAINTS.DEFAULT),
-    memoryValue: MEMORY_CONSTRAINTS.DEFAULT_MI,
+    appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
     memoryUnit: "Mi",
-    ephemeralValue: 1,
-    ephemeralUnit: "Gi",
+    appStorageSize: 1,
+    storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
   });
 
-  const { mutate: createDeployment, isPending: isLoading } = useCreateDeployment("/app/services/custom");
+  const { mutate: createDeployment, isPending: isLoading } =
+    useCreateDeployment("/app/services/hosting");
+
+  // Create deployment config object
+  const createConfigObject = (customValues?: ResourceValueOptions) => {
+    const vals = customValues || values;
+    
+    // Create a config object with all required properties
+    return {
+      appPort: portNumber,
+      deploymentDuration: `${vals.deploymentDuration}h`,
+      appCpuUnits: Number(vals.appCpuUnits),
+      appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
+      appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
+      image: "" // Empty string instead of null/undefined
+    };
+  };
+
+  // Create environment variables object from JSON
+  const parseEnvVars = () => {
+    try {
+      return JSON.parse(envVarsJson);
+    } catch (e) {
+      console.error("Error parsing environment variables:", e);
+      return {};
+    }
+  };
+
+  // Source control data is separate from config in the API
+  const sourceControlConfig = useMemo(() => ({
+    repoUrl,
+    branchName
+  }), [repoUrl, branchName]);
 
   if (!user?.id) {
     return (
@@ -53,54 +88,41 @@ export default function CustomServiceDeployment() {
     );
   }
 
-  const handleDefaultDeploy = (provider: ProviderType) => {
-    setSelectedProvider(provider);
-    createDeployment({
-      provider: provider,
-      service: "BACKEND",
-      tier: "DEFAULT",
-      userId: 2,
-    });
+  const handleDefaultDeploy = (provider?: ProviderType, config?: any) => {
+    if (provider) {
+      setSelectedProvider(provider);
+
+      const configToPass: DeploymentConfig = {
+        serviceType: ServiceType.BACKEND,
+        ...createConfigObject(),
+        // Include these fields in the config object instead
+        repoUrl: sourceControlConfig.repoUrl,
+        branchName: sourceControlConfig.branchName,
+        env: parseEnvVars()
+      };
+      
+      console.log("say hi to config", config);
+      
+      // Create the complete payload for the API
+      createDeployment({
+        service: "BACKEND",
+        tier: "DEFAULT",
+        userId: 2, // Use number as required by createDeployment
+        provider: provider,
+        config: configToPass
+      });
+    }
   };
 
-  const handleCustomDeploy = (provider: ProviderType) => {
-    // Calculate the duration
-    const duration = `${values.deploymentDuration}h`;
-
-    // Format memory and storage size
-    const memorySize = `${values.memoryValue}${values.memoryUnit}`;
-    const storageSize = `${values.ephemeralValue}${values.ephemeralUnit}`;
-
-    // Parse environment variables
-    let env = {};
-    try {
-      env = JSON.parse(envVarsJson);
-    } catch (e) {
-      console.error("Invalid JSON for environment variables");
-    }
-
-    const data: DeployCustomBackendRequest = {
-      config: {
-        appCpuUnits: Number(values.cpuValue),
-        appMemorySize: memorySize,
-        appStorageSize: storageSize,
-        deploymentDuration: duration,
-        appPort: portNumber,
-      },
-      provider: provider,
-      repoUrl,
-      branchName,
-      env,
-      userId: "2",
+  const handleCustomDeploy = (config?: any) => {
+    const customDeployButtonAction = () => {
+      toast.message("Want to use custom deployment?", {
+        description:
+          "Contact us at contact@aquanode.io, or try our Standard deployment for free!",
+      });
     };
 
-    createDeployment({
-      provider: provider,
-      service: "BACKEND",
-      tier: "CUSTOM",
-      userId: 2,
-      config: data,
-    });
+    customDeployButtonAction();
   };
 
   const deploymentOptions = [
@@ -132,45 +154,40 @@ export default function CustomServiceDeployment() {
     { label: "Duration", value: "1 Hours" },
   ];
 
-  const customResourceView = (
-    <Tabs defaultValue="resources" className="w-full">
-      <TabsList className="mb-4">
-        <TabsTrigger value="resources">Resources</TabsTrigger>
-        <TabsTrigger value="source">Source Control</TabsTrigger>
-        <TabsTrigger value="environment">Environment</TabsTrigger>
-      </TabsList>
-      <TabsContent value="resources">
+  return (
+    <ServiceDeployPage
+      title="Hosting Instance"
+      description="Deploy a custom service with your preferred configuration"
+      deploymentOptions={deploymentOptions}
+      resourceSettingSection={
         <ResourceSettingSection values={values} setValues={setValues} />
-      </TabsContent>
-      <TabsContent value="source">
-        <SourceControlSection 
-          repoUrl={repoUrl} 
+      }
+      handleDefaultDeploy={handleDefaultDeploy}
+      handleCustomDeploy={handleCustomDeploy}
+      isLoading={isLoading}
+      defaultView={<DefaultResourceView resources={defaultResources} />}
+      sourceControlSection={
+        <SourceControlSection
+          repoUrl={repoUrl}
           setRepoUrl={setRepoUrl}
           branchName={branchName}
           setBranchName={setBranchName}
           portNumber={portNumber}
           setPortNumber={setPortNumber}
         />
-      </TabsContent>
-      <TabsContent value="environment">
+      }
+      environmentVariablesSection={
         <EnviromentVariableSection
           envVarsJson={envVarsJson}
           setEnvVarsJson={setEnvVarsJson}
         />
-      </TabsContent>
-    </Tabs>
-  );
-
-  return (
-    <ServiceDeployForm
-      title="Custom Service Deployment"
-      description="Deploy a custom service with your preferred configuration"
-      deploymentOptions={deploymentOptions}
-      defaultResourceView={<DefaultResourceView resources={defaultResources} />}
-      customResourceView={customResourceView}
-      onDefaultDeploy={handleDefaultDeploy}
-      onCustomDeploy={() => handleCustomDeploy(selectedProvider)}
-      isLoading={isLoading}
+      }
+      serviceName="hosting"
+      showSourceControlInDefault={true}
+      showEnvironmentVarsInDefault={true}
+      sourceControlConfig={sourceControlConfig}
+      environmentVarsConfig={{ envVarsJson }}
+      resourceConfig={values}
     />
   );
-} 
+}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import { Deployment, ServiceType } from "@/services/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
@@ -88,7 +87,7 @@ export default function CustomPage() {
 
   return (
     <ServicePage
-      title="Custom Backend Deployment"
+      title="Hosting Instance"
       description="Deploy and manage your custom backend instances"
       deployPath="/app/services/hosting/deploy"
       user={user}

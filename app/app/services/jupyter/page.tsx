@@ -88,7 +88,7 @@ export default function JupyterPage() {
 
   return (
     <ServicePage
-      title="Jupyter Notebook Deployment"
+      title="Jupyter Notebook Instance"
       description="Deploy and manage your Jupyter notebook instances"
       deployPath="/app/services/jupyter/deploy"
       user={user}

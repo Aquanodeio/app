@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { DeployCustomJupyterRequest, ProviderType } from "@/services/types";
+import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Layers, Server } from "lucide-react";
 import {
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
 import { ResourceValueOptions } from "@/components/services/common/interfaces";
 import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
-import ServiceDeployForm from "@/components/services/common/ServiceDeployForm";
+import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 
 export default function JupyterDeployment() {
@@ -24,13 +24,29 @@ export default function JupyterDeployment() {
 
   // Resource settings for custom deployment
   const [values, setValues] = useState<ResourceValueOptions>({
-    cpuValue: String(CPU_CONSTRAINTS.DEFAULT),
-    memoryValue: MEMORY_CONSTRAINTS.DEFAULT_MI,
+    appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
     memoryUnit: "Mi",
-    ephemeralValue: 5,
-    ephemeralUnit: "Gi",
+    appStorageSize: 5,
+    storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
   });
+  
+  // Create deployment config object
+  const createConfigObject = (customValues?: ResourceValueOptions) => {
+    const vals = customValues || values;
+    
+    // Create a config object with all required properties
+    return {
+      appPort: 8888, // Default Jupyter port
+      deploymentDuration: `${vals.deploymentDuration}h`,
+      appCpuUnits: Number(vals.appCpuUnits),
+      appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
+      appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
+      image: "" // Empty string instead of null/undefined
+    };
+  };
+  
   const userId = user?.id;
 
   if (!userId) {
@@ -46,38 +62,30 @@ export default function JupyterDeployment() {
     );
   }
 
-  const handleDefaultDeploy = (provider: ProviderType) => {
-    createDeployment({
-      provider: provider,
-      service: "JUPYTER",
-      tier: "DEFAULT",
-      userId: 2,
-    });
+  const handleDefaultDeploy = (provider?: ProviderType, config?: any) => {
+    if (provider) {
+      // Create the complete payload for the API
+
+      
+      createDeployment({
+        service: "JUPYTER",
+        tier: "DEFAULT",
+        userId: 2, // Use number as required by createDeployment
+        provider: provider,
+        config: createConfigObject()
+      });
+    }
   };
 
-  const handleCustomDeploy = (provider: ProviderType) => {
-    // Calculate the duration
-    const duration = `${values.deploymentDuration}h`;
-
-    // Format memory and storage size
-    const memorySize = `${values.memoryValue}${values.memoryUnit}`;
-    const storageSize = `${values.ephemeralValue}${values.ephemeralUnit}`;
-
-    const data: DeployCustomJupyterRequest = {
-      cpuUnits: Number(values.cpuValue),
-      memorySize: memorySize,
-      storageSize: storageSize,
-      duration: duration,
-      provider: provider,
+  const handleCustomDeploy = (config?: any) => {
+    const customDeployButtonAction = () => {
+      toast.message("Want to use custom deployment?", {
+        description:
+          "Contact us at contact@aquanode.io, or try our Standard deployment for free!",
+      });
     };
 
-    createDeployment({
-      provider: provider,
-      service: "JUPYTER",
-      tier: "CUSTOM",
-      userId: 2,
-      config: data,
-    });
+    customDeployButtonAction();
   };
 
   const deploymentOptions = [
@@ -110,23 +118,22 @@ export default function JupyterDeployment() {
   ];
 
   return (
-    <ServiceDeployForm
-      title="Deploy Jupyter Notebook"
+    <ServiceDeployPage
+      title="Jupyter Notebook Instance"
       description="Create a new Jupyter notebook instance with your preferred configuration"
       deploymentOptions={deploymentOptions}
-      defaultResourceView={<DefaultResourceView resources={defaultResources} />}
-      customResourceView={<ResourceSettingSection values={values} setValues={setValues} />}
-      onDefaultDeploy={handleDefaultDeploy}
-      customDeployButton={{
-        text: "Deploy Custom Backend",
-        onClick: () => {
-          toast.message("Want to use custom deployment?", {
-            description:
-              "Contact us at contact@aquanode.io, or try our Standard deployment for free!",
-          });
-        },
-      }}
+      resourceSettingSection={
+        <ResourceSettingSection values={values} setValues={setValues} />
+      }
+      handleDefaultDeploy={handleDefaultDeploy}
+      handleCustomDeploy={handleCustomDeploy}
       isLoading={isLoading}
+      defaultView={<DefaultResourceView resources={defaultResources} />}
+      customDeployButtonText="Deploy Custom Backend"
+      serviceName="jupyter"
+      showSourceControlInDefault={false}
+      showEnvironmentVarsInDefault={false}
+      resourceConfig={values}
     />
   );
 }

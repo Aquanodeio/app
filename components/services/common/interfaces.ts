@@ -18,11 +18,11 @@ export interface DeploymentOption {
  * Standard interface for resource value options used across all services
  */
 export interface ResourceValueOptions {
-  cpuValue: string;
-  memoryValue: number;
+  appCpuUnits: string;
+  appMemorySize: number;
   memoryUnit: Unit;
-  ephemeralValue: number;
-  ephemeralUnit: Unit;
+  appStorageSize: number;
+  storageUnit: Unit;
   deploymentDuration: number; // In hours
 }
 
@@ -30,8 +30,8 @@ export interface ResourceValueOptions {
  * Standard interface for deployment configuration used across all services
  */
 export interface DeploymentResourceConfig {
-  cpuUnits: number;
-  memorySize: string;
-  storageSize: string;
-  duration: string;
+  appCpuUnits: number;
+  appMemorySize: string;
+  appStorageSize: string;
+  deploymentDuration: string;
 } 

@@ -1,6 +1,6 @@
 import React from "react";
 import { DeploymentOption, DeploymentResourceConfig, ResourceValueOptions } from "./interfaces";
-import { Layers, Server, Settings2 } from "lucide-react";
+import { Layers, Server } from "lucide-react";
 import {
   CPU_CONSTRAINTS,
   MEMORY_CONSTRAINTS,
@@ -47,11 +47,11 @@ export const createDeploymentOptions = (
  */
 export const createDefaultResourceValues = (ephemeralValue: number = 1): ResourceValueOptions => {
   return {
-    cpuValue: String(CPU_CONSTRAINTS.DEFAULT),
-    memoryValue: MEMORY_CONSTRAINTS.DEFAULT_MI,
+    appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
     memoryUnit: "Mi",
-    ephemeralValue: ephemeralValue,
-    ephemeralUnit: "Gi",
+    appStorageSize: ephemeralValue,
+    storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
   };
 };
@@ -63,10 +63,10 @@ export const createDefaultResourceValues = (ephemeralValue: number = 1): Resourc
  */
 export const createResourceConfig = (values: ResourceValueOptions): DeploymentResourceConfig => {
   return {
-    cpuUnits: Number(values.cpuValue),
-    memorySize: `${values.memoryValue}${values.memoryUnit}`,
-    storageSize: `${values.ephemeralValue}${values.ephemeralUnit}`,
-    duration: `${values.deploymentDuration}h`,
+    appCpuUnits: Number(values.appCpuUnits),
+    appMemorySize: `${values.appMemorySize}${values.memoryUnit}`,
+    appStorageSize: `${values.appStorageSize}${values.storageUnit}`,
+    deploymentDuration: `${values.deploymentDuration}h`,
   };
 };
 
@@ -77,9 +77,9 @@ export const createResourceConfig = (values: ResourceValueOptions): DeploymentRe
  */
 export const createDefaultResourceConfig = (storageSize: string = "1Gi"): DeploymentResourceConfig => {
   return {
-    cpuUnits: Number(CPU_CONSTRAINTS.DEFAULT),
-    memorySize: `${MEMORY_CONSTRAINTS.DEFAULT_MI}Mi`,
-    storageSize: storageSize,
-    duration: `${DURATION_CONSTRAINTS.DEFAULT_HOURS}h`,
+    appCpuUnits: Number(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: `${MEMORY_CONSTRAINTS.DEFAULT_MI}Mi`,
+    appStorageSize: storageSize,
+    deploymentDuration: `${DURATION_CONSTRAINTS.DEFAULT_HOURS}h`,
   };
 }; 

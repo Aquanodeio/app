@@ -100,7 +100,7 @@ export default function ResourceSettingSection({
           <div className="flex items-center gap-2">
             <Input
               id="cpu-value"
-              value={values.cpuValue}
+              value={values.appCpuUnits}
               onChange={(e) => {
                 const inputValue = e.target.value;
 
@@ -110,13 +110,13 @@ export default function ResourceSettingSection({
                   inputValue == "0" ||
                   inputValue == ""
                 ) {
-                  setValues({ ...values, cpuValue: inputValue });
+                  setValues({ ...values, appCpuUnits: inputValue });
                   setCpuError("");
                   return;
                 }
 
                 if (!isNaN(value)) {
-                  setValues({ ...values, cpuValue: inputValue });
+                  setValues({ ...values, appCpuUnits: inputValue });
                   validateCpu(value);
                 }
               }}
@@ -126,13 +126,13 @@ export default function ResourceSettingSection({
                 if (isNaN(value) || value === 0) {
                   setValues({
                     ...values,
-                    cpuValue: String(CPU_CONSTRAINTS.MIN),
+                    appCpuUnits: String(CPU_CONSTRAINTS.MIN),
                   });
                   setCpuError("");
                 } else {
                   // Format to one decimal place when leaving the field
                   const formattedValue = parseFloat(value.toFixed(1));
-                  setValues({ ...values, cpuValue: String(formattedValue) });
+                  setValues({ ...values, appCpuUnits: String(formattedValue) });
                   validateCpu(formattedValue);
                 }
               }}
@@ -165,7 +165,7 @@ export default function ResourceSettingSection({
           <div className="flex items-center gap-2">
             <Input
               id="memory-value"
-              value={values.memoryValue === 0 ? "" : values.memoryValue}
+              value={values.appMemorySize === 0 ? "" : values.appMemorySize}
               onChange={(e) => {
                 const inputValue = e.target.value;
 
@@ -176,7 +176,7 @@ export default function ResourceSettingSection({
                 ) {
                   // Don't validate yet, just update the display value
                   const parsedValue = parseFloat(inputValue) || 0;
-                  setValues({ ...values, memoryValue: parsedValue });
+                  setValues({ ...values, appMemorySize: parsedValue });
                   // Clear error if it's a valid decimal pattern
                   if (/^0\.\d+$/.test(inputValue) && parsedValue > 0) {
                     setMemoryError("");
@@ -186,7 +186,7 @@ export default function ResourceSettingSection({
 
                 // Handle empty input
                 if (inputValue === "") {
-                  setValues({ ...values, memoryValue: 0 });
+                  setValues({ ...values, appMemorySize: 0 });
                   setMemoryError("Memory value is required");
                   return;
                 }
@@ -194,18 +194,18 @@ export default function ResourceSettingSection({
                 // Handle normal numbers
                 const value = Number(inputValue);
                 if (!isNaN(value)) {
-                  setValues({ ...values, memoryValue: value });
+                  setValues({ ...values, appMemorySize: value });
                   validateMemory(value, values.memoryUnit);
                 }
               }}
               onBlur={() => {
                 // If empty on blur, set to min value
-                if (values.memoryValue === 0) {
+                if (values.appMemorySize === 0) {
                   const minValue =
                     values.memoryUnit === "Mi"
                       ? MEMORY_CONSTRAINTS.MIN_MI
                       : MEMORY_CONSTRAINTS.MIN_GI;
-                  setValues({ ...values, memoryValue: minValue });
+                  setValues({ ...values, appMemorySize: minValue });
                   setMemoryError("");
                 }
               }}
@@ -224,21 +224,21 @@ export default function ResourceSettingSection({
               onValueChange={(value: Unit) => {
                 // Convert value when switching units
                 if (value === "Mi" && values.memoryUnit === "Gi") {
-                  const newValue = Math.round(values.memoryValue * 1024);
+                  const newValue = Math.round(values.appMemorySize * 1024);
                   setValues({
                     ...values,
                     memoryUnit: value,
-                    memoryValue: newValue,
+                    appMemorySize: newValue,
                   });
                   validateMemory(newValue, value);
                 } else if (value === "Gi" && values.memoryUnit === "Mi") {
                   const newValue = parseFloat(
-                    (values.memoryValue / 1024).toFixed(2)
+                    (values.appMemorySize / 1024).toFixed(2)
                   );
                   setValues({
                     ...values,
                     memoryUnit: value,
-                    memoryValue: newValue,
+                    appMemorySize: newValue,
                   });
                   validateMemory(newValue, value);
                 } else {
@@ -277,11 +277,11 @@ export default function ResourceSettingSection({
           <div className="flex items-center gap-2">
             <Input
               id="storage-value"
-              value={values.ephemeralValue}
+              value={values.appStorageSize}
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (!isNaN(value)) {
-                  setValues({ ...values, ephemeralValue: value });
+                  setValues({ ...values, appStorageSize: value });
                 }
               }}
               className="w-full h-10 text-sm bg-secondary/10 border-border/30"
@@ -289,16 +289,15 @@ export default function ResourceSettingSection({
               placeholder="5"
             />
             <Select
-              value={values.ephemeralUnit}
+              value={values.storageUnit}
               onValueChange={(value: Unit) => {
-                setValues({ ...values, ephemeralUnit: value });
+                setValues({ ...values, storageUnit: value });
               }}
             >
               <SelectTrigger className="w-24 h-10 text-sm bg-secondary/10 border-border/30">
                 <SelectValue placeholder="Unit" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Mi">Mi</SelectItem>
                 <SelectItem value="Gi">Gi</SelectItem>
               </SelectContent>
             </Select>

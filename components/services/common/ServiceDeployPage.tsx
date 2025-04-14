@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import DeploymentOptionCard from "./DeploymentOptionCard";
 import { Loader2, ArrowRight } from "lucide-react";
@@ -23,12 +23,18 @@ export interface ServiceDeployPageProps {
   sourceControlSection?: ReactNode;
   environmentVariablesSection?: ReactNode;
   resourceSettingSection: ReactNode;
-  handleDefaultDeploy: (provider?: ProviderType) => void;
-  handleCustomDeploy: () => void;
+  handleDefaultDeploy: (provider?: ProviderType, config?: any) => void;
+  handleCustomDeploy: (config?: any) => void;
   isLoading: boolean;
   children?: ReactNode;
   defaultView?: ReactNode;
   customDeployButtonText?: string;
+  serviceName?: string;
+  showSourceControlInDefault?: boolean;
+  showEnvironmentVarsInDefault?: boolean;
+  sourceControlConfig?: any;
+  environmentVarsConfig?: any;
+  resourceConfig?: any;
 }
 
 export default function ServiceDeployPage({
@@ -44,11 +50,35 @@ export default function ServiceDeployPage({
   children,
   defaultView,
   customDeployButtonText,
+  showSourceControlInDefault = false,
+  showEnvironmentVarsInDefault = false,
+  sourceControlConfig,
+  environmentVarsConfig,
+  resourceConfig,
 }: ServiceDeployPageProps) {
   const { user, isLoading: authLoading } = useAuth();
   const [selectedOption, setSelectedOption] = useState<"default" | "custom">("default");
   const defaultProvider = getProviderFromEnv();
   const [selectedProvider, setSelectedProvider] = useState<ProviderType>(defaultProvider);
+  
+  // Collect all configuration data
+  const getConfigData = () => {
+    const config: any = {};
+    
+    if (sourceControlConfig) {
+      config.sourceControl = sourceControlConfig;
+    }
+    
+    if (environmentVarsConfig) {
+      config.environmentVars = environmentVarsConfig;
+    }
+    
+    if (resourceConfig) {
+      config.resources = resourceConfig;
+    }
+    
+    return config;
+  };
 
   const renderAuthContent = (content: React.ReactNode) => {
     if (authLoading) {
@@ -165,11 +195,29 @@ export default function ServiceDeployPage({
                     </div>
                   )}
 
+                  {showSourceControlInDefault && sourceControlSection && (
+                    <div className="mt-6">
+                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        Source Control
+                      </h3>
+                      {sourceControlSection}
+                    </div>
+                  )}
+
+                  {showEnvironmentVarsInDefault && environmentVariablesSection && (
+                    <div className="mt-6">
+                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        Environment Variables
+                      </h3>
+                      {environmentVariablesSection}
+                    </div>
+                  )}
+
                   <div className="flex justify-end">
                     <Button
                       className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                       size="default"
-                      onClick={() => handleDefaultDeploy(selectedProvider)}
+                      onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                       disabled={isLoading}
                     >
                       {isLoading ? "Deploying..." : "Deploy Default Instance"}
@@ -179,31 +227,46 @@ export default function ServiceDeployPage({
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <Tabs defaultValue="basic" className="w-full">
-                    <TabsContent value="basic">
-                      <div className="space-y-4 sm:space-y-6">
-                        {resourceSettingSection}
-                        
-                        {sourceControlSection && sourceControlSection}
-                        
-                        {environmentVariablesSection && environmentVariablesSection}
-                        
-                        {children}
-
-                        <div className="flex justify-end mt-4 sm:mt-5">
-                          <Button
-                            size="default"
-                            className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                            onClick={handleCustomDeploy}
-                            disabled={isLoading}
-                          >
-                            {isLoading ? "Deploying..." : customDeployButtonText || "Deploy Custom Instance"}
-                            {!isLoading && <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />}
-                          </Button>
-                        </div>
+                  <div className="space-y-4 sm:space-y-6">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        Resource Settings
+                      </h3>
+                      {resourceSettingSection}
+                    </div>
+                    
+                    {sourceControlSection && (
+                      <div>
+                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                          Source Control
+                        </h3>
+                        {sourceControlSection}
                       </div>
-                    </TabsContent>
-                  </Tabs>
+                    )}
+                    
+                    {environmentVariablesSection && (
+                      <div>
+                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                          Environment Variables
+                        </h3>
+                        {environmentVariablesSection}
+                      </div>
+                    )}
+                    
+                    {children}
+
+                    <div className="flex justify-end mt-4 sm:mt-5">
+                      <Button
+                        size="default"
+                        className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
+                        onClick={() => handleCustomDeploy(getConfigData())}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Deploying..." : customDeployButtonText || "Deploy Custom Instance"}
+                        {!isLoading && <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
