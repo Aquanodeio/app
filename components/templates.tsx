@@ -20,7 +20,7 @@ export interface Template {
 // Template list
 export const templates: Template[] = [
   {
-    name: "Express.js Server",
+    name: "Express Javascript Server",
     description:
       "Express.js Server with HTML rendered frontend. A simple web server with a calculator interface rendered directly from the backend.",
     url: "/app/templates/express-calculator?from=/app/templates",

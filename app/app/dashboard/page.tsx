@@ -130,7 +130,7 @@ export default function Dashboard() {
             variant="gradient"
             className="shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
           >
-            Create Deployment
+            Deploy New Service
           </Button>
         </Link>
       </div>

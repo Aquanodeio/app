@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { FileText, Plus, Sparkles, Grid } from "lucide-react";
+import { FileText, Server, Sparkles, Grid, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { templates } from "@/components/templates";
 
@@ -21,6 +21,26 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
       }`}
     >
       <nav className="flex-1 flex flex-col gap-2 mt-6">
+      <Button
+          variant="ghost"
+          className={`w-full justify-start gap-3 ${
+            pathname?.includes("/app/dashboard")
+              ? "text-primary bg-primary/10"
+              : "text-muted-foreground"
+          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
+          onClick={() => router.push("/app/dashboard")}
+        >
+          <LayoutDashboard
+            size={20}
+            className={`${
+              pathname?.includes("/app/dashboard")
+                ? "text-primary"
+                : "text-muted-foreground"
+            } group-hover:text-primary transition-colors`}
+          />
+          <span>Dashboard</span>
+        </Button>
+
         <Button
           variant="ghost"
           className={`w-full justify-start gap-3 ${
@@ -30,7 +50,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
           onClick={() => router.push("/app/services")}
         >
-          <Plus
+          <Server
             size={20}
             className={`${
               pathname?.includes("/app/services")
@@ -38,26 +58,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
                 : "text-muted-foreground"
             } group-hover:text-primary transition-colors`}
           />
-          <span>Deploy</span>
-        </Button>
-        <Button
-          variant="ghost"
-          className={`w-full justify-start gap-3 ${
-            pathname?.includes("/app/dashboard")
-              ? "text-primary bg-primary/10"
-              : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-4 rounded-xl group`}
-          onClick={() => router.push("/app/dashboard")}
-        >
-          <Grid
-            size={20}
-            className={`${
-              pathname?.includes("/app/dashboard")
-                ? "text-primary"
-                : "text-muted-foreground"
-            } group-hover:text-primary transition-colors`}
-          />
-          <span>Dashboard</span>
+          <span>Services</span>
         </Button>
 
         <Button

@@ -97,7 +97,7 @@ export default function RootLayout({
   
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} min-h-screen bg-background`}>
+      <body className={`${inter.className} min-h-screen bg-background coal-texture`}>
         <Providers>
           <DesktopOnly>
             <div className="flex flex-col min-h-screen">
