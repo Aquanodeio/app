@@ -75,7 +75,7 @@ const ServicePage: React.FC<ServicePageProps> = ({
 
   return (
     <div className="bg-background text-foreground py-4 sm:py-8">
-      <div className="container mx-auto px-0 sm:px-6">
+      <div className="container ml-4 px-0 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
           <div>
             <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
