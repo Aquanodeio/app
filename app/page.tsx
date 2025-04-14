@@ -1,8 +1,7 @@
 "use client";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";   
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Server, Cpu, Zap, ArrowRight, CloudCog, DollarSign, Clock, Layers, Network, Cloud, CreditCard, Globe, Code, Database, BarChart, GitBranch, Lock, BookOpen, Twitter, Github, Linkedin, Mail, ShieldCheck } from "lucide-react";
+import { ChevronRight, Server, Cpu, Zap, CloudCog, DollarSign, Clock, Layers, Network, Cloud, CreditCard, Globe, Code, Database, BarChart, GitBranch, Lock, BookOpen, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-black text-blue-50">
-      <Navbar />
       <Hero />
       <Solutions />
       <AquaLayer />

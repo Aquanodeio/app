@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import DesktopOnly from "@/components/DesktopOnly";
 import Layout from "@/components/Layout";
-import Navbar from "@/components/Navbar";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -24,6 +23,8 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { AuthProvider } from "@/lib/auth/AuthContext";
 import { Toaster } from "sonner";
+import Navbar from "@/components/Navbar";
+import AppNavbar from "@/components/AppNavbar";
 const inter = Inter({ subsets: ["latin"] });
 
 const wagmiConfig = getDefaultConfig({
@@ -81,25 +82,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  
+  // Check if current route is auth-related
+  const isAuthRoute = pathname.startsWith("/signin") || 
+                      pathname.startsWith("/signup") || 
+                      pathname.startsWith("/auth") || 
+                      pathname.startsWith("/reset-password");
+  
+  // Check if current route is landing page
+  const isLandingPage = pathname === "/";
 
-  // Routes that need the navbar but aren't part of the /app section
-  const routesWithNavbar = ["/signin", "/signup", "/reset-password"];
-  const needsNavbar = routesWithNavbar.some((route) =>
-    pathname.startsWith(route)
-  );
-
-  // Routes that don't need the navbar (home page has its own header)
-  const isHomePage = pathname === "/";
-
+  // Determine which navbar to show based on route
+  const showNavbar = !isAuthRoute;
+  
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-background`}>
         <Providers>
           <DesktopOnly>
             <div className="flex flex-col min-h-screen">
-              {/* Show Navbar only on auth pages */}
-              {needsNavbar && <Navbar />}
-
+              {showNavbar && (
+                <>
+                  {isLandingPage ? <Navbar /> : pathname.startsWith("/app") && <AppNavbar />}
+                </>
+              )}
               <main className="flex-1">
                 {pathname.startsWith("/app") ? (
                   <Layout>{children}</Layout>

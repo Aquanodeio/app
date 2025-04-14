@@ -21,7 +21,7 @@ const ServicesPage = () => {
     <section className="min-h-screen bg-background text-foreground py-6 sm:py-12">
       <div className="max-w-6xl mx-auto px-0 sm:px-6">
         <h2 className="section-title text-center text-xl sm:text-2xl md:text-3xl">
-          Available Aqua Services
+          Native Aqua Services
         </h2>
         <p className="text-center text-muted-foreground text-sm sm:text-base mb-8 sm:mb-12 max-w-xl mx-auto px-4 sm:px-0">
           Select Aqua service to deploy and manage

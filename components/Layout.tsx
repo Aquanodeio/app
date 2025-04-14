@@ -2,7 +2,6 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import Navbar from "@/components/Navbar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,7 +12,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar onMobileMenuToggle={toggleMobileMenu} />
       <div className="flex flex-1">
         {/* Mobile menu overlay */}
         {mobileMenuOpen && (
