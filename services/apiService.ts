@@ -76,7 +76,6 @@ class ApiService {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          userId: 5,
         }),
       }
     );
@@ -91,8 +90,6 @@ class ApiService {
         method: "POST",
         body: JSON.stringify({
           ...data,
-          //Tech debt- have to remove this after check removed from backend
-          userId: 5,
         }),
       }
     );

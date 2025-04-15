@@ -30,6 +30,7 @@ export default function JupyterDeployment() {
     appStorageSize: 5,
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: undefined
   });
   
   // Create deployment config object
@@ -43,7 +44,8 @@ export default function JupyterDeployment() {
       appCpuUnits: Number(vals.appCpuUnits),
       appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
       appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
-      image: "" // Empty string instead of null/undefined
+      image: "", // Empty string instead of null/undefined,
+      runCommands: vals.runCommands || undefined
     };
   };
   
@@ -70,7 +72,6 @@ export default function JupyterDeployment() {
       createDeployment({
         service: "JUPYTER",
         tier: "DEFAULT",
-        userId: 2, // Use number as required by createDeployment
         provider: provider,
         config: createConfigObject()
       });

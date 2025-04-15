@@ -24,6 +24,7 @@ export interface ResourceValueOptions {
   appStorageSize: number;
   storageUnit: Unit;
   deploymentDuration: number; // In hours
+  runCommands: string | undefined;
 }
 
 /**

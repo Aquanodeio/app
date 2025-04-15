@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { getProviderFromEnv } from "@/lib/utils";
-import { apiService } from "@/services/apiService";
+import { ServiceType } from "@/services/types";
 import { TemplateDetails } from "./TemplateDetailsCard";
+import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
 
 export interface User {
   id: string;
@@ -23,6 +24,7 @@ export function useTemplateDeploy({
   const router = useRouter();
   const { toast } = useToast();
   const [isDeploying, setIsDeploying] = useState(false);
+  const { mutate: createDeployment } = useCreateDeployment("/app/dashboard");
 
   const handleDeploy = async () => {
     if (!user?.id) {
@@ -36,23 +38,25 @@ export function useTemplateDeploy({
 
     setIsDeploying(true);
     try {
-      const data = {
-        userId: user.id,
+      const config = {
+        serviceType: ServiceType.BACKEND,
         repoUrl: templateDetails["Repository URL"],
         branchName: templateDetails["Branch Name"],
         env: {},
-        config: {
-          appPort: Number(templateDetails["App Port"]),
-          deploymentDuration: templateDetails["Deployment Duration"],
-          appCpuUnits: Number(templateDetails["CPU Units"]),
-          appMemorySize: templateDetails["Memory Size"],
-          appStorageSize: templateDetails["Storage Size"],
-          runCommands: templateDetails["Run Commands"] || "",
-        },
-        provider: getProviderFromEnv(),
+        appPort: Number(templateDetails["App Port"]),
+        deploymentDuration: templateDetails["Deployment Duration"],
+        appCpuUnits: Number(templateDetails["CPU Units"]),
+        appMemorySize: templateDetails["Memory Size"],
+        appStorageSize: templateDetails["Storage Size"],
+        runCommands: templateDetails["Run Commands"] || "",
       };
 
-      const response = await apiService.deployDefaultBackend(data);
+      createDeployment({
+        service: "BACKEND",
+        tier: "DEFAULT",
+        provider: getProviderFromEnv(),
+        config
+      });
 
       toast({
         title: "Success",
@@ -60,7 +64,6 @@ export function useTemplateDeploy({
         variant: "default",
       });
 
-      // Navigate to deployments page to see the new deployment
       router.push("/app/dashboard");
     } catch (error) {
       console.error("Error deploying template:", error);

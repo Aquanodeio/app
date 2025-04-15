@@ -107,7 +107,6 @@ export default function CustomServiceDeployment() {
       createDeployment({
         service: "BACKEND",
         tier: "DEFAULT",
-        userId: 2, // Use number as required by createDeployment
         provider: provider,
         config: configToPass
       });
