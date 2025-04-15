@@ -14,7 +14,7 @@ import {
  * @returns Array of deployment options
  */
 export const createDeploymentOptions = (
-  resourceSpecs: string[] = ["CPU: 1 unit", "Memory: 1Gi", "Storage: 1Gi", "Duration: 1h"],
+  resourceSpecs: string[] = ["CPU: 1 unit", "Memory: 1Gi", "Storage: 5Gi", "Duration: 1h"],
   isFree: boolean = true
 ): DeploymentOption[] => {
   return [
@@ -45,7 +45,7 @@ export const createDeploymentOptions = (
  * @param ephemeralValue - Default ephemeral storage value
  * @returns Default resource values
  */
-export const createDefaultResourceValues = (ephemeralValue: number = 1): ResourceValueOptions => {
+export const createDefaultResourceValues = (ephemeralValue: number = 5): ResourceValueOptions => {
   return {
     appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
     appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
@@ -53,6 +53,7 @@ export const createDefaultResourceValues = (ephemeralValue: number = 1): Resourc
     appStorageSize: ephemeralValue,
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: null,
   };
 };
 

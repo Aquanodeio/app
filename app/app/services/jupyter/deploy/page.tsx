@@ -30,6 +30,7 @@ export default function JupyterDeployment() {
     appStorageSize: 5,
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: null
   });
   
   // Create deployment config object
