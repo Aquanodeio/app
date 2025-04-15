@@ -8,7 +8,7 @@ import ServicePage from "@/components/services/common/ServicePage";
 import {
   useDeployments,
   useCloseDeployment,
-} from "@/hooks/api/useDeployments";
+} from "@/hooks/deployments/useDeployments";
 
 export default function CustomPage() {
   const router = useRouter();

@@ -9,7 +9,7 @@ import {
   useDeployment,
   useCloseDeployment,
   useDeploymentLogs,
-} from "@/hooks/api/useDeployments";
+} from "@/hooks/deployments/useDeployments";
 import { isDeploymentActive } from "@/lib/deployment";
 
 export default function DeploymentDetailsPage() {

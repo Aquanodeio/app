@@ -14,7 +14,7 @@ import { ResourceValueOptions } from "@/components/services/common/interfaces";
 import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
 import SourceControlSection from "@/components/services/hosting/SourceControlSection";
 import EnviromentVariableSection from "@/components/services/hosting/EnviromentVariableSection";
-import { useCreateDeployment } from "@/hooks/api/useCreateDeployment";
+import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 import { Button } from "@/components/ui/button";

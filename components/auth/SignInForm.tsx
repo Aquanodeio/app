@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { signIn } from "@/hooks/endpoints";
+import { signIn } from "@/hooks/service";
 import { useRouter } from "next/navigation";
-import { syncUser } from "@/hooks/endpoints";
+import { syncUser } from "@/hooks/service";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignInForm() {

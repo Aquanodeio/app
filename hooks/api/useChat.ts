@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sendChatMessage } from "@/hooks/endpoints";
+import { sendChatMessage } from "@/hooks/service";
 import { ChatRequest } from "@/lib/types";
 
 // Query key factory

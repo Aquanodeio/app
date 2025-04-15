@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { updatePassword } from "@/hooks/endpoints";
+import { updatePassword } from "@/hooks/service";
 import { useRouter } from "next/navigation";
 
 export default function UpdatePasswordForm() {

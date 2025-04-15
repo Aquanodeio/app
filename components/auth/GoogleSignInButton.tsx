@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { signInWithGoogle } from "@/hooks/endpoints";
+import { signInWithGoogle } from "@/hooks/service";
 import { useState } from "react";
 
 export default function GoogleSignInButton() {

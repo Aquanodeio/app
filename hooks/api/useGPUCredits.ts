@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getGPUCredits } from "@/hooks/endpoints";
+import { getGPUCredits } from "@/hooks/service";
 
 // Query key for GPU credits
 export const gpuCreditsKey = ["gpuCredits"] as const;

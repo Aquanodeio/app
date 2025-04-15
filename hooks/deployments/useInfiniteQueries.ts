@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPaginatedDeployments } from "@/hooks/endpoints";
+import { getPaginatedDeployments } from "@/hooks/service";
 import { Deployment } from "@/lib/types";
 
 // Define pagination response type
@@ -38,49 +38,3 @@ export function useInfiniteDeployments(userId: string, limit = 10) {
     initialPageParam: 1,
   });
 }
-
-// Usage example:
-/*
-function DeploymentsList() {
-  const { 
-    data, 
-    fetchNextPage, 
-    hasNextPage, 
-    isFetchingNextPage,
-    status 
-  } = useInfiniteDeployments(userId);
-
-  // Render your list
-  return (
-    <div>
-      {status === 'pending' ? (
-        <p>Loading...</p>
-      ) : status === 'error' ? (
-        <p>Error loading deployments</p>
-      ) : (
-        <>
-          {data.pages.map((page, i) => (
-            <React.Fragment key={i}>
-              {page.data.map((deployment) => (
-                <DeploymentItem key={deployment.id} deployment={deployment} />
-              ))}
-            </React.Fragment>
-          ))}
-          <div>
-            <button
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? 'Loading more...'
-                : hasNextPage
-                ? 'Load More'
-                : 'Nothing more to load'}
-            </button>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-*/

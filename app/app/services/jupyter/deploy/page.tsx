@@ -13,7 +13,7 @@ import {
 import { toast } from "sonner";
 import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
 import { ResourceValueOptions } from "@/components/services/common/interfaces";
-import { useCreateDeployment } from "@/hooks/api/useCreateDeployment";
+import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 

@@ -6,9 +6,8 @@ import {
   ReactNode,
 } from "react";
 import { AuthUser } from "./types";
-import { signIn, signUp, signOut, resetPassword, getSession } from "@/hooks/endpoints";
-import { supabase } from "../../lib/supabase";
-import { setAccessToken } from "../endpoints";
+import { signIn, signUp, signOut, resetPassword, getSession } from "@/hooks/service";
+import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
   user: AuthUser | null;

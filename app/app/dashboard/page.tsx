@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
-import { useDeployments, useCloseDeployment } from "@/hooks/api/useDeployments";
+import { useDeployments, useCloseDeployment } from "@/hooks/deployments/useDeployments";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useAuth } from "@/hooks/auth/useAuthContext";

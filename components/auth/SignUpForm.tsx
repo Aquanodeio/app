@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { signUp } from "@/hooks/endpoints";
+import { signUp } from "@/hooks/service";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignUpForm() {

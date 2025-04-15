@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { resetPassword } from "@/hooks/endpoints";
+import { resetPassword } from "@/hooks/service";
 
 export default function ResetPasswordForm() {
   const [email, setEmail] = useState("");
