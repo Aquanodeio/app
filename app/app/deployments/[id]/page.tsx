@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Deployment } from "../../../../lib/api";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Copy, ExternalLink, RefreshCw } from "lucide-react";
@@ -10,8 +9,8 @@ import {
   useDeployment,
   useCloseDeployment,
   useDeploymentLogs,
-} from "@/hooks/queries/useDeployments";
-import { isDeploymentActive } from "@/lib/deployment/utils";
+} from "@/hooks/deployments/useDeployments";
+import { isDeploymentActive } from "@/lib/deployment";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();

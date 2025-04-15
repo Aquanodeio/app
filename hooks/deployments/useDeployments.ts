@@ -1,14 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  getDeployments,
+  getUserDeployments,
   getDeploymentById,
   closeDeployment,
-  deployDefaultBackend,
-  deployCustomBackend,
   getUserDeploymentsByType,
-} from "@/lib/reactQuery/apiWrappers";
-import { getDepLogs } from "@/lib/dep-logs";
-import { ServiceType, ProviderType } from "@/services/types";
+} from "@/hooks/service";
+import { getDepLogs } from "@/lib/getlogs";
+import { ServiceType, ProviderType } from "@/lib/types";
 import { toast } from "sonner";
 
 // Query key factory
@@ -34,7 +32,7 @@ export function useDeployments(
 ) {
   return useQuery({
     queryKey: deploymentKeys.list({ user, type, provider }),
-    queryFn: () => getDeployments(user, type, provider),
+    queryFn: () => getUserDeployments(user, type, provider),
     enabled: !!user,
   });
 }
@@ -80,52 +78,6 @@ export function useCloseDeployment() {
     },
     onError: (error) => {
       toast.error("Failed to close deployment", {
-        description:
-          error instanceof Error ? error.message : "Unknown error occurred",
-      });
-    },
-  });
-}
-
-// Deploy default backend (mutation)
-export function useDeployDefaultBackend() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: deployDefaultBackend,
-    onSuccess: (response) => {
-      toast.success("Backend deployed successfully", {
-        description: "Your default backend has been created.",
-      });
-
-      // Invalidate and refetch deployments lists
-      queryClient.invalidateQueries({ queryKey: deploymentKeys.lists() });
-    },
-    onError: (error) => {
-      toast.error("Failed to deploy backend", {
-        description:
-          error instanceof Error ? error.message : "Unknown error occurred",
-      });
-    },
-  });
-}
-
-// Deploy custom backend (mutation)
-export function useDeployCustomBackend() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: deployCustomBackend,
-    onSuccess: (response) => {
-      toast.success("Custom backend deployed successfully", {
-        description: "Your custom backend has been created.",
-      });
-
-      // Invalidate and refetch deployments lists
-      queryClient.invalidateQueries({ queryKey: deploymentKeys.lists() });
-    },
-    onError: (error) => {
-      toast.error("Failed to deploy custom backend", {
         description:
           error instanceof Error ? error.message : "Unknown error occurred",
       });

@@ -1,15 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Deployment, ServiceType } from "@/services/types";
-import { useAuth } from "@/lib/auth/AuthContext";
+import { ServiceType } from "@/lib/types";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import ServicePage from "@/components/services/common/ServicePage";
 import {
   useDeployments,
   useCloseDeployment,
-} from "@/hooks/queries/useDeployments";
+} from "@/hooks/deployments/useDeployments";
 
 export default function JupyterPage() {
   const router = useRouter();

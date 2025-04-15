@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/lib/auth/AuthContext";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 import TemplateContainer from "@/components/templates/TemplateContainer";
 import TemplateHeader from "@/components/templates/TemplateHeader";
 import TemplateDetailsCard from "@/components/templates/TemplateDetailsCard";

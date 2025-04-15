@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
-import { useAuth } from "@/lib/auth/AuthContext";
+import { DeploymentConfig, ProviderType, ServiceType } from "@/lib/types";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Database, Layers } from "lucide-react";
 import {
   CPU_CONSTRAINTS,
@@ -14,7 +14,7 @@ import { ResourceValueOptions } from "@/components/services/common/interfaces";
 import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
 import SourceControlSection from "@/components/services/hosting/SourceControlSection";
 import EnviromentVariableSection from "@/components/services/hosting/EnviromentVariableSection";
-import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
+import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
 import { Button } from "@/components/ui/button";

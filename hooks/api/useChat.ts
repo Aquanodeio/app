@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sendChatMessage } from "@/lib/reactQuery/apiWrappers";
-import { ChatRequest } from "@/services/types";
+import { sendChatMessage } from "@/hooks/service";
+import { ChatRequest } from "@/lib/types";
 
 // Query key factory
 export const chatKeys = {

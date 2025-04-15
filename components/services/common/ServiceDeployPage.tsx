@@ -2,8 +2,8 @@ import React, { useState, ReactNode, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import DeploymentOptionCard from "./DeploymentOptionCard";
 import { Loader2, ArrowRight } from "lucide-react";
-import { useAuth } from "@/lib/auth/AuthContext";
-import { ProviderType } from "@/lib/api";
+import { useAuth } from "@/hooks/auth/useAuthContext";
+import { ProviderType } from "@/lib/types";
 import { getProviderFromEnv } from "@/lib/utils";
 import {
   Select,

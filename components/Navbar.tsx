@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut, User, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuthSession } from "@/lib/auth/hooks/useAuthSession";
+import { useAuthSession } from "@/hooks/auth/useAuthSession";
 import {
   DropdownMenu,
   DropdownMenuContent,

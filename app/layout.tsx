@@ -21,7 +21,7 @@ import {
   coinbaseWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { AuthProvider } from "@/lib/auth/AuthContext";
+import { AuthProvider } from "@/hooks/auth/useAuthContext";
 import { Toaster } from "sonner";
 import Navbar from "@/components/Navbar";
 import AppNavbar from "@/components/AppNavbar";

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { authService } from "@/lib/auth/authService";
+import { resetPassword } from "@/hooks/service";
 
 export default function ResetPasswordForm() {
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ export default function ResetPasswordForm() {
 
     try {
       setIsLoading(true);
-      const { error } = await authService.resetPassword({ email });
+      const { error } = await resetPassword({ email });
 
       if (error) {
         setError(error.message);

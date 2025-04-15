@@ -6,9 +6,8 @@ import {
   ReactNode,
 } from "react";
 import { AuthUser } from "./types";
-import { authService } from "./authService";
-import { supabase } from "../supabase";
-import { apiService } from "../../services/apiService";
+import { signIn, signUp, signOut, resetPassword, getSession } from "@/hooks/service";
+import { supabase } from "@/lib/supabase";
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -47,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     // Get initial session
     const getInitialSession = async () => {
       try {
-        const { session, error } = await authService.getSession();
+        const { session, error } = await getSession();
 
         console.log("session", session);
 
@@ -57,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         const token = session?.access_token || null;
         setAccessToken(token);
-        apiService.setAccessToken(token);
+        setAccessToken(token);
 
         setUser(session?.user || null);
       } catch (error) {
@@ -74,7 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       async (event, session) => {
         const token = session?.access_token || null;
         setAccessToken(token);
-        apiService.setAccessToken(token);
+        setAccessToken(token);
 
         setUser(session?.user || null);
         setIsLoading(false);
@@ -94,18 +93,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isLoading,
     accessToken,
     signIn: async (email: string, password: string) => {
-      const { error } = await authService.signIn({ email, password });
+      const { error } = await signIn({ email, password });
       return { error };
     },
     signUp: async (email: string, password: string) => {
-      const { error } = await authService.signUp({ email, password });
+      const { error } = await signUp({ email, password });
       return { error };
     },
     signOut: async () => {
-      return await authService.signOut();
+      return await signOut();
     },
     resetPassword: async (email: string) => {
-      return await authService.resetPassword({ email });
+      return await resetPassword({ email });
     },
   };
 

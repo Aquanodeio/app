@@ -10,8 +10,8 @@ import {
   Server,
   Loader2,
 } from "lucide-react";
-import { apiService } from "@/services/apiService";
-import { ChatMessage } from "@/services/types";
+import { getChatHistory, sendChatMessage } from "@/hooks/service";
+import { ChatMessage } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -260,7 +260,7 @@ const ChatInterface = () => {
 
   const loadChatHistory = useCallback(async () => {
     try {
-      const history = await apiService.getChatHistory();
+      const history = await getChatHistory();
       if (history.length > 0) {
         setMessages(history);
       }
@@ -332,7 +332,7 @@ const ChatInterface = () => {
       // Create a local reference to track content to avoid state closure issues
       let currentContent = "";
 
-      await apiService.sendChatMessage(
+      await sendChatMessage(
         {
           messages: [...messages, userMessage],
         },

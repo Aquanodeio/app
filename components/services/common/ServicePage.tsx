@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader2, InfoIcon } from "lucide-react";
-import { Deployment } from "@/services/types";
+import { Deployment } from "@/lib/types";
 import DeploymentStats from "./DeploymentStats";
 import DeploymentsList from "./DeploymentsList";
 import ServiceSidebar from "./ServiceSidebar";

@@ -1,4 +1,4 @@
-import { useAuth } from "../AuthContext";
+import { useAuth } from "./useAuthContext";
 
 export function useAuthSession() {
   const { user, isLoading, signOut, accessToken } = useAuth();
@@ -12,4 +12,4 @@ export function useAuthSession() {
     displayName: user?.email?.split("@")[0] || "User",
     accessToken: accessToken,
   };
-}
+} 
