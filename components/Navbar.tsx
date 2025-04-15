@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LogOut, User, Menu, X } from "lucide-react";
+import { LogOut, User, Menu, X, Coins } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuthSession } from "@/lib/auth/hooks/useAuthSession";
+import { useCredits } from "@/hooks/queries/useCredits";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +27,7 @@ export default function Navbar({
   const pathname = usePathname();
   const { isAuthenticated, displayName, signOut, isLoading, accessToken } =
     useAuthSession();
+  const { data: credits, isLoading: creditsLoading } = useCredits();
 
   useEffect(() => {
     setMounted(true);
@@ -70,7 +72,6 @@ export default function Navbar({
           </Link>
         </div>
         
-        
         <div className="flex items-center gap-4">
           <a href="#aqua-layer" className="text-foreground/80 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors duration-200">
             Aqua Layer
@@ -86,6 +87,12 @@ export default function Navbar({
         </div>
           {isAuthenticated ? (
             <>
+              {!creditsLoading && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-primary/10 text-primary">
+                  <Coins className="w-4 h-4" />
+                  <span className="font-medium">{credits} credits</span>
+                </div>
+              )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -162,6 +169,12 @@ export default function Navbar({
             <a href="#services" className="text-foreground/80 hover:text-primary py-2 font-medium transition-colors duration-200">
               Services
             </a>
+            {isAuthenticated && !creditsLoading && (
+              <div className="flex items-center gap-2 py-2 text-primary">
+                <Coins className="w-4 h-4" />
+                <span className="font-medium">{credits} credits</span>
+              </div>
+            )}
             {!isAuthenticated && (
               <Link href="/app" className="pt-2">
                 <Button className="bg-accent hover:bg-accent/90 w-full">
