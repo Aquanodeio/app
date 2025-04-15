@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const services = [
   {
-    name: "Hosting",
+    name: "Deployments",
     description:
       "Deploy and manage high-performance servers for your web applications with scalable infrastructure and reliable uptime.",
     url: "/app/services/hosting",
@@ -38,11 +38,11 @@ const services = [
     comingSoon: true,
   },
   {
-    name: "Custom Services",
+    name: "Custom Services (Taylored for your needs)",
     description:
       "Design and deploy specialized infrastructure solutions optimized for your unique requirements with expert guidance and ongoing support.",
     url: "/app/services/custom-workloads",
-    comingSoon: true,
+    comingSoon: false,
   },
 ];
 
@@ -78,6 +78,26 @@ const ServicesPage = () => {
                   </div>
                 </div>
               </div>
+            ) : service.name === "Custom Services (Taylored for your needs)" ? (
+              <a key={index} href="mailto:contact@aquanode.io" target="_blank" rel="noopener noreferrer" className="block group">
+                <div className="dashboard-card h-full subtle-glow">
+                  <div className="flex flex-col h-full">
+                    <div className="flex items-center mb-3 sm:mb-4">
+                      <h3 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+                        {service.name}
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground text-sm sm:text-base flex-grow">
+                      {service.description}
+                    </p>
+                    <div className="mt-4 sm:mt-6 text-right">
+                      <span className="text-amber-500 font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
+                        Contact now →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
             ) : (
               <Link key={index} href={service.url} className="block group">
                 <div className="dashboard-card h-full subtle-glow">

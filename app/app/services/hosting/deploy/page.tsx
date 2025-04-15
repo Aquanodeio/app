@@ -103,8 +103,6 @@ export default function CustomServiceDeployment() {
         env: parseEnvVars()
       };
       
-      console.log("say hi to config", config);
-      
       // Create the complete payload for the API
       createDeployment({
         service: "BACKEND",
@@ -157,7 +155,7 @@ export default function CustomServiceDeployment() {
 
   return (
     <ServiceDeployPage
-      title="Hosting Instance"
+      title="Deployments Instance"
       description="Deploy a custom service with your preferred configuration"
       deploymentOptions={deploymentOptions}
       resourceSettingSection={

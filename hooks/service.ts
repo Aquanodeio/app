@@ -37,10 +37,42 @@ export interface PaginatedResponse<T> {
 }
 
 // Token management
-let accessToken: string | null = null;
+class AuthService {
+  private static instance: AuthService;
+  private _accessToken: string | null = null;
+
+  private constructor() {
+    // Initialize token from Supabase session if it exists
+    this.initializeFromSession();
+  }
+
+  private async initializeFromSession() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.access_token) {
+      this._accessToken = session.access_token;
+    }
+  }
+
+  static getInstance(): AuthService {
+    if (!AuthService.instance) {
+      AuthService.instance = new AuthService();
+    }
+    return AuthService.instance;
+  }
+
+  getAccessToken(): string | null {
+    return this._accessToken;
+  }
+
+  setAccessToken(token: string | null): void {
+    this._accessToken = token;
+  }
+}
+
+export const authService = AuthService.getInstance();
 
 export function setAccessToken(token: string | null) {
-  accessToken = token;
+  authService.setAccessToken(token);
 }
 
 // Basic request function
@@ -48,15 +80,16 @@ export async function request<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const token = authService.getAccessToken();
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
+    ...options.headers,
+  };
+
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(accessToken && {
-        Authorization: `Bearer ${accessToken}`,
-      }),
-      ...options.headers,
-    },
+    headers,
   });
 
   if (!response.ok) {
@@ -149,14 +182,13 @@ export async function sendChatMessage(
   onStream?: (text: string) => void
 ): Promise<ChatResponse> {
   if (onStream) {
+    const token = authService.getAccessToken();
     // Streaming request
     const response = await fetch(`${API_BASE_URL}/api/ai/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(accessToken && {
-          Authorization: `Bearer ${accessToken}`,
-        }),
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: JSON.stringify({
         ...chatRequest,
@@ -257,8 +289,8 @@ export async function clearChatHistory(): Promise<void> {
   return;
 }
 
-export async function getGPUCredits(): Promise<{ credits: number }> {
-  return request<{ credits: number }>("/credits");
+export async function getAquaCredits(): Promise<{ credits: number }> {
+  return request<{ credits: number }>("/api/credits");
 }
 
 // Get paginated deployments
@@ -348,6 +380,11 @@ export async function signIn({
 
     if (error) throw error;
 
+    // Set the access token after successful sign in
+    if (data.session?.access_token) {
+      authService.setAccessToken(data.session.access_token);
+    }
+
     return {
       user: data.user,
       error: null,
@@ -366,6 +403,10 @@ export async function signOut(): Promise<{ error: Error | null }> {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
+    
+    // Clear the access token after sign out
+    authService.setAccessToken(null);
+    
     return { error: null };
   } catch (error) {
     console.error("Sign out error:", error);
@@ -424,6 +465,12 @@ export async function getSession() {
   try {
     const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
+
+    // Update the access token if session exists
+    if (data.session?.access_token) {
+      authService.setAccessToken(data.session.access_token);
+    }
+
     return { session: data.session, error: null };
   } catch (error) {
     console.error("Get session error:", error);

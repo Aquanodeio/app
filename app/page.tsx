@@ -214,7 +214,7 @@ const Solutions = () => {
               </div>
               <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Flexible Payments</h3>
               <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
-                Support for both crypto and fiat, converted into GPU credits that can be used 
+                Support for both crypto and fiat, converted into Aqua credits that can be used 
                 across any service deployed on the Aqua Layer.
               </p>
             </div>
@@ -299,7 +299,7 @@ const AquaLayer = () => {
                 <div>
                   <h3 className="font-medium mb-1 text-blue-100">Payments</h3>
                   <p className="text-sm text-blue-200/80">
-                    Support for both crypto and fiat, converted to GPU credits
+                    Support for both crypto and fiat, converted to Aqua credits
                   </p>
                 </div>
               </div>
@@ -315,7 +315,7 @@ const AquaLayer = () => {
                 <div>
                   <h3 className="font-medium mb-1 text-blue-100">Flexibility</h3>
                   <p className="text-sm text-blue-200/80">
-                    Use GPU credits across any service deployed on Aqua
+                    Use Aqua credits across any service deployed on Aqua
                   </p>
                 </div>
               </div>
@@ -503,7 +503,7 @@ const Services = () => {
                 <div className="lg:w-1/2">
                   <h3 className="text-2xl font-bold mb-4 text-blue-100">Private Aqua Services</h3>
                   <p className="text-blue-200/80 mb-6">
-                    Deployed privately with a dedicated interface. Developers purchase GPU credits 
+                    Deployed privately with a dedicated interface. Developers purchase Aqua credits 
                     and use them to run their own workloads with full control.
                   </p>
                   
@@ -539,7 +539,7 @@ const Services = () => {
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 to-blue-700/5 opacity-0 group-hover:opacity-80 transition-opacity"></div>
                       <h5 className="font-medium mb-2 text-blue-100">Dedicated Resources</h5>
                       <p className="text-sm text-blue-200/80">
-                        Purchase GPU credits (with fiat or crypto) and use them to run your own workloads 
+                        Purchase Aqua credits (with fiat or crypto) and use them to run your own workloads 
                         with complete control over your environment.
                       </p>
                     </div>

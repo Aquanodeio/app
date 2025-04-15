@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Server,
   Loader2,
+  MessageSquare,
 } from "lucide-react";
 import { getChatHistory, sendChatMessage } from "@/hooks/service";
 import { ChatMessage } from "@/lib/types";
@@ -274,7 +275,13 @@ const ChatInterface = () => {
   }, [loadChatHistory]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Only scroll the message container, not the entire page
+    if (messagesEndRef.current) {
+      const chatContainer = messagesEndRef.current.closest('.overflow-y-auto');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }
   }, [messages]);
 
   const handlePaperclipClick = () => {
@@ -367,128 +374,131 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 px-6 overflow-hidden flex flex-col">
-        {/* Header */}
-        <div className="py-6">
-          <h1 className="section-title text-center mb-2">AI Assistant</h1>
-          <p className="text-center text-muted-foreground max-w-lg mx-auto">
-            Chat with our AI to quickly deploy your applications or get help
-            with any questions
-          </p>
-        </div>
-
-        {/* Chat messages area */}
-        <div className="flex-1 overflow-y-auto mb-6 rounded-xl bg-secondary/5 border border-border/20 p-4 shadow-sm">
-          {/* <div className="flex items-center justify-center mb-3">
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-primary/5 border border-primary/10 text-sm shadow-sm">
-              <Server size={14} className="text-primary" />
-              <p className="text-muted-foreground font-medium">
-                Only works with Custom Services currently
-              </p>
-            </div>
-          </div> */}
-          <div className="max-w-3xl mx-auto space-y-4">
-            {messages.map((message, index) => {
-              const deploymentData =
-                message.role === "assistant"
-                  ? extractDeploymentData(message.content)
-                  : { status: null, data: null };
-
-              const displayContent =
-                message.role === "assistant"
-                  ? cleanMessageContent(message.content)
-                  : message.content;
-
-              return (
-                <div
-                  key={index}
-                  className={`flex items-start gap-3 ${
-                    message.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  {message.role === "assistant" && (
-                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                      <Bot size={16} />
-                    </div>
-                  )}
-
-                  <div
-                    className={`p-3 rounded-xl max-w-[80%] ${
-                      message.role === "user"
-                        ? "bg-primary/10 text-foreground"
-                        : "bg-secondary/20 text-foreground"
-                    }`}
-                  >
-                    <p className="text-sm whitespace-pre-wrap">
-                      {displayContent}
-                    </p>
-                    <span className="text-xs opacity-70 mt-1 block">
-                      {new Date(message.timestamp || "").toLocaleTimeString()}
-                    </span>
-
-                    {/* Deployment Status Card */}
-                    {deploymentData.status && deploymentData.data && (
-                      <DeploymentStatusCard
-                        status={deploymentData.status}
-                        data={deploymentData.data}
-                      />
-                    )}
-                  </div>
-
-                  {message.role === "user" && (
-                    <div className="w-8 h-8 rounded-full bg-secondary/40 flex items-center justify-center text-foreground/80">
-                      <User size={16} />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <div ref={messagesEndRef} />
+    <div className="bg-background text-foreground">
+      <div className="container ml-5 px-0 sm:px-6 py-4 sm:py-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8 px-4 sm:px-0">
+          <div>
+            <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
+              AI Assistant
+            </h1>
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Chat with our AI to quickly deploy your applications or get help with any questions
+            </p>
           </div>
         </div>
 
-        {/* Input area */}
-        <div className="max-w-3xl mx-auto w-full mb-6">
-          <div className="border border-border/30 bg-secondary/10 rounded-xl p-1 shadow-sm backdrop-blur-sm hover:border-primary/20 transition-colors duration-300">
-            <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
+        <div className="px-4 sm:px-0">
+          <div className="dashboard-card subtle-glow mb-6 sm:mb-8">
+            <div className="space-y-4">
+              {/* Chat messages area */}
+              <div className="rounded-xl bg-secondary/5 border border-border/20 p-4 shadow-sm overflow-y-auto" style={{ height: "60vh", maxHeight: "calc(100vh - 300px)" }}>
+                <div className="max-w-3xl mx-auto space-y-8 pb-2">
+                  {messages.map((message, index) => {
+                    const deploymentData =
+                      message.role === "assistant"
+                        ? extractDeploymentData(message.content)
+                        : { status: null, data: null };
 
-              <button
-                onClick={handlePaperclipClick}
-                className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
-                disabled={isLoading}
-              >
-                <Paperclip className="w-5 h-5" />
-              </button>
+                    const displayContent =
+                      message.role === "assistant"
+                        ? cleanMessageContent(message.content)
+                        : message.content;
 
-              <div className="flex-1">
-                <input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Ask me anything..."
-                  className="w-full bg-transparent text-foreground focus:outline-none placeholder-muted-foreground py-2 px-1 rounded-md"
-                  disabled={isLoading}
-                />
+                    // Determine if this message is from a different sender than the previous one
+                    const isNewSender = index === 0 || messages[index - 1].role !== message.role;
+                    
+                    return (
+                      <div
+                        key={index}
+                        className={`flex items-start gap-3 ${
+                          message.role === "user" ? "justify-end" : "justify-start"
+                        } ${isNewSender ? "mt-6" : "mt-2"}`}
+                      >
+                        {message.role === "assistant" && (
+                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                            <Bot size={16} />
+                          </div>
+                        )}
+
+                        <div
+                          className={`p-3 rounded-xl max-w-[80%] ${
+                            message.role === "user"
+                              ? "bg-primary/10 text-foreground"
+                              : "bg-secondary/20 text-foreground"
+                          }`}
+                        >
+                          <p className="text-sm whitespace-pre-wrap">
+                            {displayContent}
+                          </p>
+                          <span className="text-xs opacity-70 mt-1 block">
+                            {new Date(message.timestamp || "").toLocaleTimeString()}
+                          </span>
+
+                          {/* Deployment Status Card */}
+                          {deploymentData.status && deploymentData.data && (
+                            <DeploymentStatusCard
+                              status={deploymentData.status}
+                              data={deploymentData.data}
+                            />
+                          )}
+                        </div>
+
+                        {message.role === "user" && (
+                          <div className="w-8 h-8 rounded-full bg-secondary/40 flex items-center justify-center text-foreground/80">
+                            <User size={16} />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <div ref={messagesEndRef} className="h-0" />
+                </div>
               </div>
 
-              <button
-                onClick={sendPrompt}
-                className={`p-2 rounded-lg transition-all duration-300 ${
-                  input.trim() && !isLoading
-                    ? "bg-primary text-white hover:bg-primary/90"
-                    : "text-muted-foreground bg-secondary/30 cursor-not-allowed"
-                }`}
-                disabled={!input.trim() || isLoading}
-              >
-                <ArrowUp className="w-5 h-5" />
-              </button>
+              {/* Input area */}
+              <div className="max-w-3xl mx-auto w-full">
+                <div className="border border-border/30 bg-secondary/10 rounded-xl p-1 shadow-sm backdrop-blur-sm hover:border-primary/20 transition-colors duration-300">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+
+                    <button
+                      onClick={handlePaperclipClick}
+                      className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+                      disabled={isLoading}
+                    >
+                      <Paperclip className="w-5 h-5" />
+                    </button>
+
+                    <div className="flex-1">
+                      <input
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyPress}
+                        placeholder="Ask me anything..."
+                        className="w-full bg-transparent text-foreground focus:outline-none placeholder-muted-foreground py-2 px-1 rounded-md"
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    <button
+                      onClick={sendPrompt}
+                      className={`p-2 rounded-lg transition-all duration-300 ${
+                        input.trim() && !isLoading
+                          ? "bg-primary text-white hover:bg-primary/90"
+                          : "text-muted-foreground bg-secondary/30 cursor-not-allowed"
+                      }`}
+                      disabled={!input.trim() || isLoading}
+                    >
+                      <ArrowUp className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
