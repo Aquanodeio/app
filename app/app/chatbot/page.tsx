@@ -10,7 +10,7 @@ import {
   Server,
   Loader2,
 } from "lucide-react";
-import { getChatHistory, sendChatMessage } from "@/lib/apiService";
+import { getChatHistory, sendChatMessage } from "@/hooks/endpoints";
 import { ChatMessage } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";

@@ -2,7 +2,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { LayoutGrid } from "lucide-react";
-import { useGPUCredits } from "@/hooks/queries";
+import { useGPUCredits } from "@/hooks/api";
 
 interface GPUCreditsProps {
   id?: string;

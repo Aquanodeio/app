@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPaginatedDeployments } from "@/lib/apiService";
+import { getPaginatedDeployments } from "@/hooks/endpoints";
 import { Deployment } from "@/lib/types";
 
 // Define pagination response type

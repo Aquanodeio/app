@@ -4,7 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
 import { TemplateDetails } from "./TemplateDetailsCard";
-import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
+import { useCreateDeployment } from "@/hooks/api/useCreateDeployment";
 
 export interface User {
   id: string;

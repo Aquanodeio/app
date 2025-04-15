@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { authService } from "@/lib/auth/authService";
+import { updatePassword } from "@/hooks/endpoints";
 import { useRouter } from "next/navigation";
 
 export default function UpdatePasswordForm() {
@@ -37,7 +37,7 @@ export default function UpdatePasswordForm() {
 
     try {
       setIsLoading(true);
-      const { error } = await authService.updatePassword({ password });
+      const { error } = await updatePassword({ password });
 
       if (error) {
         setError(error.message);

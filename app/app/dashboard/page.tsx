@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
-import { useDeployments, useCloseDeployment } from "@/hooks/queries/useDeployments";
+import { useDeployments, useCloseDeployment } from "@/hooks/api/useDeployments";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
-import { useAuth } from "@/lib/auth/AuthContext";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import DeploymentsList from "@/components/services/common/DeploymentsList";
 import { InfoIcon } from "lucide-react";

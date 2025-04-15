@@ -4,8 +4,8 @@ import {
   getDeploymentById,
   closeDeployment,
   getUserDeploymentsByType,
-} from "@/lib/apiService";
-import { getDepLogs } from "@/lib/dep-logs";
+} from "@/hooks/endpoints";
+import { getDepLogs } from "@/lib/getlogs";
 import { ServiceType, ProviderType } from "@/lib/types";
 import { toast } from "sonner";
 

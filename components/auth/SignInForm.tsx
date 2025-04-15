@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { authService } from "@/lib/auth/authService";
+import { signIn } from "@/hooks/endpoints";
 import { useRouter } from "next/navigation";
-import { userService } from "@/lib/userService";
+import { syncUser } from "@/hooks/endpoints";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignInForm() {
@@ -29,7 +29,7 @@ export default function SignInForm() {
 
     try {
       setIsLoading(true);
-      const { user, error } = await authService.signIn({ email, password });
+      const { user, error } = await signIn({ email, password });
 
       if (error) {
         setError(error.message);
@@ -39,7 +39,7 @@ export default function SignInForm() {
       // Sync user with backend
       if (user) {
         try {
-          await userService.syncUser(user.id, user.email || "");
+          await syncUser(user.id, user.email || "");
         } catch (syncError) {
           console.error("Failed to sync user with backend:", syncError);
           // Continue despite sync error - non-blocking

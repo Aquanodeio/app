@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Info, Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
-import { useAuth } from "@/lib/auth/AuthContext";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 
 interface SliderProps {
     value: number;

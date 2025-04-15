@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { authService } from "@/lib/auth/authService";
+import { signUp } from "@/hooks/endpoints";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignUpForm() {
@@ -39,7 +39,7 @@ export default function SignUpForm() {
 
     try {
       setIsLoading(true);
-      const { user, error } = await authService.signUp({ email, password });
+      const { user, error } = await signUp({ email, password });
 
       if (error) {
         setError(error.message);

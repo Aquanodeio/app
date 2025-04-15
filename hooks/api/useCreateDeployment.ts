@@ -4,7 +4,7 @@ import { deploymentKeys } from "./useDeployments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
-import { createDeploymentNew } from "@/lib/apiService";
+import { createDeploymentNew } from "@/hooks/endpoints";
 
 export function useCreateDeployment(redirectPath?: string) {
   const queryClient = useQueryClient();

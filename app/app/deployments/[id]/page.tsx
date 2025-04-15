@@ -9,8 +9,8 @@ import {
   useDeployment,
   useCloseDeployment,
   useDeploymentLogs,
-} from "@/hooks/queries/useDeployments";
-import { isDeploymentActive } from "@/lib/deployment/utils";
+} from "@/hooks/api/useDeployments";
+import { isDeploymentActive } from "@/lib/deployment";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();

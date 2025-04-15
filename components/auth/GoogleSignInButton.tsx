@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { authService } from "@/lib/auth/authService";
+import { signInWithGoogle } from "@/hooks/endpoints";
 import { useState } from "react";
 
 export default function GoogleSignInButton() {
@@ -8,7 +8,7 @@ export default function GoogleSignInButton() {
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
-      const { error } = await authService.signInWithGoogle();
+      const { error } = await signInWithGoogle();
       if (error) {
         console.error("Google sign in error:", error);
       }
