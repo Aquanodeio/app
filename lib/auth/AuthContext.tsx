@@ -8,7 +8,7 @@ import {
 import { AuthUser } from "./types";
 import { authService } from "./authService";
 import { supabase } from "../supabase";
-import { apiService } from "../../services/apiService";
+import { setAccessToken } from "../apiService";
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         const token = session?.access_token || null;
         setAccessToken(token);
-        apiService.setAccessToken(token);
+        setAccessToken(token);
 
         setUser(session?.user || null);
       } catch (error) {
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       async (event, session) => {
         const token = session?.access_token || null;
         setAccessToken(token);
-        apiService.setAccessToken(token);
+        setAccessToken(token);
 
         setUser(session?.user || null);
         setIsLoading(false);

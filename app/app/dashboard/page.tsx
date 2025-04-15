@@ -2,54 +2,39 @@
 
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
-import { useEffect, useState } from "react";
-import { Deployment, getDeployments } from "../../../lib/api";
+import { useDeployments, useCloseDeployment } from "@/hooks/queries/useDeployments";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import DeploymentsList from "@/components/services/common/DeploymentsList";
-import { isDeploymentActive } from "@/lib/deployment/utils";
 import { InfoIcon } from "lucide-react";
+
 
 interface DeploymentTableProps {
   userId: string;
 }
 
 function DeploymentTable({ userId }: DeploymentTableProps) {
-  const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   // Get the provider from environment variable
   const envProvider = getProviderFromEnv();
 
-  useEffect(() => {
-    const fetchDeployments = async () => {
-      try {
-        const response = await getDeployments(userId, envProvider);
-        setDeployments(
-          response?.map((deployment) => ({
-            ...deployment,
-            appUrl: deployment.appUrl || "",
-          })) || []
-        );
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to fetch deployments",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Use the deployment hook instead of directly calling the API
+  const { 
+    data: deployments = [], 
+    isLoading: loading, 
+    error 
+  } = useDeployments(userId, undefined, envProvider);
 
-    fetchDeployments();
-    const interval = setInterval(fetchDeployments, 10000); // Refresh every 10 seconds
+  // Hook for closing deployments
+  const { mutate: closeDeploymentMutation } = useCloseDeployment();
 
-    return () => clearInterval(interval);
-  }, [toast, userId, envProvider]);
+  // Handler for deployment deletion/stopping
+  const handleDeleteDeployment = (deploymentId: string) => {
+    closeDeploymentMutation(Number(deploymentId));
+  };
 
   // Format date safely
   const formatDate = (dateString?: string) => {
@@ -60,16 +45,6 @@ function DeploymentTable({ userId }: DeploymentTableProps) {
       return "Invalid date";
     }
   };
-
-  // if (loading) {
-  //   return (
-  //     <div className="flex justify-center items-center py-8 sm:py-12 text-muted-foreground">
-  //       <div className="animate-pulse text-sm sm:text-base">
-  //         Loading deployments...
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="space-y-4 sm:space-y-6 w-full overflow-hidden">
@@ -100,9 +75,9 @@ function DeploymentTable({ userId }: DeploymentTableProps) {
         <div className="grid gap-4 w-full">
           <DeploymentsList
             isLoading={loading}
-            error={null}
+            error={error ? String(error) : null}
             deployments={deployments}
-            onDelete={() => {}}
+            onDelete={handleDeleteDeployment}
           />
         </div>
       )}
@@ -132,6 +107,18 @@ export default function Dashboard() {
             Deploy New Service
           </Button>
         </Link>
+      </div>
+
+      {/* GPU Credits Section */}
+      <div className="subtle-glow mb-6 sm:mb-8">
+        <div className="dashboard-card mb-6">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
+            Your GPU Credits
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+          </div>
+        </div>
       </div>
 
       <div className="subtle-glow mb-6 sm:mb-8">

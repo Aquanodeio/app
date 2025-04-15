@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
+import { DeploymentConfig, ProviderType, ServiceType } from "@/lib/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Database, Layers } from "lucide-react";
 import {

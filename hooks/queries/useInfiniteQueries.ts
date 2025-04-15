@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { apiService } from "@/services/apiService";
-import { Deployment } from "@/services/types";
+import { getPaginatedDeployments } from "@/lib/apiService";
+import { Deployment } from "@/lib/types";
 
 // Define pagination response type
 interface PaginatedResponse<T> {
@@ -10,16 +10,21 @@ interface PaginatedResponse<T> {
   totalItems: number;
 }
 
-// test implementation to fetch paginated deployments (might need to change)
+// Interface adapter to handle potential type differences
 const fetchDeploymentPage = async (
   userId: string,
   page = 1,
   limit = 10
 ): Promise<PaginatedResponse<Deployment>> => {
-  const response = await apiService.request<PaginatedResponse<Deployment>>(
-    `/api/deployments/paginated?userId=${userId}&page=${page}&limit=${limit}`
-  );
-  return response;
+  const response = await getPaginatedDeployments(userId, page, limit);
+  
+  // Convert API response format to hook's expected format if needed
+  return {
+    data: response.data,
+    nextPage: page < response.totalPages ? page + 1 : null,
+    totalPages: response.totalPages,
+    totalItems: response.total
+  };
 };
 
 // Infinite query for deployments pagination

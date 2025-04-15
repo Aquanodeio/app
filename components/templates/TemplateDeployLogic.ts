@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { getProviderFromEnv } from "@/lib/utils";
-import { ServiceType } from "@/services/types";
+import { ServiceType } from "@/lib/types";
 import { TemplateDetails } from "./TemplateDetailsCard";
 import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
 

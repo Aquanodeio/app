@@ -5,7 +5,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { authService } from "@/lib/auth/authService";
 import { useRouter } from "next/navigation";
-import { userService } from "@/services/userService";
+import { userService } from "@/lib/userService";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignInForm() {

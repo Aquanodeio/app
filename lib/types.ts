@@ -1,3 +1,36 @@
+export enum ProviderType {
+  AKASH = "akash",
+  SPHERON = "spheron",
+  AUTO = "auto",
+}
+
+export enum DeploymentTier {
+  DEFAULT = "DEFAULT",
+  CUSTOM = "CUSTOM",
+}
+
+export enum SpheronDeploymentMode {
+  PROVIDER = "provider",
+  FIZZ = "fizz",
+}
+
+export interface DeploymentResult {
+  message: string;
+  appUrl: string;
+  leaseId: string;
+  provider: string;
+  token?: string;
+  accessUrl?: string;
+}
+
+export interface DeploymentInfo {
+  id: string;
+  status: string;
+  timestamp: string;
+  details?: Record<string, any>;
+}
+
+
 // Jupyter Service Types
 export interface DeployDefaultJupyterRequest {
   provider?: ProviderType;
@@ -38,12 +71,6 @@ export interface DeployCustomBackendRequest {
   provider?: ProviderType;
 }
 
-// Common Services Types
-export enum SpheronDeploymentMode {
-  PROVIDER = "provider",
-  FIZZ = "fizz",
-}
-
 export interface DeploymentConfig {
   serviceType: ServiceType;
   appCpuUnits?: number;
@@ -68,7 +95,6 @@ export interface DeploymentResponse {
   url?: string;
 }
 
-export type ProviderType = "auto" | "akash" | "spheron";
 
 export enum ServiceType {
   JUPYTER = "JUPYTER",

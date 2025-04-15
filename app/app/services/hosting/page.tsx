@@ -1,6 +1,6 @@
 "use client";
 
-import { Deployment, ServiceType } from "@/services/types";
+import { Deployment, ServiceType } from "@/lib/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import { useRouter } from "next/navigation";

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { apiService } from '../services/apiService';
+import { createUser } from '../lib/apiService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,7 +29,7 @@ export function UserAuth({ onUserCreated }: UserAuthProps) {
     setLoading(true);
 
     try {
-      const response = await apiService.createUser(address);
+      const response = await createUser(address);
       
       if (response.user) {
         toast({

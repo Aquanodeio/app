@@ -4,7 +4,7 @@ import { deploymentKeys } from "./useDeployments";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
-import { apiService } from "@/services/apiService";
+import { createDeploymentNew } from "@/lib/apiService";
 
 export function useCreateDeployment(redirectPath?: string) {
   const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ export function useCreateDeployment(redirectPath?: string) {
 
   return useMutation({
     mutationFn: (data: CreateDeploymentSchemaType) =>
-      apiService.createDeploymentNew(data),
+      createDeploymentNew(data),
     onSuccess: (response) => {
       toast.success("Deployment created successfully", {
         description: `Your deployment has been created successfully. ${response.appUrl ? `App URL: ${response.appUrl}` : ""} ${response.leaseId ? `Lease ID: ${response.leaseId}` : ""}`,

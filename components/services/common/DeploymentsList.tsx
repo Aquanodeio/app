@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Deployment } from "@/services/types";
+import { Deployment } from "@/lib/types";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import Skeleton from "./Skeleton";

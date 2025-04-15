@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
+import { ProviderType } from "@/lib/types";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Layers, Server } from "lucide-react";
 import {
