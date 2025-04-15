@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { FileText, Server, Sparkles, Grid, LayoutDashboard, Lock, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { templates } from "@/components/templates";
-import GPUCredits from "@/components/GPUCredits";
+import AquaCredits from "@/components/AquaCredits";
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -22,7 +22,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
       }`}
     >
       <nav className="flex-1 flex flex-col gap-3 mt-6">
-      <GPUCredits credits={1250.75} threshold="2/2" />
+      <AquaCredits credits={1250.75} threshold="2/2" />
       <Button
           variant="ghost"
           className={`w-full justify-start gap-3 ${

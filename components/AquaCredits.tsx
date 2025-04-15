@@ -2,19 +2,19 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { LayoutGrid } from "lucide-react";
-import { useGPUCredits } from "@/hooks/api";
+import { useAquaCredits } from "@/hooks/api";
 
-interface GPUCreditsProps {
+interface AquaCreditsProps {
   id?: string;
   credits?: number;
   threshold?: string;
-  className?: string;
+  className?: string; 
 }
 
-const GPUCredits = ({
+const AquaCredits = ({
   className = "",
-}: GPUCreditsProps) => {
-  const { data, isLoading, error } = useGPUCredits();
+}: AquaCreditsProps) => {
+  const { data, isLoading, error } = useAquaCredits();
   
   return (
     <Card className={`bg-secondary/30 backdrop-blur-sm p-4 ${className}`}>
@@ -24,7 +24,7 @@ const GPUCredits = ({
         </div>
         
         <div className="flex flex-col">
-          <h3 className="text-l font-medium text-muted-foreground">GPU Credits</h3>
+          <h3 className="text-l font-medium text-muted-foreground">Aqua Credits</h3>
           {isLoading ? (
             <p className="text-xl font-bold">Loading...</p>
           ) : error ? (
@@ -39,4 +39,4 @@ const GPUCredits = ({
   );
 };
 
-export default GPUCredits; 
+export default AquaCredits; 

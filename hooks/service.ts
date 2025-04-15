@@ -257,8 +257,8 @@ export async function clearChatHistory(): Promise<void> {
   return;
 }
 
-export async function getGPUCredits(): Promise<{ credits: number }> {
-  return request<{ credits: number }>("/credits");
+export async function getAquaCredits(): Promise<{ credits: number }> {
+  return request<{ credits: number }>("/api/credits");
 }
 
 // Get paginated deployments
