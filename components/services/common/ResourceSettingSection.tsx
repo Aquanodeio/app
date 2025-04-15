@@ -13,10 +13,9 @@ import {
   CPU_CONSTRAINTS,
   MEMORY_CONSTRAINTS,
   DURATION_CONSTRAINTS,
-  Unit,
 } from "@/constants/constrains";
 import { useState } from "react";
-import { ResourceValueOptions } from "@/app/app/services/custom/deploy/interface";
+import { ResourceValueOptions, Unit } from "@/components/services/common/interfaces";
 
 interface ResourceSettingSectionProps {
   values: ResourceValueOptions;
@@ -101,7 +100,7 @@ export default function ResourceSettingSection({
           <div className="flex items-center gap-2">
             <Input
               id="cpu-value"
-              value={values.cpuValue}
+              value={values.appCpuUnits}
               onChange={(e) => {
                 const inputValue = e.target.value;
 
@@ -111,14 +110,13 @@ export default function ResourceSettingSection({
                   inputValue == "0" ||
                   inputValue == ""
                 ) {
-                  setValues({ ...values, cpuValue: inputValue });
+                  setValues({ ...values, appCpuUnits: inputValue });
                   setCpuError("");
                   return;
                 }
 
-                console.log(value, inputValue);
                 if (!isNaN(value)) {
-                  setValues({ ...values, cpuValue: inputValue });
+                  setValues({ ...values, appCpuUnits: inputValue });
                   validateCpu(value);
                 }
               }}
@@ -128,13 +126,13 @@ export default function ResourceSettingSection({
                 if (isNaN(value) || value === 0) {
                   setValues({
                     ...values,
-                    cpuValue: String(CPU_CONSTRAINTS.MIN),
+                    appCpuUnits: String(CPU_CONSTRAINTS.MIN),
                   });
                   setCpuError("");
                 } else {
                   // Format to one decimal place when leaving the field
                   const formattedValue = parseFloat(value.toFixed(1));
-                  setValues({ ...values, cpuValue: String(formattedValue) });
+                  setValues({ ...values, appCpuUnits: String(formattedValue) });
                   validateCpu(formattedValue);
                 }
               }}
@@ -167,7 +165,7 @@ export default function ResourceSettingSection({
           <div className="flex items-center gap-2">
             <Input
               id="memory-value"
-              value={values.memoryValue === 0 ? "" : values.memoryValue}
+              value={values.appMemorySize === 0 ? "" : values.appMemorySize}
               onChange={(e) => {
                 const inputValue = e.target.value;
 
@@ -178,7 +176,7 @@ export default function ResourceSettingSection({
                 ) {
                   // Don't validate yet, just update the display value
                   const parsedValue = parseFloat(inputValue) || 0;
-                  setValues({ ...values, memoryValue: parsedValue });
+                  setValues({ ...values, appMemorySize: parsedValue });
                   // Clear error if it's a valid decimal pattern
                   if (/^0\.\d+$/.test(inputValue) && parsedValue > 0) {
                     setMemoryError("");
@@ -188,7 +186,7 @@ export default function ResourceSettingSection({
 
                 // Handle empty input
                 if (inputValue === "") {
-                  setValues({ ...values, memoryValue: 0 });
+                  setValues({ ...values, appMemorySize: 0 });
                   setMemoryError("Memory value is required");
                   return;
                 }
@@ -196,18 +194,18 @@ export default function ResourceSettingSection({
                 // Handle normal numbers
                 const value = Number(inputValue);
                 if (!isNaN(value)) {
-                  setValues({ ...values, memoryValue: value });
+                  setValues({ ...values, appMemorySize: value });
                   validateMemory(value, values.memoryUnit);
                 }
               }}
               onBlur={() => {
                 // If empty on blur, set to min value
-                if (values.memoryValue === 0) {
+                if (values.appMemorySize === 0) {
                   const minValue =
                     values.memoryUnit === "Mi"
                       ? MEMORY_CONSTRAINTS.MIN_MI
                       : MEMORY_CONSTRAINTS.MIN_GI;
-                  setValues({ ...values, memoryValue: minValue });
+                  setValues({ ...values, appMemorySize: minValue });
                   setMemoryError("");
                 }
               }}
@@ -226,21 +224,21 @@ export default function ResourceSettingSection({
               onValueChange={(value: Unit) => {
                 // Convert value when switching units
                 if (value === "Mi" && values.memoryUnit === "Gi") {
-                  const newValue = Math.round(values.memoryValue * 1024);
+                  const newValue = Math.round(values.appMemorySize * 1024);
                   setValues({
                     ...values,
                     memoryUnit: value,
-                    memoryValue: newValue,
+                    appMemorySize: newValue,
                   });
                   validateMemory(newValue, value);
                 } else if (value === "Gi" && values.memoryUnit === "Mi") {
                   const newValue = parseFloat(
-                    (values.memoryValue / 1024).toFixed(2)
+                    (values.appMemorySize / 1024).toFixed(2)
                   );
                   setValues({
                     ...values,
                     memoryUnit: value,
-                    memoryValue: newValue,
+                    appMemorySize: newValue,
                   });
                   validateMemory(newValue, value);
                 } else {
@@ -249,7 +247,7 @@ export default function ResourceSettingSection({
               }}
             >
               <SelectTrigger className="w-24 h-10 text-sm bg-secondary/10 border-border/30">
-                <SelectValue />
+                <SelectValue placeholder="Unit" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Mi">Mi</SelectItem>
@@ -261,101 +259,93 @@ export default function ResourceSettingSection({
             <p className="text-xs text-red-400 mt-1.5">{memoryError}</p>
           ) : (
             <p className="text-xs text-muted-foreground mt-1.5">
-              Max: {MEMORY_CONSTRAINTS.MAX_GI}Gi (
+              Range:{" "}
               {values.memoryUnit === "Mi"
-                ? `${MEMORY_CONSTRAINTS.MAX_MI}Mi`
-                : `${MEMORY_CONSTRAINTS.MAX_GI}Gi`}
-              )
+                ? `${MEMORY_CONSTRAINTS.MIN_MI}Mi to ${MEMORY_CONSTRAINTS.MAX_GI * 1024}Mi`
+                : `${MEMORY_CONSTRAINTS.MIN_GI}Gi to ${MEMORY_CONSTRAINTS.MAX_GI}Gi`}
             </p>
           )}
         </div>
 
-        <div className="md:col-span-2">
+        <div>
           <Label
-            htmlFor="deployment-duration"
+            htmlFor="storage-value"
+            className="text-sm font-medium mb-2 block"
+          >
+            Storage Allocation
+          </Label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="storage-value"
+              value={values.appStorageSize}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (!isNaN(value)) {
+                  setValues({ ...values, appStorageSize: value });
+                }
+              }}
+              className="w-full h-10 text-sm bg-secondary/10 border-border/30"
+              type="number"
+              placeholder="5"
+            />
+            <Select
+              value={values.storageUnit}
+              onValueChange={(value: Unit) => {
+                setValues({ ...values, storageUnit: value });
+              }}
+            >
+              <SelectTrigger className="w-24 h-10 text-sm bg-secondary/10 border-border/30">
+                <SelectValue placeholder="Unit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Gi">Gi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1.5">
+            Recommended: 5Gi for most applications
+          </p>
+        </div>
+
+        <div>
+          <Label
+            htmlFor="duration-value"
             className="text-sm font-medium mb-2 block"
           >
             Deployment Duration
           </Label>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 grid grid-cols-4 gap-3">
-              {DURATION_CONSTRAINTS.QUICK_SELECTIONS.map((hours) => (
-                <button
-                  key={hours}
-                  type="button"
-                  onClick={() => {
-                    setValues({ ...values, deploymentDuration: hours });
-                    validateDuration(hours);
-                  }}
-                  className={`flex items-center justify-center py-2 px-2 rounded-md border transition-all ${
-                    values.deploymentDuration === hours
-                      ? "bg-primary/10 border-primary/40 text-primary font-medium"
-                      : "bg-secondary/10 border-border/30 hover:bg-secondary/20"
-                  }`}
-                >
-                  {hours === 1
-                    ? "1 hour"
-                    : hours === 24
-                      ? "1 day"
-                      : hours === 72
-                        ? "3 days"
-                        : "7 days"}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2 w-40">
-              <Input
-                id="deployment-duration"
-                value={
-                  values.deploymentDuration === 0
-                    ? ""
-                    : values.deploymentDuration
+          <div className="flex items-center gap-2">
+            <Input
+              id="duration-value"
+              value={values.deploymentDuration}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (!isNaN(value)) {
+                  setValues({ ...values, deploymentDuration: value });
+                  validateDuration(value);
                 }
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  if (inputValue === "") {
-                    setValues({ ...values, deploymentDuration: 0 });
-                    setDurationError("Duration value is required");
-                  } else {
-                    const value = parseFloat(inputValue);
-                    if (!isNaN(value)) {
-                      setValues({ ...values, deploymentDuration: value });
-                      validateDuration(value);
-                    }
-                  }
-                }}
-                onBlur={() => {
-                  // If empty on blur, set to min value
-                  if (values.deploymentDuration === 0) {
-                    setValues({
-                      ...values,
-                      deploymentDuration: DURATION_CONSTRAINTS.MIN_HOURS,
-                    });
-                    setDurationError("");
-                  }
-                }}
-                className={`flex-1 h-10 text-sm bg-secondary/10 border-border/30 ${
-                  durationError ? "border-red-400" : ""
-                }`}
-                type="text"
-                placeholder={DURATION_CONSTRAINTS.MIN_HOURS.toString()}
-              />
-              <div className="bg-secondary/20 px-3 py-2 rounded-md text-sm whitespace-nowrap">
-                hours
-              </div>
+              }}
+              className={`w-full h-10 text-sm bg-secondary/10 border-border/30 ${
+                durationError ? "border-red-400" : ""
+              }`}
+              type="number"
+              placeholder={DURATION_CONSTRAINTS.DEFAULT_HOURS.toString()}
+            />
+            <div className="bg-secondary/20 px-3 py-2 rounded-md text-sm whitespace-nowrap">
+              hours
             </div>
           </div>
           {durationError ? (
             <p className="text-xs text-red-400 mt-1.5">{durationError}</p>
           ) : (
             <p className="text-xs text-muted-foreground mt-1.5">
-              Range: {DURATION_CONSTRAINTS.MIN_HOURS} hour to{" "}
-              {DURATION_CONSTRAINTS.MAX_HOURS / 24} days (
-              {DURATION_CONSTRAINTS.MAX_HOURS} hours)
+              Range: {DURATION_CONSTRAINTS.MIN_HOURS} to{" "}
+              {DURATION_CONSTRAINTS.MAX_HOURS} hours (
+              {DURATION_CONSTRAINTS.MAX_HOURS / 24} days)
             </p>
           )}
         </div>
       </div>
     </div>
   );
-}
+} 

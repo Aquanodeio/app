@@ -115,7 +115,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto px-0 sm:px-6 py-6 sm:py-10">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-12 gap-4 sm:gap-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start ml-4 sm:items-center mb-6 sm:mb-12 gap-4 sm:gap-6">
         <div>
           <h1 className="section-title text-xl sm:text-2xl md:text-3xl">
             Dashboard

@@ -39,17 +39,25 @@ export interface DeployCustomBackendRequest {
 }
 
 // Common Services Types
-export interface DeploymentConfig {
-  appPort: number;
-  deploymentMode?: string;
-  deploymentDuration: string;
-  appCpuUnits: number;
-  appMemorySize: string;
-  appStorageSize: string;
-  image?: string | null;
-  runCommands?: string;
+export enum SpheronDeploymentMode {
+  PROVIDER = "provider",
+  FIZZ = "fizz",
 }
 
+export interface DeploymentConfig {
+  serviceType: ServiceType;
+  appCpuUnits?: number;
+  appMemorySize?: string;
+  appPort?: number;
+  appStorageSize?: string;
+  deploymentDuration?: string;
+  image?: string;
+  repoUrl?: string | undefined;
+  branchName?: string;
+  env?: Record<string, string>;
+  runCommands?: string;
+  spheronDeploymentMode?: SpheronDeploymentMode;
+}
 export interface EnvironmentVars {
   [key: string]: string;
 }

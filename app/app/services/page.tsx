@@ -6,7 +6,7 @@ const services = [
     name: "Hosting",
     description:
       "Deploy and manage high-performance servers for your web applications with scalable infrastructure and reliable uptime.",
-    url: "/app/services/custom",
+    url: "/app/services/hosting",
     comingSoon: false,
   },
   {

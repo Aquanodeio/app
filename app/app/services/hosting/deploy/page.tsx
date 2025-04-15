@@ -1,44 +1,56 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Button } from "@/components/ui/button";
 import { DeploymentConfig, ProviderType, ServiceType } from "@/services/types";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { Layers, Server } from "lucide-react";
+import { Database, Layers } from "lucide-react";
 import {
   CPU_CONSTRAINTS,
   MEMORY_CONSTRAINTS,
   DURATION_CONSTRAINTS,
+  ENVIRONMENT_VARS_DEFAULT,
 } from "@/constants/constrains";
-import { toast } from "sonner";
-import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
 import { ResourceValueOptions } from "@/components/services/common/interfaces";
+import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
+import SourceControlSection from "@/components/services/hosting/SourceControlSection";
+import EnviromentVariableSection from "@/components/services/hosting/EnviromentVariableSection";
 import { useCreateDeployment } from "@/hooks/queries/useCreateDeployment";
 import ServiceDeployPage from "@/components/services/common/ServiceDeployPage";
 import DefaultResourceView from "@/components/services/common/DefaultResourceView";
+import { Button } from "@/components/ui/button";
+import { getProviderFromEnv } from "@/lib/utils";
+import { toast } from "sonner";
 
-export default function JupyterDeployment() {
+export default function CustomServiceDeployment() {
   const { user } = useAuth();
-  const { mutate: createDeployment, isPending: isLoading } =
-    useCreateDeployment("/app/services/jupyter");
+  const [repoUrl, setRepoUrl] = useState<string>("");
+  const [branchName, setBranchName] = useState<string>("main");
+  const [portNumber, setPortNumber] = useState<number>(3000);
+  const [envVarsJson, setEnvVarsJson] = useState<string>(
+    ENVIRONMENT_VARS_DEFAULT
+  );
+  const [selectedProvider, setSelectedProvider] =
+    useState<ProviderType>(getProviderFromEnv());
 
-  // Resource settings for custom deployment
   const [values, setValues] = useState<ResourceValueOptions>({
     appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
     appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
     memoryUnit: "Mi",
-    appStorageSize: 5,
+    appStorageSize: 1,
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
   });
-  
+
+  const { mutate: createDeployment, isPending: isLoading } =
+    useCreateDeployment("/app/services/hosting");
+
   // Create deployment config object
   const createConfigObject = (customValues?: ResourceValueOptions) => {
     const vals = customValues || values;
     
     // Create a config object with all required properties
     return {
-      appPort: 8888, // Default Jupyter port
+      appPort: portNumber,
       deploymentDuration: `${vals.deploymentDuration}h`,
       appCpuUnits: Number(vals.appCpuUnits),
       appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
@@ -46,14 +58,28 @@ export default function JupyterDeployment() {
       image: "" // Empty string instead of null/undefined
     };
   };
-  
-  const userId = user?.id;
 
-  if (!userId) {
+  // Create environment variables object from JSON
+  const parseEnvVars = () => {
+    try {
+      return JSON.parse(envVarsJson);
+    } catch (e) {
+      console.error("Error parsing environment variables:", e);
+      return {};
+    }
+  };
+
+  // Source control data is separate from config in the API
+  const sourceControlConfig = useMemo(() => ({
+    repoUrl,
+    branchName
+  }), [repoUrl, branchName]);
+
+  if (!user?.id) {
     return (
       <div className="dashboard-card text-center py-8 sm:py-12 px-4 sm:px-6">
         <p className="text-base sm:text-lg mb-4">
-          Please sign in to deploy Jupyter notebooks
+          Please sign in to deploy custom services
         </p>
         <Button variant="outline" className="hover-effect mt-2">
           Sign In
@@ -64,15 +90,26 @@ export default function JupyterDeployment() {
 
   const handleDefaultDeploy = (provider?: ProviderType, config?: any) => {
     if (provider) {
-      // Create the complete payload for the API
+      setSelectedProvider(provider);
 
+      const configToPass: DeploymentConfig = {
+        serviceType: ServiceType.BACKEND,
+        ...createConfigObject(),
+        // Include these fields in the config object instead
+        repoUrl: sourceControlConfig.repoUrl,
+        branchName: sourceControlConfig.branchName,
+        env: parseEnvVars()
+      };
       
+      console.log("say hi to config", config);
+      
+      // Create the complete payload for the API
       createDeployment({
-        service: "JUPYTER",
+        service: "BACKEND",
         tier: "DEFAULT",
         userId: 2, // Use number as required by createDeployment
         provider: provider,
-        config: createConfigObject()
+        config: configToPass
       });
     }
   };
@@ -92,9 +129,9 @@ export default function JupyterDeployment() {
     {
       title: "Default Deployment",
       description: "Quick deployment with standard resources",
-      resources: ["CPU: 1 unit", "Memory: 1Gi", "Storage: 5Gi", "Duration: 1h"],
+      resources: ["CPU: 1 unit", "Memory: 1Gi", "Storage: 1Gi", "Duration: 1h"],
       free: true,
-      icon: <Server className="h-5 w-5" />,
+      icon: <Database className="h-5 w-5" />,
     },
     {
       title: "Custom Deployment",
@@ -113,14 +150,14 @@ export default function JupyterDeployment() {
   const defaultResources = [
     { label: "CPU", value: "1 Unit" },
     { label: "Memory", value: "1 Gi" },
-    { label: "Storage", value: "5 Gi" },
+    { label: "Storage", value: "1 Gi" },
     { label: "Duration", value: "1 Hours" },
   ];
 
   return (
     <ServiceDeployPage
-      title="Jupyter Notebook Instance"
-      description="Create a new Jupyter notebook instance with your preferred configuration"
+      title="Hosting Instance"
+      description="Deploy a custom service with your preferred configuration"
       deploymentOptions={deploymentOptions}
       resourceSettingSection={
         <ResourceSettingSection values={values} setValues={setValues} />
@@ -129,10 +166,27 @@ export default function JupyterDeployment() {
       handleCustomDeploy={handleCustomDeploy}
       isLoading={isLoading}
       defaultView={<DefaultResourceView resources={defaultResources} />}
-      customDeployButtonText="Deploy Custom Backend"
-      serviceName="jupyter"
-      showSourceControlInDefault={false}
-      showEnvironmentVarsInDefault={false}
+      sourceControlSection={
+        <SourceControlSection
+          repoUrl={repoUrl}
+          setRepoUrl={setRepoUrl}
+          branchName={branchName}
+          setBranchName={setBranchName}
+          portNumber={portNumber}
+          setPortNumber={setPortNumber}
+        />
+      }
+      environmentVariablesSection={
+        <EnviromentVariableSection
+          envVarsJson={envVarsJson}
+          setEnvVarsJson={setEnvVarsJson}
+        />
+      }
+      serviceName="hosting"
+      showSourceControlInDefault={true}
+      showEnvironmentVarsInDefault={true}
+      sourceControlConfig={sourceControlConfig}
+      environmentVarsConfig={{ envVarsJson }}
       resourceConfig={values}
     />
   );
