@@ -20,9 +20,10 @@ const ExpressCalculatorTemplate = () => {
 
   const templateDetails = {
     "Repository URL": "https://github.com/Aquanodeio/templates.git",
-    "Branch Name": "js-calculator-server",
+    "Branch Name": "main",
     "App Port": "3000",
     "Deployment Duration": "1h",
+    "Run Commands": "cd javascript-calculator-server && npm install && npm start",
     "CPU Units": "0.5",
     "Memory Size": "1Gi",
     "Storage Size": "2Gi",

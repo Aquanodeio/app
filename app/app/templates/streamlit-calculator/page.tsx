@@ -20,8 +20,8 @@ const StreamlitCalculatorTemplate = () => {
 
   const templateDetails = {
     "Repository URL": "https://github.com/Aquanodeio/templates.git",
-    "Branch Name": "streamlit-example",
-    "Run Commands": "pip3 install -r requirements.txt && streamlit run main.py",
+    "Branch Name": "main",
+    "Run Commands": "cd python-calculator-server && pip3 install -r requirements.txt && streamlit run main.py",
     "App Port": "8501",
     "Deployment Duration": "1h",
     "CPU Units": "0.5",
