@@ -39,6 +39,7 @@ export default function CustomServiceDeployment() {
     appStorageSize: 1,
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: "",
   });
 
   const { mutate: createDeployment, isPending: isLoading } =
@@ -55,7 +56,8 @@ export default function CustomServiceDeployment() {
       appCpuUnits: Number(vals.appCpuUnits),
       appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
       appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
-      image: "" // Empty string instead of null/undefined
+      image: "", // Empty string instead of null/undefined
+      runCommands: "",
     };
   };
 

@@ -7,6 +7,7 @@ import {
   deployCustomBackend,
   getUserDeploymentsByType,
 } from "@/lib/reactQuery/apiWrappers";
+import { getDepLogs } from "@/lib/dep-logs";
 import { ServiceType, ProviderType } from "@/services/types";
 import { toast } from "sonner";
 
@@ -21,6 +22,8 @@ export const deploymentKeys = {
   }) => [...deploymentKeys.lists(), filters] as const,
   details: () => [...deploymentKeys.all, "detail"] as const,
   detail: (id: number) => [...deploymentKeys.details(), id] as const,
+  logs: () => [...deploymentKeys.all, "logs"] as const,
+  log: (id: number) => [...deploymentKeys.logs(), id] as const,
 };
 
 // Get all deployments for a user
@@ -129,3 +132,13 @@ export function useDeployCustomBackend() {
     },
   });
 }
+
+// Fetch deployment logs
+export const useDeploymentLogs = (leaseId: number) => {
+  return useQuery({
+    queryKey: deploymentKeys.log(leaseId),
+    queryFn: () => getDepLogs(leaseId.toString()),
+    enabled: !!leaseId,
+    refetchInterval: 5000, // Auto-refresh logs every 5 seconds
+  });
+};

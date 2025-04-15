@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Paperclip,
   ArrowUp,
@@ -258,28 +258,24 @@ const ChatInterface = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    loadChatHistory();
-  }, []);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  const loadChatHistory = async () => {
+  const loadChatHistory = useCallback(async () => {
     try {
       const history = await apiService.getChatHistory();
       if (history.length > 0) {
         setMessages(history);
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load chat history",
-        variant: "destructive",
-      });
+      console.error("Error loading chat history:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadChatHistory();
+  }, [loadChatHistory]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handlePaperclipClick = () => {
     fileInputRef.current?.click();

@@ -86,7 +86,7 @@ export interface Deployment {
   memory: string;
   storage: string;
   duration: string;
-  lease_id: string;
+  leaseId: string;
 }
 
 export interface GetDeploymentsResponse {
