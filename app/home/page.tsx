@@ -5,6 +5,8 @@ import Image from "next/image";
 // in your tailwind.config.js or global CSS if not directly supported by default Tailwind.
 // Placeholder styles are used where direct mapping is complex.
 
+import Spline from "@splinetool/react-spline/next";
+
 const HomePage = () => {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center overflow-hidden bg-[#0B021A]">
@@ -125,57 +127,121 @@ const HomePage = () => {
               Try Demo
             </button>
           </div>
-
-          {/* Icon Button */}
-          <div
-            className="relative rounded-full border border-white/10 p-px backdrop-blur-[6px] w-[104px] h-[104px] flex items-center justify-center"
-            style={{ background: "rgba(255, 255, 255, 0.05)" }}
-          >
-            <div className="absolute inset-0 rounded-full overflow-hidden">
-              {/* Blur effect */}
-              <div className="absolute inset-0 bg-black/10 filter blur-[8px]"></div>
-              {/* Image Mask */}
-              {/* Placeholder for complex image mask */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                {/* Using one of the downloaded SVGs as an example */}
-                {/* <Image src="/images/component1_vector1.svg" width={40} height={40} alt="Icon element" /> */}
-              </div>
-            </div>
-            <button className="relative z-10 flex h-[72px] w-[72px] items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
-              {/* Example icon - replace with appropriate SVG */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 text-white"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
 
         {/* Image/Video Section */}
-        <div className="mt-16 mb-10 w-full max-w-5xl">
-          <div className="relative rounded-[36px] p-0.5 bg-gradient-to-b from-[#A9A3C2]/20 to-[#A9A3C2]/5 overflow-hidden">
-            <div className="relative rounded-[34px] bg-[#0A0118]/20 overflow-hidden">
-              {/* Placeholder for the image/video content */}
-              <Image
-                src="/images/picture_alt.png" // Placeholder image
-                alt="Product demonstration"
-                width={1200}
-                height={651} // Adjust aspect ratio based on actual image
-                className="w-full h-auto"
-              />
-              {/* Copy to clipboard overlay - simplified */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/30 px-4 py-1 text-xs text-white backdrop-blur-sm">
-                Copy to Clipboard
+        <div className=" relative mt-16 mb-10 w-full max-w-5xl">
+          <Spline scene="https://prod.spline.design/ib3drelRqGhoCMPq/scene.splinecode" />
+          <div className="absolute -top-20 right-0 z-10 rounded-[40px] bg-[#09090B]/7 backdrop-blur-[39.5px] p-8 m-8">
+            <div className="flex flex-col items-center">
+              <h3
+                className="mb-6 text-center text-base font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                style={{
+                  fontFamily: "'ES Rebond Grotesque', sans-serif",
+                }}
+              >
+                Our Computing costs vs our competitors
+              </h3>
+
+              {/* GPU Models and Pricing Grid */}
+              <div className="grid grid-cols-4 gap-6 w-full max-w-xl">
+                {/* Headers */}
+                <div className="col-span-1"></div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  H100
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  A100
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  V100
+                </div>
+
+                {/* Aquanode (Our) Pricing */}
+                <div className="col-span-1 flex items-center justify-end">
+                  <Image
+                    src="/images/dashboard_image3.png"
+                    width={40}
+                    height={40}
+                    alt="Aquanode"
+                  />
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-[#41B66B]"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $1.13/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-[#41B66B]"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $0.76/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs font-medium text-[#41B66B]"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $0.20/hr
+                </div>
+
+                {/* Competitor 1 Pricing */}
+                <div className="col-span-1 flex items-center justify-end">
+                  <Image
+                    src="/images/dashboard_image4.png"
+                    width={40}
+                    height={40}
+                    alt="Competitor 1"
+                  />
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $12.29/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $0.96/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $3.06/hr
+                </div>
+
+                {/* Competitor 2 Pricing */}
+                <div className="col-span-1"></div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $14.29/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $8.10/hr
+                </div>
+                <div
+                  className="col-span-1 text-center text-xs text-gradient bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70"
+                  style={{ fontFamily: "'Inter V', sans-serif" }}
+                >
+                  $7.97/hr
+                </div>
               </div>
             </div>
           </div>
