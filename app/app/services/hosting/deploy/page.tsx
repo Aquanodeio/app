@@ -40,6 +40,8 @@ export default function CustomServiceDeployment() {
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
     runCommands: "",
+    allowAutoscale: false,
+    disablePull: false
   });
 
   const { mutate: createDeployment, isPending: isLoading } =
@@ -58,6 +60,8 @@ export default function CustomServiceDeployment() {
       appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
       image: "", // Empty string instead of null/undefined
       runCommands: "",
+      allowAutoscale: vals.allowAutoscale ?? false,
+      disablePull: vals.disablePull ?? false
     };
   };
 
@@ -164,7 +168,15 @@ export default function CustomServiceDeployment() {
       handleDefaultDeploy={handleDefaultDeploy}
       handleCustomDeploy={handleCustomDeploy}
       isLoading={isLoading}
-      defaultView={<DefaultResourceView resources={defaultResources} />}
+      defaultView={
+        <DefaultResourceView 
+          resources={defaultResources}
+          allowAutoscale={values.allowAutoscale || false}
+          autoRedeploy={!values.disablePull}
+          onAllowAutoscaleChange={(value) => setValues({ ...values, allowAutoscale: value })}
+          onAutoRedeployChange={(value) => setValues({ ...values, disablePull: !value })}
+        />
+      }
       sourceControlSection={
         <SourceControlSection
           repoUrl={repoUrl}
