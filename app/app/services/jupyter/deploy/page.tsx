@@ -45,7 +45,9 @@ export default function JupyterDeployment() {
       appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
       appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
       image: "", // Empty string instead of null/undefined,
-      runCommands: vals.runCommands || undefined
+      runCommands: vals.runCommands || undefined,
+      allowAutoscale: false,
+      disablePull: false,
     };
   };
   
