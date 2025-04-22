@@ -5,7 +5,7 @@ import {
   closeDeployment,
   getUserDeploymentsByType,
 } from "@/hooks/service";
-import { getDepLogs } from "@/lib/getlogs";
+import { getSpheronDeploymentLogs, getAkashDeploymentLogs } from "@/lib/getlogs";
 import { ServiceType, ProviderType } from "@/lib/types";
 import { toast } from "sonner";
 
@@ -86,10 +86,16 @@ export function useCloseDeployment() {
 }
 
 // Fetch deployment logs
-export const useDeploymentLogs = (leaseId: number) => {
+export const useDeploymentLogs = (leaseId: number, provider: ProviderType) => {
   return useQuery({
     queryKey: deploymentKeys.log(leaseId),
-    queryFn: () => getDepLogs(leaseId.toString()),
+    queryFn: () => {
+      if (provider === ProviderType.SPHERON) {
+        return getSpheronDeploymentLogs(leaseId.toString());
+      } else if (provider === ProviderType.AKASH) {
+        return getAkashDeploymentLogs(leaseId.toString());
+      }
+    },
     enabled: !!leaseId,
     refetchInterval: 5000, // Auto-refresh logs every 5 seconds
   });

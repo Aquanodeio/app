@@ -49,6 +49,8 @@ export function useTemplateDeploy({
         appMemorySize: templateDetails["Memory Size"],
         appStorageSize: templateDetails["Storage Size"],
         runCommands: templateDetails["Run Commands"] || "",
+        allowAutoscale: false,
+        disablePull: false,
       };
 
       createDeployment({
