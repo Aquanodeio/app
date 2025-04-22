@@ -16,6 +16,8 @@ export const CreateDeploymentSchema = z.object({
       branchName: z.string().optional(),
       envVars: z.record(z.string()).optional(),
       runCommands: z.string().optional(),
+      allowAutoscale: z.boolean(),
+      disablePull: z.boolean(),
     })
     .optional(),
 });

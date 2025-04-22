@@ -84,6 +84,8 @@ export interface DeploymentConfig {
   env?: Record<string, string>;
   runCommands?: string;
   spheronDeploymentMode?: SpheronDeploymentMode;
+  allowAutoscale: boolean;
+  disablePull: boolean;
 }
 export interface EnvironmentVars {
   [key: string]: string;

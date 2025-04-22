@@ -11,6 +11,7 @@ import {
   useDeploymentLogs,
 } from "@/hooks/deployments/useDeployments";
 import { isDeploymentActive } from "@/lib/deployment";
+import { LiveMetrics } from "@/components/deployments/LiveMetrics";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();
@@ -213,6 +214,11 @@ export default function DeploymentDetailsPage() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Live Metrics */}
+        <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl">
+          <LiveMetrics deploymentId={deployment.deploymentId} />
         </div>
         
         {/* Logs Panel */}

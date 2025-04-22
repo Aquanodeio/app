@@ -38,17 +38,23 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Link href="/app/services">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/50 group relative overflow-hidden">
+                <Button size="lg" className="py-7 bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/50 group relative overflow-hidden flex flex-col items-center">
                   <span className="relative z-10 flex items-center">
                     Get Started 
                     <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </Button>
+              </Link>
+              <Link href="https://forms.gle/CAovZoBDG7rgMUuK6">
+                <Button size="lg" variant="outline" className="py-7 border-blue-500/20 hover:bg-blue-900/20 text-blue-100 flex flex-col items-center">
+                  <span className="relative z-10">
+                    Contact For GPU Offers
+                  </span>
+                  <span className="text-sm text-blue-200 mt-1">H100s $1.30/h</span>
                 </Button>
               </Link>
             </div>
           </div>
-          
           <div className="lg:w-2/5 mt-12 lg:mt-0 fade-in-up" style={{ animationDelay: "0.4s" }}>
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/30 to-blue-400/30 rounded-lg blur-sm opacity-30 animate-pulse-glow"></div>
@@ -489,7 +495,7 @@ const Services = () => {
                       <Database className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">ML Models</h5>
                       <p className="text-sm text-blue-200/80 mb-3">Deploy pretrained models with scalable inference</p>
-                      <span className="text-xs px-2 py-1 bg-blue-400/20 text-blue-300 rounded-full">On Request</span>
+                        <span className="text-xs px-2 py-1 bg-blue-400/20 text-blue-300 rounded-full">On Request</span>
                     </div>
                   </div>
                 </div>

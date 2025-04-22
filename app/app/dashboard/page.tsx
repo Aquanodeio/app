@@ -109,18 +109,6 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      {/* Compute Aqua Section */}
-      <div className="subtle-glow mb-6 sm:mb-8">
-        <div className="dashboard-card mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
-            Your Aqua Credits
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            
-          </div>
-        </div>
-      </div>
-
       <div className="subtle-glow mb-6 sm:mb-8">
         <div className="dashboard-card">
           <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">

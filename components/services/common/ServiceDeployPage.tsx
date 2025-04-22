@@ -197,9 +197,6 @@ export default function ServiceDeployPage({
 
                   {showSourceControlInDefault && sourceControlSection && (
                     <div className="mt-6">
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                        Source Control
-                      </h3>
                       {sourceControlSection}
                     </div>
                   )}
@@ -246,9 +243,6 @@ export default function ServiceDeployPage({
                     
                     {environmentVariablesSection && (
                       <div>
-                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                          Environment Variables
-                        </h3>
                         {environmentVariablesSection}
                       </div>
                     )}
