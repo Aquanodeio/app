@@ -52,6 +52,14 @@ export default function CustomServiceDeployment() {
   const { mutate: createDeployment, isPending: isLoading } =
     useCreateDeployment("/app/services/hosting");
 
+  // Add these new state variables after the existing ones:
+  const [sourceType, setSourceType] = useState<"github" | "docker">("github");
+  const [dockerImage, setDockerImage] = useState<string>("");
+  const [dockerTag, setDockerTag] = useState<string>("latest");
+  const [dockerUsername, setDockerUsername] = useState<string>("");
+  const [dockerPassword, setDockerPassword] = useState<string>("");
+  const [privateRegistry, setPrivateRegistry] = useState<boolean>(false);
+
   // Create deployment config object
   const createConfigObject = (customValues?: ResourceValueOptions) => {
     const vals = customValues || values;
@@ -193,6 +201,18 @@ export default function CustomServiceDeployment() {
           setRepoUrl={setRepoUrl}
           branchName={branchName}
           setBranchName={setBranchName}
+          dockerImage={dockerImage}
+          setDockerImage={setDockerImage}
+          dockerTag={dockerTag}
+          setDockerTag={setDockerTag}
+          dockerUsername={dockerUsername}
+          setDockerUsername={setDockerUsername}
+          dockerPassword={dockerPassword}
+          setDockerPassword={setDockerPassword}
+          privateRegistry={privateRegistry}
+          setPrivateRegistry={setPrivateRegistry}
+          sourceType={sourceType}
+          setSourceType={setSourceType}
         />
       }
       environmentVariablesSection={
