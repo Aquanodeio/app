@@ -21,8 +21,6 @@ interface SourceControlSectionProps {
   setRepoUrl: (url: string) => void;
   branchName: string;
   setBranchName: (name: string) => void;
-  portNumber: number;
-  setPortNumber: (number: number) => void;
 }
 
 export function SourceControlSection({
@@ -30,8 +28,6 @@ export function SourceControlSection({
   setRepoUrl,
   branchName,
   setBranchName,
-  portNumber,
-  setPortNumber,
 }: SourceControlSectionProps) {
   return (
     <div className="dashboard-card mb-8">
@@ -56,61 +52,26 @@ export function SourceControlSection({
           </p>
         </div>
 
-        <div className="flex gap-4">
-          <div className="flex-1">
-            <Label
-              htmlFor="branch"
-              className="text-sm text-muted-foreground mb-1 block"
-            >
-              Branch
-            </Label>
-            <div className="relative">
-              <GitBranch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="branch"
-                placeholder="main"
-                value={branchName}
-                onChange={(e) => setBranchName(e.target.value)}
-                className="bg-secondary/10 border-border/30 focus:border-primary/50 pl-10"
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label
-              htmlFor="port"
-              className="text-sm text-muted-foreground mb-1 block"
-            >
-              Port
-            </Label>
+        <div>
+          <Label
+            htmlFor="branch"
+            className="text-sm text-muted-foreground mb-1 block"
+          >
+            Branch
+          </Label>
+          <div className="relative">
+            <GitBranch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              id="port"
-              type="number"
-              placeholder="3000"
-              value={portNumber}
-              onChange={(e) => setPortNumber(parseInt(e.target.value))}
-              className="bg-secondary/10 border-border/30 focus:border-primary/50 max-w-xs"
+              id="branch"
+              placeholder="main"
+              value={branchName}
+              onChange={(e) => setBranchName(e.target.value)}
+              className="bg-secondary/10 border-border/30 focus:border-primary/50 pl-10"
             />
-            <p className="text-xs text-muted-foreground mt-1">
-              The port your application will listen on
-            </p>
           </div>
-
-          {/* <div className="flex-1">
-         <Label
-           htmlFor="deployment-name"
-           className="text-sm text-muted-foreground mb-1 block"
-         >
-           Deployment Name
-         </Label>
-         <Input
-           id="deployment-name"
-           placeholder="my-backend-service"
-           value={deploymentName}
-           onChange={(e) => setDeploymentName(e.target.value)}
-           className="bg-secondary/10 border-border/30 focus:border-primary/50"
-         />
-       </div> */}
+          <p className="text-xs text-muted-foreground mt-1">
+            The branch to deploy from
+          </p>
         </div>
       </div>
     </div>
