@@ -258,7 +258,7 @@ const AquaLayer = () => {
               The <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Aqua Layer</span> — Unified Compute from Decentralized Providers
             </h2>
             <p className="text-blue-200/80 text-lg mb-6">
-              Our orchestration layer aggregates decentralized compute providers — including Spheron, Akash, and others — into a unified, powerful backend.
+              Our orchestration layer aggregates decentralized compute providers — including Akash Network, Spheron Network, and others — into a unified, powerful backend.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -377,9 +377,9 @@ const AquaLayer = () => {
                     <div className="border border-blue-800/40 rounded-lg p-4 bg-gradient-to-br from-[#0d1424] to-[#0a1022] animate-float-sm" style={{ animationDelay: "0.6s" }}>
                       <h4 className="font-medium text-blue-300 mb-2">Compute Providers</h4>
                       <div className="grid grid-cols-4 gap-2">
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer">Spheron</div>
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.1s" }}>Akash</div>
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.2s" }}>Aethirs</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer">Akash Network</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.1s" }}>Aethirs</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.2s" }}>Spheron</div>
                         <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.3s" }}>IO</div>
                       </div>
                     </div>
