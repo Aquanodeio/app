@@ -117,7 +117,25 @@ export default function CustomServiceDeployment() {
     }
   };
 
-  const handleCustomDeploy = (config?: any) => {
+  const handleCustomDeploy = (provider: ProviderType, config?: any) => {
+    const configToPass: DeploymentConfig = {
+      serviceType: ServiceType.BACKEND,
+      ...createConfigObject(),
+      // Include these fields in the config object instead
+      repoUrl: sourceControlConfig.repoUrl,
+      branchName: sourceControlConfig.branchName,
+      env: parseEnvVars()
+    };
+
+     createDeployment({
+        service: "BACKEND",
+        tier: "CUSTOM",
+        provider: provider,
+        config: configToPass
+      });
+
+
+    console.log(configToPass);
     const customDeployButtonAction = () => {
       toast.message("Want to use custom deployment?", {
         description:
