@@ -24,7 +24,7 @@ export interface ServiceDeployPageProps {
   environmentVariablesSection?: ReactNode;
   resourceSettingSection: ReactNode;
   handleDefaultDeploy: (provider?: ProviderType, config?: any) => void;
-  handleCustomDeploy: (config?: any) => void;
+  handleCustomDeploy:(provider: ProviderType, config?: any) => void;
   isLoading: boolean;
   children?: ReactNode;
   defaultView?: ReactNode;
@@ -253,7 +253,7 @@ export default function ServiceDeployPage({
                       <Button
                         size="default"
                         className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                        onClick={() => handleCustomDeploy(getConfigData())}
+                        onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                         disabled={isLoading}
                       >
                         {isLoading ? "Deploying..." : customDeployButtonText || "Deploy Custom Instance"}

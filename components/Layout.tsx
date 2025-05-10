@@ -2,13 +2,24 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
+import { useAuth } from "@/hooks/auth/useAuthContext";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { user, isLoading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-12 w-12 rounded-full border-4 border-gray-200 border-t-blue-500 animate-spin"></div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen flex flex-col">
