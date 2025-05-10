@@ -50,7 +50,7 @@ const Hero = () => {
                   <span className="relative z-10">
                     Contact For GPU Offers
                   </span>
-                  <span className="text-sm text-blue-200 mt-1">H100s $1.30/h</span>
+                  <span className="text-sm text-blue-200 mt-1">H100s $1.40/h</span>
                 </Button>
               </Link>
             </div>
@@ -165,7 +165,7 @@ const Solutions = () => {
               <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Cost Efficiency</h3>
               <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Save up to 90% on compute costs compared to traditional cloud providers. 
-                We provide H100 GPUs at ~$1.50/hour vs. $13.50/hour on Azure.
+                We provide H100 GPUs at ~$1.40/hour vs. $13.50/hour on Azure.
               </p>
             </div>
           </div>
