@@ -23,7 +23,7 @@ export interface ServiceDeployPageProps {
   buildSettingsSection?: ReactNode;
   resourceSettingSection: ReactNode;
   handleDefaultDeploy: (provider?: ProviderType, config?: any) => void;
-  handleCustomDeploy: (config?: any) => void;
+  handleCustomDeploy:(provider: ProviderType, config?: any) => void;
   isLoading: boolean;
   children?: ReactNode;
   defaultView?: ReactNode;
@@ -205,9 +205,6 @@ export default function ServiceDeployPage({
 
                   {showSourceControlInDefault && sourceControlSection && (
                     <div className="mt-6">
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                        Source Control
-                      </h3>
                       {sourceControlSection}
                     </div>
                   )}
@@ -272,9 +269,6 @@ export default function ServiceDeployPage({
                     
                     {environmentVariablesSection && (
                       <div>
-                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                          Environment Variables
-                        </h3>
                         {environmentVariablesSection}
                       </div>
                     )}
@@ -285,7 +279,7 @@ export default function ServiceDeployPage({
                       <Button
                         size="default"
                         className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                        onClick={() => handleCustomDeploy(getConfigData())}
+                        onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                         disabled={isLoading}
                       >
                         {isLoading ? "Deploying..." : customDeployButtonText || "Deploy Custom Instance"}

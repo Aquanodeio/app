@@ -345,6 +345,47 @@ export default function ResourceSettingSection({
             </p>
           )}
         </div>
+
+        <div className="col-span-2">
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center space-x-2 hover:bg-secondary/5 p-2 rounded-md cursor-pointer">
+              <input
+                type="checkbox"
+                id="allowAutoscale"
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                checked={values.allowAutoscale || false}
+                onChange={(e) => setValues({ ...values, allowAutoscale: e.target.checked })}
+              />
+              <Label 
+                htmlFor="allowAutoscale" 
+                className="text-sm font-medium cursor-pointer select-none"
+              >
+                Allow Autoscale
+              </Label>
+            </div>
+            
+            <div className="flex items-center space-x-2 hover:bg-secondary/5 p-2 rounded-md cursor-pointer">
+              <input
+                type="checkbox"
+                id="autoRedeploy"
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                checked={!values.disablePull}
+                onChange={(e) => setValues({ ...values, disablePull: !e.target.checked })}
+              />
+              <div className="flex flex-col cursor-pointer select-none" onClick={() => setValues({ ...values, disablePull: values.disablePull })}>
+                <Label 
+                  htmlFor="autoRedeploy" 
+                  className="text-sm font-medium cursor-pointer"
+                >
+                  Auto Redeploy on Git Updates
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Automatically redeploy when git repository is updated
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

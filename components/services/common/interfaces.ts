@@ -22,9 +22,11 @@ export interface ResourceValueOptions {
   appMemorySize: number;
   memoryUnit: Unit;
   appStorageSize: number;
-  storageUnit: Unit;
-  deploymentDuration: number; // In hours
-  runCommands: string | null;
+  storageUnit: string;
+  deploymentDuration: number;
+  runCommands?: string | null;
+  allowAutoscale?: boolean;
+  disablePull?: boolean;
 }
 
 /**

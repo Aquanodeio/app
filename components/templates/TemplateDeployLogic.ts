@@ -33,18 +33,23 @@ export function useTemplateDeploy({
       return;
     }
 
-    const config = {
-      serviceType: ServiceType.BACKEND,
-      repoUrl: templateDetails["Repository URL"],
-      branchName: templateDetails["Branch Name"],
-      env: {},
-      appPort: Number(templateDetails["App Port"]),
-      deploymentDuration: templateDetails["Deployment Duration"],
-      appCpuUnits: Number(templateDetails["CPU Units"]),
-      appMemorySize: templateDetails["Memory Size"],
-      appStorageSize: templateDetails["Storage Size"],
-      runCommands: templateDetails["Run Commands"] || "",
-    };
+
+    setIsDeploying(true);
+    try {
+      const config = {
+        serviceType: ServiceType.BACKEND,
+        repoUrl: templateDetails["Repository URL"],
+        branchName: templateDetails["Branch Name"],
+        env: {},
+        appPort: Number(templateDetails["App Port"]),
+        deploymentDuration: templateDetails["Deployment Duration"],
+        appCpuUnits: Number(templateDetails["CPU Units"]),
+        appMemorySize: templateDetails["Memory Size"],
+        appStorageSize: templateDetails["Storage Size"],
+        runCommands: templateDetails["Run Commands"] || "",
+        allowAutoscale: false,
+        disablePull: false,
+      };
 
     createDeployment(
       {

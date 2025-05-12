@@ -38,17 +38,23 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Link href="/app/services">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/50 group relative overflow-hidden">
+                <Button size="lg" className="py-7 bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/50 group relative overflow-hidden flex flex-col items-center">
                   <span className="relative z-10 flex items-center">
                     Get Started 
                     <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </Button>
+              </Link>
+              <Link href="https://forms.gle/CAovZoBDG7rgMUuK6">
+                <Button size="lg" variant="outline" className="py-7 border-blue-500/20 hover:bg-blue-900/20 text-blue-100 flex flex-col items-center">
+                  <span className="relative z-10">
+                    Contact For GPU Offers
+                  </span>
+                  <span className="text-sm text-blue-200 mt-1">H100s $1.40/h</span>
                 </Button>
               </Link>
             </div>
           </div>
-          
           <div className="lg:w-2/5 mt-12 lg:mt-0 fade-in-up" style={{ animationDelay: "0.4s" }}>
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/30 to-blue-400/30 rounded-lg blur-sm opacity-30 animate-pulse-glow"></div>
@@ -159,7 +165,7 @@ const Solutions = () => {
               <h3 className="text-xl font-bold mb-3 text-blue-50 group-hover:text-white transition-colors duration-300">Cost Efficiency</h3>
               <p className="text-blue-200/90 group-hover:text-blue-100 transition-colors duration-300">
                 Save up to 90% on compute costs compared to traditional cloud providers. 
-                We provide H100 GPUs at ~$1.50/hour vs. $13.50/hour on Azure.
+                We provide H100 GPUs at ~$1.40/hour vs. $13.50/hour on Azure.
               </p>
             </div>
           </div>
@@ -252,7 +258,7 @@ const AquaLayer = () => {
               The <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Aqua Layer</span> — Unified Compute from Decentralized Providers
             </h2>
             <p className="text-blue-200/80 text-lg mb-6">
-              Our orchestration layer aggregates decentralized compute providers — including Spheron, Akash, and others — into a unified, powerful backend.
+              Our orchestration layer aggregates decentralized compute providers — including Akash Network, Spheron Network, and others — into a unified, powerful backend.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -371,9 +377,9 @@ const AquaLayer = () => {
                     <div className="border border-blue-800/40 rounded-lg p-4 bg-gradient-to-br from-[#0d1424] to-[#0a1022] animate-float-sm" style={{ animationDelay: "0.6s" }}>
                       <h4 className="font-medium text-blue-300 mb-2">Compute Providers</h4>
                       <div className="grid grid-cols-4 gap-2">
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer">Spheron</div>
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.1s" }}>Akash</div>
-                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.2s" }}>Aethirs</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer">Akash Network</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.1s" }}>Aethirs</div>
+                        <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.2s" }}>Spheron</div>
                         <div className="border border-blue-800/30 bg-[#111a2c]/80 rounded p-2 text-xs text-center text-blue-300 animate-shimmer" style={{ animationDelay: "0.3s" }}>IO</div>
                       </div>
                     </div>
@@ -489,7 +495,7 @@ const Services = () => {
                       <Database className="h-5 w-5 text-blue-400 mb-2" />
                       <h5 className="font-medium mb-1 text-blue-100">ML Models</h5>
                       <p className="text-sm text-blue-200/80 mb-3">Deploy pretrained models with scalable inference</p>
-                      <span className="text-xs px-2 py-1 bg-blue-400/20 text-blue-300 rounded-full">On Request</span>
+                        <span className="text-xs px-2 py-1 bg-blue-400/20 text-blue-300 rounded-full">On Request</span>
                     </div>
                   </div>
                 </div>

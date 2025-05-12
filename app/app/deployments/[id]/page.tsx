@@ -11,6 +11,8 @@ import {
   useDeploymentLogs,
 } from "@/hooks/deployments/useDeployments";
 import { isDeploymentActive } from "@/lib/deployment";
+import { LiveMetrics } from "@/components/deployments/LiveMetrics";
+import { ProviderType } from "@/lib/types";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();
@@ -214,22 +216,28 @@ export default function DeploymentDetailsPage() {
             </div>
           </div>
         </div>
+
+        {/* Live Metrics */}
+        <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl">
+          <LiveMetrics deploymentId={deployment.deploymentId} />
+        </div>
         
         {/* Logs Panel */}
-        {/* <LogsPanel leaseId={Number(deployment.leaseId)} /> */}
+        <LogsPanel leaseId={Number(deployment.leaseId)} provider={deployment.provider as ProviderType} />
       </div>
     </div>
   );
 }
 
 // Logs Panel Component
-function LogsPanel({ leaseId }: { leaseId: number }) {
+function LogsPanel({ leaseId, provider }: { leaseId: number, provider: ProviderType }) {
   const { 
     data: logs, 
     isLoading: logsLoading, 
     error: logsError,
-    refetch: refetchLogs
-  } = useDeploymentLogs(leaseId);
+    refetch: refetchLogs,
+    isFetching
+  } = useDeploymentLogs(leaseId, provider);
   
   // Format logs for display
   const formattedLogs = logs || "No logs available";
@@ -242,10 +250,11 @@ function LogsPanel({ leaseId }: { leaseId: number }) {
           variant="ghost" 
           size="sm" 
           onClick={() => refetchLogs()}
+          disabled={isFetching}
           className="hover:bg-secondary/30"
         >
-          <RefreshCw size={16} className="mr-2" />
-          Refresh
+          <RefreshCw size={16} className={`mr-2 ${isFetching ? 'animate-spin' : ''}`} />
+          {isFetching ? 'Refreshing...' : 'Refresh'}
         </Button>
       </div>
       

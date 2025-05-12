@@ -47,6 +47,8 @@ export default function CustomServiceDeployment() {
     storageUnit: "Gi",
     deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
     runCommands: "",
+    allowAutoscale: false,
+    disablePull: false
   });
 
   const { mutate: createDeployment, isPending: isLoading } =
@@ -73,6 +75,8 @@ export default function CustomServiceDeployment() {
       appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
       image: "", // Empty string instead of null/undefined
       runCommands: runCommand || "", // Use runCommand from build settings
+      allowAutoscale: vals.allowAutoscale ?? false,
+      disablePull: vals.disablePull ?? false
     };
   };
 
@@ -143,7 +147,25 @@ export default function CustomServiceDeployment() {
     }
   };
 
-  const handleCustomDeploy = (config?: any) => {
+  const handleCustomDeploy = (provider: ProviderType, config?: any) => {
+    const configToPass: DeploymentConfig = {
+      serviceType: ServiceType.BACKEND,
+      ...createConfigObject(),
+      // Include these fields in the config object instead
+      repoUrl: sourceControlConfig.repoUrl,
+      branchName: sourceControlConfig.branchName,
+      env: parseEnvVars()
+    };
+
+     createDeployment({
+        service: "BACKEND",
+        tier: "CUSTOM",
+        provider: provider,
+        config: configToPass
+      });
+
+
+    console.log(configToPass);
     const customDeployButtonAction = () => {
       toast.message("Want to use custom deployment?", {
         description:
@@ -194,7 +216,15 @@ export default function CustomServiceDeployment() {
       handleDefaultDeploy={handleDefaultDeploy}
       handleCustomDeploy={handleCustomDeploy}
       isLoading={isLoading}
-      defaultView={<DefaultResourceView resources={defaultResources} />}
+      defaultView={
+        <DefaultResourceView 
+          resources={defaultResources}
+          allowAutoscale={values.allowAutoscale || false}
+          autoRedeploy={!values.disablePull}
+          onAllowAutoscaleChange={(value) => setValues({ ...values, allowAutoscale: value })}
+          onAutoRedeployChange={(value) => setValues({ ...values, disablePull: !value })}
+        />
+      }
       sourceControlSection={
         <SourceControlSection
           repoUrl={repoUrl}

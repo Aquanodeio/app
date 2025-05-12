@@ -56,7 +56,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         const token = session?.access_token || null;
         setAccessToken(token);
-        setAccessToken(token);
 
         setUser(session?.user || null);
       } catch (error) {

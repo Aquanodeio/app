@@ -19,7 +19,7 @@ const gpuOptions: GPUOption[] = [
     name: 'H100',
     memory: '80GB',
     type: 'SXM',
-    price: '1.13',
+    price: '1.4',
     azure: '12.29',
     performance: 'Highest'
   },
