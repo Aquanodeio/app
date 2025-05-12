@@ -12,8 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DeploymentOption } from "./interfaces";
 
 export interface ServiceDeployPageProps {
@@ -22,6 +20,7 @@ export interface ServiceDeployPageProps {
   deploymentOptions: DeploymentOption[];
   sourceControlSection?: ReactNode;
   environmentVariablesSection?: ReactNode;
+  buildSettingsSection?: ReactNode;
   resourceSettingSection: ReactNode;
   handleDefaultDeploy: (provider?: ProviderType, config?: any) => void;
   handleCustomDeploy:(provider: ProviderType, config?: any) => void;
@@ -32,8 +31,10 @@ export interface ServiceDeployPageProps {
   serviceName?: string;
   showSourceControlInDefault?: boolean;
   showEnvironmentVarsInDefault?: boolean;
+  showBuildSettingsInDefault?: boolean;
   sourceControlConfig?: any;
   environmentVarsConfig?: any;
+  buildSettingsConfig?: any;
   resourceConfig?: any;
 }
 
@@ -43,6 +44,7 @@ export default function ServiceDeployPage({
   deploymentOptions,
   sourceControlSection,
   environmentVariablesSection,
+  buildSettingsSection,
   resourceSettingSection,
   handleDefaultDeploy,
   handleCustomDeploy,
@@ -52,8 +54,10 @@ export default function ServiceDeployPage({
   customDeployButtonText,
   showSourceControlInDefault = false,
   showEnvironmentVarsInDefault = false,
+  showBuildSettingsInDefault = false,
   sourceControlConfig,
   environmentVarsConfig,
+  buildSettingsConfig,
   resourceConfig,
 }: ServiceDeployPageProps) {
   const { user, isLoading: authLoading } = useAuth();
@@ -71,6 +75,10 @@ export default function ServiceDeployPage({
     
     if (environmentVarsConfig) {
       config.environmentVars = environmentVarsConfig;
+    }
+    
+    if (buildSettingsConfig) {
+      config.buildSettings = buildSettingsConfig;
     }
     
     if (resourceConfig) {
@@ -201,6 +209,15 @@ export default function ServiceDeployPage({
                     </div>
                   )}
 
+                  {showBuildSettingsInDefault && buildSettingsSection && (
+                    <div className="mt-6">
+                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        Build Settings
+                      </h3>
+                      {buildSettingsSection}
+                    </div>
+                  )}
+
                   {showEnvironmentVarsInDefault && environmentVariablesSection && (
                     <div className="mt-6">
                       <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
@@ -238,6 +255,15 @@ export default function ServiceDeployPage({
                           Source Control
                         </h3>
                         {sourceControlSection}
+                      </div>
+                    )}
+                    
+                    {buildSettingsSection && (
+                      <div>
+                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                          Build Settings
+                        </h3>
+                        {buildSettingsSection}
                       </div>
                     )}
                     

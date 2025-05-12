@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
 import { TemplateDetails } from "./TemplateDetailsCard";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
+import { toast } from "sonner";
 
 export interface User {
   id: string;
@@ -22,19 +21,18 @@ export function useTemplateDeploy({
   isAuthLoading,
 }: UseTemplateDeployProps) {
   const router = useRouter();
-  const { toast } = useToast();
-  const [isDeploying, setIsDeploying] = useState(false);
-  const { mutate: createDeployment } = useCreateDeployment("/app/dashboard");
+
+  const { mutate: createDeployment, isPending: isDeploying } =
+    useCreateDeployment("/app/dashboard");
 
   const handleDeploy = async () => {
     if (!user?.id) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to deploy a template.",
-        variant: "destructive",
-      });
+      toast.error(
+        "Authentication Required. Please sign in to deploy a template."
+      );
       return;
     }
+
 
     setIsDeploying(true);
     try {
@@ -53,30 +51,24 @@ export function useTemplateDeploy({
         disablePull: false,
       };
 
-      createDeployment({
+    createDeployment(
+      {
         service: "BACKEND",
         tier: "DEFAULT",
         provider: getProviderFromEnv(),
-        config
-      });
-
-      toast({
-        title: "Success",
-        description: "Template deployed successfully!",
-        variant: "default",
-      });
-
-      router.push("/app/dashboard");
-    } catch (error) {
-      console.error("Error deploying template:", error);
-      toast({
-        title: "Error",
-        description: "Failed to deploy template. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsDeploying(false);
-    }
+        config,
+      },
+      {
+        onError: (error) => {
+          console.error("Error deploying template:", error);
+          toast.error("Failed to deploy template. Please try again.");
+        },
+        onSuccess: () => {
+          toast.success("Template deployed successfully!");
+          router.push("/app/dashboard");
+        },
+      }
+    );
   };
 
   return {
