@@ -23,6 +23,26 @@ export interface DeploymentResult {
   accessUrl?: string;
 }
 
+export interface SupportedCryptoCurrency {
+  name:                          string;
+  cid:                           string;
+  currency:                      string;
+  icon:                          string;
+  rate_usd:                      string;
+  price_usd:                     string;
+  precision:                     number;
+  output_precision:              number;
+  fiat:                          string;
+  fiat_rate:                     string;
+  min_sum_in:                    number | string;
+  invoice_commission_percentage: string;
+  hidden:                        number;
+  maintenance:                   boolean;
+  contractOf:                    null | string;
+  contractStandard:              string;
+  allowMemo:                     boolean;
+}
+
 export interface DeploymentInfo {
   id: string;
   status: string;
