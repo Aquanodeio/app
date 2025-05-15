@@ -7,6 +7,7 @@ import {
   ChatRequest,
   ChatResponse,
   ChatMessage,
+  SupportedCryptoCurrency,
 } from "../lib/types";
 import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
 import { DeploymentResult } from "../lib/types";
@@ -291,6 +292,19 @@ export async function clearChatHistory(): Promise<void> {
 
 export async function getAquaCredits(): Promise<{ credits: number }> {
   return request<{ credits: number }>("/api/credits");
+}
+
+// Purchase Aqua Credits with cryptocurrency
+export async function purchaseCredits(amount: number, creditAmount: number, currency: string = 'BTC'): Promise<any> {
+  return request<any>("/api/credits/purchase", {
+    method: "POST",
+    body: JSON.stringify({ amount, creditAmount, currency }),
+  });
+}
+
+// Get supported cryptocurrencies for payment
+export async function getSupportedCryptocurrencies(): Promise<SupportedCryptoCurrency[]> {
+  return request<SupportedCryptoCurrency[]>("/api/payment/currencies");
 }
 
 // Get paginated deployments
