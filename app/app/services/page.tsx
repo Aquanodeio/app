@@ -79,11 +79,11 @@ const ServicesPage = () => {
                   </p>
                   <div className="mt-4 sm:mt-6 text-right">
                     {!service.comingSoon && service.name !== "Custom Services (Taylored for your needs)" ? (
-                      <Link href={service.url} className="text-primary font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
+                      <Link href={service.url} className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
                         Deploy now →
                       </Link>
                     ) : (
-                      <Link href={service.url} target="_blank" rel="noopener noreferrer" className="text-amber-500 font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
+                      <Link href={service.url} target="_blank" rel="noopener noreferrer" className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
                         Contact now →
                       </Link>
                     )}

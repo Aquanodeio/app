@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Loader2, InfoIcon } from "lucide-react";
+import { ArrowRight, Loader2, InfoIcon, RefreshCw } from "lucide-react";
 import { Deployment } from "@/lib/types";
 import DeploymentStats from "./DeploymentStats";
 import DeploymentsList from "./DeploymentsList";
@@ -85,6 +85,8 @@ const ServicePage: React.FC<ServicePageProps> = ({
               {description}
             </p>
           </div>
+          <div className="flex items-center gap-2">
+
           <Button
             size="default"
             className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
@@ -93,6 +95,12 @@ const ServicePage: React.FC<ServicePageProps> = ({
             <span>Create Instance</span>
             <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
+
+          <Button variant="outline" className="hover-effect mt-2">
+            <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
+          </Button>
+          </div>
+
         </div>
 
         {renderAuthContent(
