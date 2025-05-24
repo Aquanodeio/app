@@ -64,7 +64,7 @@ export const TemplateCard: React.FC<{ template: Template }> = ({ template }) => 
             {template.description}
           </p>
           <div className="mt-4 text-right">
-            <span className="text-sm text-primary font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
+            <span className="text-sm text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
               Use template →
             </span>
           </div>
