@@ -21,7 +21,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
   return (
     <div className="space-y-6">
       {/* Quick Actions */}
-      <div className="dashboard-card subtle-glow">
+      {/* <div className="dashboard-card subtle-glow">
         <h3 className="text-lg font-medium text-foreground mb-4">
           Quick Actions
         </h3>
@@ -40,7 +40,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
             Create New Instance
           </Button>
         </div>
-      </div>
+      </div> */}
 
       {/* Recent Activity */}
       <div className="dashboard-card subtle-glow">
