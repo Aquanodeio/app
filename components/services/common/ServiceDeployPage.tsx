@@ -229,7 +229,7 @@ export default function ServiceDeployPage({
 
                   <div className="flex justify-end">
                     <Button
-                      className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
+                      // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                       size="default"
                       onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                       disabled={isLoading}
@@ -278,7 +278,7 @@ export default function ServiceDeployPage({
                     <div className="flex justify-end mt-4 sm:mt-5">
                       <Button
                         size="default"
-                        className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
+                        // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                         onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                         disabled={isLoading}
                       >

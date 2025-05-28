@@ -57,7 +57,7 @@ export const TemplateCard: React.FC<{ template: Template }> = ({ template }) => 
     <Link href={template.url} className="block group">
       <div className="dashboard-card subtle-glow">
         <div className="flex flex-col h-full">
-          <h3 className="text-lg sm:text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
+          <h3 className="text-lg sm:text-xl font-semibold mb-2  transition-colors duration-300">
             {template.name}
           </h3>
           <p className="text-sm sm:text-base text-muted-foreground">

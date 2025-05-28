@@ -89,7 +89,7 @@ const ServicePage: React.FC<ServicePageProps> = ({
 
           <Button
             size="default"
-            className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
+            // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
             onClick={() => router.push(deployPath)}
           >
             <span>Create Instance</span>
