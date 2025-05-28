@@ -14,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import aquanodeLogo from "@/assets/aquanode-logo.png";
 
 export default function Navbar({
   onMobileMenuToggle,
@@ -64,17 +66,15 @@ export default function Navbar({
           )}
           <Link
             href="/"
-            className="text-xl font-bold gradient-text transition-colors duration-300"
+            className="text-xl font-bold text-white transition-colors duration-300 flex items-center gap-2"
           >
+            <Image src={aquanodeLogo} alt="Aquanode" width={32} height={32} />
             AQUANODE
           </Link>
         </div>
-        
-        
-        <div className="flex items-center gap-4">
-        <div className="hidden md:flex items-center space-x-4">
 
-        </div>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center space-x-4"></div>
           {isAuthenticated ? (
             <>
               <DropdownMenu>
@@ -123,7 +123,7 @@ export default function Navbar({
               </Link>
             </>
           )}
-          
+
           <Button
             variant="ghost"
             size="icon"
@@ -134,7 +134,7 @@ export default function Navbar({
           </Button>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden px-6 py-4 border-t border-border/20 bg-background/95 backdrop-blur-md">

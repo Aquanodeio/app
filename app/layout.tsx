@@ -101,7 +101,8 @@ export default function RootLayout({
               {showNavbar && (
                 <>
                   {isLandingPage ? (
-                    <Navbar />
+                    // <Navbar />
+                    <></>
                   ) : (
                     pathname.startsWith("/app") && <AppNavbar />
                   )}
