@@ -3,10 +3,7 @@ import BackgroundImage from "@/assets/star-background.png";
 
 export default function NewsletterSection() {
   return (
-    <section className="relative w-full flex flex-col items-center px-40">
-      {/* Horizontal Divider */}
-      {/* <div className="absolute top-[943px] left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#3D354E] to-transparent"></div> */}
-
+    <section className="relative w-full flex flex-col items-center px-40 py-20">
       <div className="relative w-full h-[591px]">
         <div className="absolute inset-0">
           <Image

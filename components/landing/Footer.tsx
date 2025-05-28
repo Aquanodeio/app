@@ -1,17 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import HorizontalDivider from "./HorizontalDivider";
+import AquaNodeLogo from "@/assets/aquanode-logo.png";
 
-function HorizontalDivider() {
-  return (
-    <div
-      className="h-px w-full"
-      style={{
-        background:
-          "radial-gradient(circle at 50% 100%, rgba(169, 163, 194, 0.24) 0%, rgba(169, 163, 194, 0) 100%)",
-      }}
-    />
-  );
-}
 
 const Footer = () => {
   return (
@@ -22,29 +13,7 @@ const Footer = () => {
         <div className=" grid grid-cols-4 pt-20 pb-40 gap-2 ">
           <div>
             <div className="flex items-center gap-[6px]">
-              {/* Logo Icon */}
-              <div className="w-[31px] h-[29px] flex flex-col gap-[1.3px]">
-                <div className="w-full h-[6px] bg-white rounded-sm" />
-                <div className="w-full h-[6px] bg-white rounded-sm" />
-                <div className="w-full h-[6px] bg-white rounded-sm" />
-                <div className="w-full h-[6px] bg-white rounded-sm" />
-              </div>
-
-              {/* Logo Overlay Design */}
-              <div className="absolute left-[2px] top-[3px] w-[27px] h-[25.5px]">
-                <svg width="27" height="26" viewBox="0 0 27 26" fill="none">
-                  <path
-                    d="M0.177 22.211h16.85v3.296H0.177v-3.296z"
-                    fill="#0B021A"
-                  />
-                  <path
-                    d="M10.115 14.593h16.85v3.296h-16.85v-3.296z"
-                    fill="#0B021A"
-                  />
-                  <path d="M10.115 0h16.85v3.09h-16.85V0z" fill="#0B021A" />
-                  <path d="M0 6.834h16.854v3.966H0V6.834z" fill="#0B021A" />
-                </svg>
-              </div>
+              <Image src={AquaNodeLogo} alt="AquaNode Logo" width={32} height={32} />
 
               {/* Logo Text */}
               <div
@@ -56,7 +25,7 @@ const Footer = () => {
             </div>
 
             <div
-              className="h-12 text-base font-normal leading-6 tracking-[-0.01em]"
+              className="h-12 text-base font-normal leading-6 tracking-[-0.01em] mt-4"
               style={{
                 background:
                   "linear-gradient(180deg, #FFFFFF 22.5%, rgba(255, 255, 255, 0.7) 100%)",
@@ -70,7 +39,7 @@ const Footer = () => {
           </div>
 
           <div className="">
-            <h3 className="text-[#D2D0DD] text-sm font-medium leading-6 tracking-[-0.01em] mb-10">
+            <h3 className="text-[#D2D0DD] text-sm font-medium leading-6 tracking-[-0.01em] mb-6">
               Platform
             </h3>
             <div className="flex flex-col gap-4">

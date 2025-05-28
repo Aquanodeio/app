@@ -5,6 +5,7 @@ import AggregationImage from "@/assets/unified-carousel/aggregation.png";
 import OrchestrationImage from "@/assets/unified-carousel/orchestration.png";
 import PaymentsImage from "@/assets/unified-carousel/payments.png";
 import UnifiedBgImage from "@/assets/unified-bg-image.png";
+import HorizontalDivider from "./HorizontalDivider";
 const unifiedCards = [
   {
     title: "Aggregation",
@@ -31,7 +32,6 @@ const unifiedCards = [
 export default function UnifiedComputeSection() {
   return (
     <section className="relative w-full pb-4">
-      <div className="absolute left-0 top-[1143px] w-[1440px] h-[1px] bg-gradient-to-r from-transparent via-[#3D354E] to-transparent"></div>
 
       <div className="relative">
         <div className="max-w-[1040px] mx-auto">
@@ -74,6 +74,8 @@ export default function UnifiedComputeSection() {
           </div>
         </div>
       </div>
+
+      <HorizontalDivider />
     </section>
   );
 }

@@ -49,7 +49,7 @@ const services = [
 
 export function AquaServices() {
   return (
-    <section className="relative items-center pb-2 w-full px-20">
+    <section className="relative items-center pb-2 w-full px-20 pt-20">
       <div className="space-y-10">
         <Image
           src={AquaServicesBg}

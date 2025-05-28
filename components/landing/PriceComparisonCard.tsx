@@ -1,7 +1,8 @@
 import Image from "next/image";
-import GpuIcon from "@/assets/gpu-icon.png";
+import AwsIcon from "@/assets/aws.png";
 import DatabaseIcon from "@/assets/database-icon.svg";
-
+import { GradientText } from "./GradientText";
+import AquaNodeLogo from "@/assets/aquanode-logo.png";
 interface CardData {
   gpuType: string;
   aquanodePrice: string;
@@ -15,19 +16,23 @@ interface PriceComparisonCardProps {
   cards: CardData[];
 }
 
-export default function PriceComparisonCard({ cards }: PriceComparisonCardProps) {
+export default function PriceComparisonCard({
+  cards,
+}: PriceComparisonCardProps) {
   return (
-    <div className="flex gap-8">
+    <div className="flex gap-5">
       {cards.map((card, index) => (
         <div
           key={index}
-          className="w-[228px] h-[88px] rounded-[16px] border border-[#2C2539] backdrop-blur-[30.62px]"
+          className="w-[228px] h-[88px] rounded-[16px] border border-[#2C2539] backdrop-blur-[30.62px] px-6 py-3"
           style={{
             left: card.position.left,
             background: `radial-gradient(circle at 50% 0%, rgba(133, 102, 255, 0.04) 0%, rgba(133, 102, 255, 0) 100%)`,
           }}
         >
-          <div className="absolute left-[50px] top-[14px] w-[31px] h-[15px]">
+          <div className="flex items-center gap-2">
+            <Image src={DatabaseIcon} alt="Database" width={18} height={18} />
+
             <span
               className="text-[12px] font-medium leading-[14.52px] text-center"
               style={{
@@ -43,9 +48,13 @@ export default function PriceComparisonCard({ cards }: PriceComparisonCardProps)
 
           {/* Logo and price */}
           <div className="absolute left-[26.19px] bottom-[18.24px] flex items-center gap-[8px]">
-            <div className="w-[21.93px] h-[20.19px] relative">
-              <div className="w-full h-full bg-gradient-to-b from-white to-white/20 rounded-sm"></div>
-            </div>
+            <Image
+              width={20}
+              height={20}
+              src={AquaNodeLogo}
+              alt="AquaNode Logo"
+              className="object-fill"
+            />
             <span className="text-[#41B66B] text-[10px] font-medium leading-[12.1px]">
               {card.aquanodePrice}
             </span>
@@ -54,12 +63,7 @@ export default function PriceComparisonCard({ cards }: PriceComparisonCardProps)
           {/* GPU icon and comparison price */}
           <div className="absolute right-[26.19px] bottom-[18px] flex items-center gap-[8px]">
             <div className="w-[24.36px] h-[14.52px] relative">
-              <Image
-                src={GpuIcon}
-                alt="GPU"
-                fill
-                className="object-fill"
-              />
+              <Image src={AwsIcon} alt="AWS" fill className="object-fill" />
             </div>
             <span
               className="text-[10px] font-normal leading-[12.1px]"
@@ -72,16 +76,6 @@ export default function PriceComparisonCard({ cards }: PriceComparisonCardProps)
             >
               {card.competitorPrice}
             </span>
-          </div>
-
-          {/* Database icon */}
-          <div className="absolute left-[24px] top-[13px] w-[18px] h-[18px]">
-            <Image
-              src={DatabaseIcon}
-              alt="Database"
-              width={18}
-              height={18}
-            />
           </div>
         </div>
       ))}

@@ -3,6 +3,10 @@ import PriceComparisonCard from "./PriceComparisonCard";
 import { GradientText } from "./GradientText";
 import Spline from "@splinetool/react-spline/next";
 import HeroBg from "@/assets/hero-bg-texture.png";
+import AquaNodeLogo from "@/assets/aquanode-logo.png";
+import Link from "next/link";
+import HorizontalDivider from "./HorizontalDivider";
+import Header from "./Header";
 
 const cardData = [
   {
@@ -30,60 +34,11 @@ export const Hero = () => {
     <section className="relative w-full overflow-hidden px-20">
       <div>
         <div className="absolute -left-[211px] -top-[81px] w-[1062px] h-[501px]">
-          <Image
-            src={HeroBg}
-            alt=""
-            fill
-            className="object-stretch"
-          />
+          <Image src={HeroBg} alt="" fill className="object-stretch" />
         </div>
 
         <div className="inset-0 w-full h-[591px] relative z-10">
-          <header className="h-24 relative z-10">
-            <div className="flex items-center justify-between py-8">
-              <div className="text-white font-bold text-xl">AquaNode</div>
-
-              <div className="flex items-center gap-6">
-                <span
-                  className="text-white text-[14px] font-medium leading-[24px] tracking-[-0.14px]"
-                  style={{ fontFamily: "var(--font-roboto)" }}
-                >
-                  Log in
-                </span>
-
-                {/* Sign up button */}
-                <button
-                  className="flex items-center justify-center px-[17px] py-[5px] rounded-full border border-white/10"
-                  style={{
-                    background: `radial-gradient(circle at 50% 215%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%)`,
-                  }}
-                >
-                  <span
-                    className="text-[14px] font-bold leading-[24px] tracking-[-0.14px]"
-                    style={{
-                      fontFamily: "var(--font-roboto)",
-                      background: `linear-gradient(180deg, rgba(255, 255, 255, 0.3) 8.85%, rgba(255, 255, 255, 1) 100%)`,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    Sign up
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Login button */}
-
-            {/* Horizontal divider */}
-            <div
-              className="bottom-0 left-0 w-full h-[1px]"
-              style={{
-                background: `linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0) 100%)`,
-              }}
-            />
-          </header>
+          <Header />
 
           <div className="mt-40">
             <h1
@@ -112,19 +67,25 @@ export const Hero = () => {
             </p>
           </div>
 
-          <div className="flex gap-10 mt-10">
-            <div
-              className="flex items-center justify-center px-[25px] py-[8px] rounded-full backdrop-blur-[4px]"
-              style={{
-                background: `rgba(0, 0, 0, 0.1), radial-gradient(circle at 50% 215%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%)`,
-              }}
-            >
-              <span className="text-white text-[14px] font-medium">
-                Get Started
-              </span>
-            </div>
+          <div className="flex gap-10 mt-10 items-center">
+            <a href="mailto:contact@aquanode.com">
+              <button
+                className="flex items-center justify-center px-6 py-2 rounded-full border border-white/10"
+                style={{
+                  background: `radial-gradient(circle at 50% 215%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 100%)`,
+                }}
+              >
+                <GradientText className="text-sm font-medium">
+                  Contact for offers
+                </GradientText>
+              </button>
+            </a>
 
-            <GradientText>Try Demo</GradientText>
+            <Link href="/app">
+              <GradientText className="text-sm font-medium">
+                Try Demo
+              </GradientText>
+            </Link>
           </div>
 
           <div className="absolute -right-[200px] top-10">
@@ -139,12 +100,3 @@ export const Hero = () => {
     </section>
   );
 };
-
-{
-  /* <div className="">
-<Spline
-  className="scale-60"
-  scene="https://prod.spline.design/15txp4eWHSnORrNb/scene.splinecode"
-/>
-</div> */
-}
