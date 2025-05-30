@@ -20,13 +20,12 @@ export default function PriceComparisonCard({
   cards,
 }: PriceComparisonCardProps) {
   return (
-    <div className="flex gap-5">
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 px-4 sm:px-0">
       {cards.map((card, index) => (
         <div
           key={index}
-          className="w-[228px] h-[88px] rounded-[16px] border border-[#2C2539] backdrop-blur-[30.62px] px-6 py-3"
+          className="w-full sm:w-[228px] h-[88px] rounded-[16px] border border-[#2C2539] backdrop-blur-[30.62px] px-4 sm:px-6 py-3 relative"
           style={{
-            left: card.position.left,
             background: `radial-gradient(circle at 50% 0%, rgba(133, 102, 255, 0.04) 0%, rgba(133, 102, 255, 0) 100%)`,
           }}
         >
@@ -47,7 +46,7 @@ export default function PriceComparisonCard({
           </div>
 
           {/* Logo and price */}
-          <div className="absolute left-[26.19px] bottom-[18.24px] flex items-center gap-[8px]">
+          <div className="absolute left-4 sm:left-[26.19px] bottom-[18.24px] flex items-center gap-[8px]">
             <Image
               width={20}
               height={20}
@@ -61,7 +60,7 @@ export default function PriceComparisonCard({
           </div>
 
           {/* GPU icon and comparison price */}
-          <div className="absolute right-[26.19px] bottom-[18px] flex items-center gap-[8px]">
+          <div className="absolute right-4 sm:right-[26.19px] bottom-[18px] flex items-center gap-[8px]">
             <div className="w-[24.36px] h-[14.52px] relative">
               <Image src={AwsIcon} alt="AWS" fill className="object-fill" />
             </div>

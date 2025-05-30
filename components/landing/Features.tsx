@@ -7,8 +7,8 @@ import FlexiblePayments from "@/assets/flexible-payment.png";
 
 export function Features() {
   return (
-    <section className="w-full pt-40">
-      <div className="flex flex-col items-center gap-[36px]">
+    <section className="w-full pt-20 sm:pt-40 px-4 sm:px-0">
+      <div className="flex flex-col items-center gap-6 sm:gap-[36px]">
         <div
           className="flex items-center justify-center px-[15px] py-[5px] rounded-full border border-white/4"
           style={{
@@ -16,7 +16,7 @@ export function Features() {
           }}
         >
           <span
-            className="text-white text-[14px] font-medium leading-[24px] tracking-[8%] uppercase"
+            className="text-white text-[12px] sm:text-[14px] font-medium leading-[20px] sm:leading-[24px] tracking-[8%] uppercase"
             style={{ fontFamily: "var(--font-roboto)" }}
           >
             aqua usps
@@ -25,7 +25,7 @@ export function Features() {
 
         <div className="w-full flex flex-col items-center">
           <h2
-            className="text-[53.59px] font-bold leading-[64px] text-center"
+            className="text-[28px] sm:text-[53.59px] font-bold leading-[34px] sm:leading-[64px] text-center px-4 sm:px-0"
             style={{
               fontFamily: "ES Rebond Grotesque, sans-serif",
               background: `linear-gradient(180deg, rgba(255, 255, 255, 1) 22.5%, rgba(255, 255, 255, 0.7) 100%)`,
@@ -34,14 +34,14 @@ export function Features() {
               backgroundClip: "text",
             }}
           >
-            Magical features to help you <br />
+            Magical features to help you <br className="hidden sm:block" />
             deploy faster
           </h2>
         </div>
 
-        <div className="relative container w-full ">
-          <div className="grid grid-cols-3 grid-rows-1 gap-8 h-full">
-            <div className="flex flex-col items-center justify-between gap-8">
+        <div className="relative container w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-auto lg:grid-rows-1 gap-4 sm:gap-8 h-full">
+            <div className="flex flex-col items-center justify-between gap-4 sm:gap-8">
               <Image
                 src={CostEfficiency}
                 alt="Cost Efficiency"
@@ -55,7 +55,7 @@ export function Features() {
               />
             </div>
 
-            <div>
+            <div className="order-first sm:order-none">
               <Image
                 src={LighteningFast}
                 alt="Lightening Fast"
@@ -63,7 +63,7 @@ export function Features() {
               />
             </div>
 
-            <div className="flex flex-col items-center justify-between gap-8">
+            <div className="flex flex-col items-center justify-between gap-4 sm:gap-8">
               <Image
                 src={GlobalInfrastructure}
                 alt="Global Infrastructure"
