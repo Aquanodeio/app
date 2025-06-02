@@ -1,5 +1,5 @@
 import React from "react";
-import { examples } from "@/components/List";
+import { examples } from "@/lib/catalog";
 import Link from "next/link";
 
 const Examples = () => {

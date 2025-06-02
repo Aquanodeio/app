@@ -5,7 +5,7 @@ import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Example, examples } from "@/components/List";
+import { Example, examples } from "@/lib/catalog";
 import { useExampleDeploy } from "@/lib/logic/ExampleDeployLogic";
 
 const ExamplesDetailsPage = () => {

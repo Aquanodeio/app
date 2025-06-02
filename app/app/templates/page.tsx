@@ -1,5 +1,5 @@
 import React from "react";
-import { templates } from "@/components/List";
+import { templates } from "@/lib/catalog";
 import Link from "next/link";
 
 const Templates = () => {

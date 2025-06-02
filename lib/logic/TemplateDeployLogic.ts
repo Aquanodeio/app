@@ -3,7 +3,7 @@ import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
-import { Template } from "@/components/List";
+import { Template } from "@/lib/catalog";
 
 export interface User {
   id: string;

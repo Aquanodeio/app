@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { useTemplateDeploy } from "@/lib/logic/TemplateDeployLogic";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { templates, Template } from "@/components/List";
+import { templates, Template } from "@/lib/catalog";
 
 const TemplateDetailsPage = () => {
   const router = useRouter();

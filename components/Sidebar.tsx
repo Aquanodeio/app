@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
 import { FileText, Server, Grid, LayoutDashboard, Lock, CreditCard, Bot } from "lucide-react";
 import Link from "next/link";
-import { examples } from "@/components/List";
+import { examples } from "@/lib/catalog";
 import AquaCredits from "@/components/AquaCredits";
 
 interface SidebarProps {
