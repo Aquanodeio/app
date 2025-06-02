@@ -93,10 +93,10 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start ml-4 sm:items-center mb-6 sm:mb-12 gap-4 sm:gap-6">
         <div>
           <h1 className="section-title text-xl sm:text-2xl md:text-3xl">
-            Dashboard
+            Deployments
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base">
-            Manage your deployments and applications
+            Manage all your deployed apps and services at one place.
           </p>
         </div>
         <Link href="/app/services" className="w-full sm:w-auto">
@@ -111,9 +111,9 @@ export default function Dashboard() {
 
       <div className="subtle-glow mb-6 sm:mb-8">
         <div className="dashboard-card">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
+          {/* <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
             Your Deployments
-          </h2>
+          </h2> */}
           {isLoading ? (
             <div className="flex justify-center items-center py-8 sm:py-12 text-muted-foreground">
               <div className="animate-pulse text-sm sm:text-base">

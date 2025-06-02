@@ -2,9 +2,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { FileText, Server, Sparkles, Grid, LayoutDashboard, Lock, CreditCard } from "lucide-react";
+import { FileText, Server, Sparkles, Grid, LayoutDashboard, Lock, CreditCard, Bot } from "lucide-react";
 import Link from "next/link";
-import { templates } from "@/components/templates";
+import { examples } from "@/components/list";
 import AquaCredits from "@/components/AquaCredits";
 
 interface SidebarProps {
@@ -21,7 +21,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         isMobileOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <nav className="flex-1 flex flex-col gap-3 mt-6">
+      <nav className="flex-1 flex flex-col gap-4 mt-6">
       <AquaCredits credits={1250.75} threshold="2/2" />
       <Button
           variant="ghost"
@@ -40,7 +40,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
                 : "text-muted-foreground"
             } group-hover:text-primary transition-colors`}
           />
-          <span>Dashboard</span>
+          <span>Deployments</span>
         </Button>
 
         <Button
@@ -92,7 +92,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
           onClick={() => router.push("/app/chatbot")}
         >
-          <Sparkles
+          <Bot
             size={22}
             className={`${
               pathname?.includes("/app/chatbot")
@@ -100,7 +100,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
                 : "text-muted-foreground"
             } group-hover:text-primary transition-colors`}
           />
-          <span>AI Assistant</span>
+          <span>Agent Terminal</span>
         </Button>
 
         <Button
@@ -128,17 +128,17 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         </Button>
       </nav>
 
-      {/* Templates Section */}
-      <div className="mt-4 mb-auto border-t border-border/30 pt-4">
-        <h3 className="text-sm font-medium mb-3 text-muted-foreground">Templates</h3>
-        <div className="space-y-2">
-          {templates.map((template, index) => (
+      {/* Examples Section */}
+      <div className="mt-5 mb-auto border-t border-border/30 pt-5">
+        <h3 className="text-sm font-medium mb-4 text-muted-foreground">Examples</h3>
+        <div className="space-y-3">
+          {examples.map((example, index) => (
             <Link 
               key={index} 
-              href={template.url}
-              className="block text-base text-muted-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-primary/5"
+              href={example.url}
+              className="block text-base text-muted-foreground hover:text-primary transition-colors py-2 px-3 rounded hover:bg-primary/5"
             >
-              {template.name}
+              {example.name}
             </Link>
           ))}
         </div>
@@ -149,7 +149,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           href="https://github.com/Aquanodeio"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 hover:text-primary transition-colors px-2 py-1"
+          className="flex items-center gap-3 hover:text-primary transition-colors px-3 py-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
