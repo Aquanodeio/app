@@ -36,7 +36,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar isMobileOpen={mobileMenuOpen} />
 
         {/* Main content - with left margin to accommodate fixed sidebar */}
-        <main className="flex-1 ml-0 md:ml-64 overflow-auto">
+        <main className="flex-1 ml-0 md:ml-72 overflow-auto">
           <div className="h-full p-4">{children}</div>
         </main>
       </div>

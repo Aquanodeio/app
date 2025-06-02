@@ -93,7 +93,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.className} min-h-screen bg-background coal-texture`}
+        className={`${inter.className} min-h-screen bg-background coal-texture text-[97%]`}
       >
         <Providers>
           <DesktopOnly>

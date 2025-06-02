@@ -1,97 +1,114 @@
 import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { FileText, Server, Database, Cpu } from "lucide-react";
 
 const services = [
   {
-    name: "Deployments",
+    name: "AI Model Endpoints",
     description:
-      "Deploy and manage high-performance servers for your web applications with scalable infrastructure and reliable uptime.",
-    url: "/app/services/hosting",
-    comingSoon: false,
+      "Run LLaMA, Whisper, SDXL and expose an API.",
+    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
+    comingSoon: true,
+    buttonText: "Contact now →",
+    icon: <Cpu className="w-6 h-6 text-foreground/80" />
   },
   {
-    name: "Jupyter",
+    name: "Jupyter Notebooks",
     description:
-      "Jupyter Notebooks provide an interactive computing environment for creating and sharing documents containing live code, equations, visualizations, and narrative text.",
+      "Explore ideas with GPU-backed Jupyter notebooks.",
     url: "/app/services/jupyter",
     comingSoon: false,
+    buttonText: "Deploy →",
+    icon: <FileText className="w-6 h-6 text-foreground/80" />
   },
   {
-    name: "Virtual Machines (GPU or CPU)",
+    name: "Backend Apps",
     description:
-      "Access high-performance computing resources with configurable GPU or CPU virtual machines optimized for AI training, rendering, and compute-intensive workloads.",
-    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
-    comingSoon: true,
-  },
-  {
-    name: "Pre-trained ML Models",
-    description:
-      "Deploy ready-to-use machine learning models for computer vision, NLP, and predictive analytics with simple API integration and minimal setup time.",
-    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
-    comingSoon: true,
-  },
-  {
-    name: "Blockchain Node Infrastructure",
-    description:
-      "Run secure, reliable blockchain nodes with automated maintenance, scaling capabilities, and dedicated resources for validators and developers.",
-    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
-    comingSoon: true,
-  },
-  {
-    name: "Custom Services (Taylored for your needs)",
-    description:
-      "Design and deploy specialized infrastructure solutions optimized for your unique requirements with expert guidance and ongoing support.",
-    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
+      "Launch Node.js, Flask, or Go backends instantly.",
+    url: "/app/services/hosting",
     comingSoon: false,
+    buttonText: "Launch →",
+    icon: <Server className="w-6 h-6 text-foreground/80" />
+  },
+  {
+    name: "Custom VMs",
+    description:
+      "Book an orchestrated VM with GPU for advanced compute.",
+    url: "https://forms.gle/CAovZoBDG7rgMUuK6",
+    comingSoon: true,
+    buttonText: "Contact now →",
+    icon: <Database className="w-6 h-6 text-foreground/80" />
   },
 ];
 
 const ServicesPage = () => {
   return (
-    <section className="min-h-screen bg-background text-foreground py-6 sm:py-12">
-      <div className="max-w-6xl mx-auto px-0 sm:px-6">
-        <div className="px-4 sm:px-0">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4">
-          Native Aqua Services
+    <section className="min-h-screen bg-background text-foreground py-4 sm:py-8">
+      <div className="max-w-full mx-auto px-0">
+        <div className="px-4 md:px-6 lg:px-8 mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+            Aqua Services
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground mb-8 sm:mb-12 max-w-3xl">
-          Deploy and manage services across the Aqua Layer
+          <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-3xl">
+            Deploy inference APIs, notebooks, and compute apps with zero DevOps.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 md:px-6 lg:px-8">
           {services.map((service, index) => (
             <div key={index} className="block">
-              <div className="dashboard-card h-full subtle-glow">
+              <div className="dashboard-card h-full subtle-glow p-4">
                 <div className="flex flex-col h-full">
-                  <div className="flex flex-col mb-3 sm:mb-4">
-                    <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
-                      {service.name}
-                    </h3>
-                    {service.comingSoon && (
-                      <span className="bg-amber-500/10 text-amber-500 px-2 py-1 rounded-md text-xs font-medium w-24 text-center self-start">
-                        Coming Soon
-                      </span>
-                    )}
+                  <div className="flex items-start gap-3 mb-2">
+                    <div className="rounded-md p-1 bg-background/20">
+                      {service.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1">
+                        {service.name}
+                      </h3>
+                      {service.comingSoon && (
+                        <span className="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded-md text-xs font-medium w-24 text-center self-start">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-muted-foreground text-sm sm:text-base flex-grow">
+                  <p className="text-muted-foreground text-xs sm:text-sm flex-grow">
                     {service.description}
                   </p>
-                  <div className="mt-4 sm:mt-6 text-right">
-                    {!service.comingSoon && service.name !== "Custom Services (Taylored for your needs)" ? (
-                      <Link href={service.url} className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
-                        Deploy now →
-                      </Link>
-                    ) : (
-                      <Link href={service.url} target="_blank" rel="noopener noreferrer" className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300">
-                        Contact now →
-                      </Link>
-                    )}
+                  <div className="mt-3 sm:mt-4 text-right">
+                    <Link
+                      href={service.url}
+                      target={service.comingSoon ? "_blank" : undefined}
+                      rel={service.comingSoon ? "noopener noreferrer" : undefined}
+                      className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300"
+                    >
+                      {service.buttonText}
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Features Section */}
+        <div className="mt-10 px-4 md:px-6 lg:px-8">
+          <h2 className="text-lg sm:text-xl font-bold mb-4">Why Choose Aqua Services?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="dashboard-card subtle-glow p-4">
+              <h3 className="text-sm sm:text-base font-semibold mb-1">Zero DevOps</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm">Focus on your code and let us handle infrastructure, scaling, and maintenance.</p>
+            </div>
+            <div className="dashboard-card subtle-glow p-4">
+              <h3 className="text-sm sm:text-base font-semibold mb-1">GPU-Accelerated</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm">Access powerful GPU resources for machine learning and compute-intensive workloads.</p>
+            </div>
+            <div className="dashboard-card subtle-glow p-4">
+              <h3 className="text-sm sm:text-base font-semibold mb-1">Language Agnostic</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm">Deploy applications in Python, JavaScript, Go, or any other language.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -99,4 +116,3 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
-

@@ -1,25 +1,25 @@
 import { useRouter } from "next/navigation";
 import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
-import { TemplateDetails } from "./TemplateDetailsCard";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
+import { Example } from "@/lib/catalog";
 
 export interface User {
   id: string;
 }
 
-interface UseTemplateDeployProps {
-  templateDetails: TemplateDetails;
+interface UseExampleDeployProps {
+  example: Example | null;
   user: User | null;
   isAuthLoading: boolean;
 }
 
-export function useTemplateDeploy({
-  templateDetails,
+export function useExampleDeploy({
+  example,
   user,
   isAuthLoading,
-}: UseTemplateDeployProps) {
+}: UseExampleDeployProps) {
   const router = useRouter();
 
   const { mutate: createDeployment, isPending: isDeploying } =
@@ -33,17 +33,19 @@ export function useTemplateDeploy({
       return;
     }
 
+    if (!example) {
+      toast.error("Template not found.");
+      return;
+    }
+
     const config = {
       serviceType: ServiceType.BACKEND,
-      repoUrl: templateDetails["Repository URL"],
-      branchName: templateDetails["Branch Name"],
-      env: {},
-      appPort: Number(templateDetails["App Port"]),
-      deploymentDuration: templateDetails["Deployment Duration"],
-      appCpuUnits: Number(templateDetails["CPU Units"]),
-      appMemorySize: templateDetails["Memory Size"],
-      appStorageSize: templateDetails["Storage Size"],
-      runCommands: templateDetails["Run Commands"] || "",
+      image: example.config.repoUrl,
+      deploymentDuration: example.config.deploymentDuration,
+      appPort: Number(example.config.appPort),
+      appCpuUnits: Number(example.config.cpuUnits),
+      appMemorySize: example.config.memorySize,
+      appStorageSize: example.config.storageSize,
       allowAutoscale: false,
       disablePull: false,
     };
@@ -71,6 +73,6 @@ export function useTemplateDeploy({
   return {
     isDeploying,
     handleDeploy,
-    isButtonDisabled: isAuthLoading || !user?.id || isDeploying,
+    isButtonDisabled: isAuthLoading || !user?.id || isDeploying || !example,
   };
 }
