@@ -3,23 +3,20 @@ import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
+import { Template } from "@/components/List";
 
 export interface User {
   id: string;
 }
 
-export interface TemplateDetails {
-  [key: string]: string;
-}
-
 interface UseTemplateDeployProps {
-  templateDetails: TemplateDetails;
+  template: Template | null;
   user: User | null;
   isAuthLoading: boolean;
 }
 
 export function useTemplateDeploy({
-  templateDetails,
+  template,
   user,
   isAuthLoading,
 }: UseTemplateDeployProps) {
@@ -36,13 +33,19 @@ export function useTemplateDeploy({
       return;
     }
 
+    if (!template) {
+      toast.error("Template not found.");
+      return;
+    }
+
     const config = {
       serviceType: ServiceType.BACKEND,
-      image: templateDetails["Image"],
-      deploymentDuration: templateDetails["Deployment Duration"],
-      appCpuUnits: Number(templateDetails["CPU Units"]),
-      appMemorySize: templateDetails["Memory Size"],
-      appStorageSize: templateDetails["Storage Size"],
+      image: template.image,
+      deploymentDuration: template.config.deploymentDuration,
+      appPort: Number(template.config.appPort),
+      appCpuUnits: Number(template.config.cpuUnits),
+      appMemorySize: template.config.memorySize,
+      appStorageSize: template.config.storageSize,
       allowAutoscale: false,
       disablePull: false,
     };
@@ -70,6 +73,6 @@ export function useTemplateDeploy({
   return {
     isDeploying,
     handleDeploy,
-    isButtonDisabled: isAuthLoading || !user?.id || isDeploying,
+    isButtonDisabled: isAuthLoading || !user?.id || isDeploying || !template,
   };
 }

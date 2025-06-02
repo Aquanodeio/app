@@ -2,9 +2,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter, usePathname } from "next/navigation";
-import { FileText, Server, Sparkles, Grid, LayoutDashboard, Lock, CreditCard, Bot } from "lucide-react";
+import { FileText, Server, Grid, LayoutDashboard, Lock, CreditCard, Bot } from "lucide-react";
 import Link from "next/link";
-import { examples } from "@/components/list";
+import { examples } from "@/components/List";
 import AquaCredits from "@/components/AquaCredits";
 
 interface SidebarProps {
@@ -135,7 +135,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           {examples.map((example, index) => (
             <Link 
               key={index} 
-              href={example.url}
+              href={example.url(example.id)}
               className="block text-base text-muted-foreground hover:text-primary transition-colors py-2 px-3 rounded hover:bg-primary/5"
             >
               {example.name}

@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { useTemplateDeploy } from "@/lib/logic/TemplateDeployLogic";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { templates, Template } from "@/components/list";
+import { templates, Template } from "@/components/List";
 
 const TemplateDetailsPage = () => {
   const router = useRouter();
@@ -28,30 +28,9 @@ const TemplateDetailsPage = () => {
     router.push(from);
   };
 
-  // Create template details object from the template data
-  const templateDetails = template ? {
-    "name": template.name,
-    "description": template.description,
-    "url": template.url(template.id),
-    "Image": template.image,
-    "Deployment Duration": template.config.deploymentDuration || "N/A",
-    "CPU Units": template.config.cpuUnits || "N/A",
-    "Memory Size": template.config.memorySize || "N/A",
-    "Storage Size": template.config.storageSize || "N/A",
-  } : {
-    "name": "",
-    "description": "",
-    "url": "",
-    "Image": "",
-    "Deployment Duration": "",
-    "CPU Units": "",
-    "Memory Size": "",
-    "Storage Size": "",
-  };
-
   // Always call hooks at the top level
   const { isDeploying, handleDeploy, isButtonDisabled } = useTemplateDeploy({
-    templateDetails,
+    template,
     user,
     isAuthLoading: isLoading,
   });
@@ -78,6 +57,17 @@ const TemplateDetailsPage = () => {
       </div>
     );
   }
+
+  // Create display details for the UI
+  const displayDetails = {
+    "Name": template.name,
+    "Description": template.description,
+    "Image": template.image,
+    "Deployment Duration": template.config.deploymentDuration || "1h",
+    "CPU Units": template.config.cpuUnits || "0.5",
+    "Memory Size": template.config.memorySize || "1Gi",
+    "Storage Size": template.config.storageSize || "2Gi",
+  };
 
   return (
     <div>
@@ -107,7 +97,7 @@ const TemplateDetailsPage = () => {
           <div className="space-y-4 sm:space-y-6">
             <h2 className="text-lg sm:text-xl font-semibold">Configuration</h2>
             <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
-              {Object.entries(templateDetails).map(([key, value]) => (
+              {Object.entries(displayDetails).map(([key, value]) => (
                 <div
                   key={key}
                   className="p-3 sm:p-4 rounded-lg bg-secondary/5 border border-border/30"

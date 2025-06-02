@@ -5,7 +5,7 @@ import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Example, examples } from "@/components/list";
+import { Example, examples } from "@/components/List";
 import { useExampleDeploy } from "@/lib/logic/ExampleDeployLogic";
 
 const ExamplesDetailsPage = () => {
@@ -19,7 +19,7 @@ const ExamplesDetailsPage = () => {
   useEffect(() => {
     if (params.id) {
       const exampleId = Array.isArray(params.id) ? params.id[0] : params.id;
-      const foundExample = examples.find(e => e.name === exampleId);
+      const foundExample = examples.find(e => e.id === exampleId);
       setExample(foundExample || null);
     }
   }, [params.id]);

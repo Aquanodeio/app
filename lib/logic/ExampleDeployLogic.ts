@@ -3,7 +3,7 @@ import { getProviderFromEnv } from "@/lib/utils";
 import { ServiceType } from "@/lib/types";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
-import { Example } from "@/components/list";
+import { Example } from "@/components/List";
 
 export interface User {
   id: string;
@@ -40,13 +40,12 @@ export function useExampleDeploy({
 
     const config = {
       serviceType: ServiceType.BACKEND,
-      repoUrl: example.config?.repoUrl,
-      branchName: example.config?.branchName,
-      appPort: Number(example.config?.appPort),
-      deploymentDuration: example.config?.deploymentDuration,
-      appCpuUnits: Number(example.config?.cpuUnits),
-      appMemorySize: example.config?.memorySize,
-      appStorageSize: example.config?.storageSize ,
+      image: example.config.repoUrl,
+      deploymentDuration: example.config.deploymentDuration,
+      appPort: Number(example.config.appPort),
+      appCpuUnits: Number(example.config.cpuUnits),
+      appMemorySize: example.config.memorySize,
+      appStorageSize: example.config.storageSize,
       allowAutoscale: false,
       disablePull: false,
     };
