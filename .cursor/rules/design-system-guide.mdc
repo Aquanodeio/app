@@ -1,0 +1,132 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Design System Compliance Rule
+
+## Overview
+When editing existing pages or creating new pages in this codebase, **ALWAYS** follow the established design system. This ensures consistency, maintainability, and a professional user experience across the entire application.
+
+## Core Design System Files
+- **Design System Components**: [components/ui/design-system.tsx](mdc:components/ui/design-system.tsx)
+- **CSS Design System Classes**: [app/globals.css](mdc:app/globals.css) 
+- **Design Tokens**: [tailwind.config.ts](mdc:tailwind.config.ts)
+- **Implementation Guide**: [DESIGN_SYSTEM_GUIDE.md](mdc:DESIGN_SYSTEM_GUIDE.md)
+
+## Mandatory Requirements
+
+### 1. Typography Hierarchy
+**ALWAYS use these classes instead of raw Tailwind text classes:**
+- `heading-1` through `heading-6` for all headings
+- `body-large`, `body-base`, `body-small` for body text
+- `caption` for small secondary text
+- Add `muted` class or `text-muted-foreground` for secondary text
+
+### 2. Spacing System
+**ALWAYS use these systematic spacing classes:**
+- `space-dashboard` for top-level page spacing (24-32px top padding)
+- `space-component` for component spacing (24-32px bottom margin)
+- `space-element` for element spacing (12-16px bottom margin)
+- `space-tight` for tight spacing (4-8px bottom margin)
+
+### 3. Card System
+**ALWAYS use design system card variants:**
+- `card-primary` for main content cards
+- `card-compact` for smaller cards with less padding
+- `card-glass` for glass-morphism effect
+- `card-elevated` for elevated shadow cards
+- **NEVER** use custom card styling or old `dashboard-card` class
+
+### 4. Layout Containers
+**ALWAYS use these container classes:**
+- `Container variant="wide"` for dashboard pages (full width)
+- `Container variant="content"` for content-focused pages (max-w-7xl)
+- `Container variant="narrow"` for forms and narrow content (max-w-4xl)
+
+### 5. Grid System
+**ALWAYS use responsive grid components:**
+- `Grid variant="responsive-2"` for 2-column responsive grid
+- `Grid variant="responsive-3"` for 3-column responsive grid
+- `Grid variant="responsive-4"` for 4-column responsive grid
+
+### 6. Button System
+**ALWAYS use design system button classes:**
+- `btn-primary btn-md` for primary actions
+- `btn-secondary btn-md` for secondary actions
+- `btn-ghost btn-sm` for subtle actions
+- **NEVER** use raw `bg-blue-*` or `bg-accent` colors
+
+### 7. Auth Pages
+**For authentication-related pages, ALWAYS use:**
+- `auth-container` for page layout
+- `auth-card` for form containers
+- `auth-header`, `auth-title`, `auth-subtitle` for headers
+- `auth-form`, `auth-field`, `auth-label` for form structure
+- `auth-error`, `auth-success` for state messages
+- `auth-footer`, `auth-link` for footer content
+
+## React Component Usage
+**When possible, use the design system React components:**
+```tsx
+import { Container, Heading, Text, Card, Grid, Button } from "@/components/ui/design-system";
+
+// Use these instead of raw HTML/Tailwind
+<Container variant="wide" className="space-dashboard">
+  <Heading level={1}>Page Title</Heading>
+  <Text variant="base" muted>Description</Text>
+  <Grid variant="responsive-3">
+    <Card variant="primary">Content</Card>
+  </Grid>
+</Container>
+```
+
+## Color System
+**ALWAYS use design system color tokens:**
+- `primary` for purple brand color (258 92% 65%)
+- `destructive` for red error/delete actions
+- `muted-foreground` for secondary text
+- **NEVER** use `accent` (old blue) or hardcoded `bg-blue-*` colors
+
+## Forbidden Patterns
+**NEVER use these deprecated patterns:**
+- Raw text size classes (`text-xl`, `text-2xl`, etc.)
+- Raw spacing (`space-y-6`, `mb-4`, etc.) without design system context
+- Custom card styling (`bg-secondary/20 rounded-xl p-6`)
+- Old color classes (`bg-accent`, `bg-blue-600`, `text-gray-500`)
+- Inconsistent button styling
+
+## Page Structure Template
+**Every new page should follow this structure:**
+```tsx
+<Container variant="wide" className="space-dashboard">
+  <div className="space-element">
+    <Heading level={1} className="space-tight">Page Title</Heading>
+    <Text variant="base" muted>Page description</Text>
+  </div>
+  
+  <Card variant="primary" className="space-component">
+    {/* Main content */}
+  </Card>
+</Container>
+```
+
+## Validation Checklist
+Before completing any page edit or creation, verify:
+- ✅ All typography uses design system classes
+- ✅ All spacing uses systematic classes
+- ✅ All cards use design system variants
+- ✅ All buttons use design system classes
+- ✅ Colors follow design system tokens
+- ✅ Layout uses Container and Grid components
+- ✅ No deprecated classes are used
+
+## Scope
+This rule applies to:
+- All pages in `/app/app/*` (dashboard)
+- All pages in `/app/*` except landing page components
+- All authentication flows (`/signin`, `/signup`, `/reset-password`)
+- All payment pages (`/payment/*`)
+- All component modifications in `/components/*`
+
+**Exception**: Landing page components (`/components/landing/*`) use separate marketing-focused styling.
