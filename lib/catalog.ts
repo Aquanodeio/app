@@ -58,7 +58,7 @@ export const examples: Example[] = [
       "Express.js Server with HTML rendered frontend. A simple web server with a calculator interface rendered directly from the backend.",
     url: (id) => `/app/examples/${id}?from=/app/deployments`,
     config: {
-      repoUrl: "https://github.com/Aquanodeio/templates.git",
+      repoUrl: "https://github.com/Aquanodeio/examples-deploy.git",
       runCommands:
         "cd javascript-calculator-server && npm install && npm start",
       branchName: "main",
@@ -76,7 +76,7 @@ export const examples: Example[] = [
       "Streamlit Python calculator example. Interactive calculator built with Python and Streamlit for a modern data-focused web interface.",
     url: (id) => `/app/examples/${id}?from=/app/deployments`,
     config: {
-      repoUrl: "https://github.com/Aquanodeio/templates.git",
+      repoUrl: "https://github.com/Aquanodeio/examples-deploy.git",
       branchName: "main",
       runCommands:
         "cd python-calculator-server && pip3 install -r requirements.txt && streamlit run main.py",

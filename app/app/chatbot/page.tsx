@@ -411,7 +411,7 @@ const ChatInterface = () => {
           <Heading level={1} className="space-tight">
             Agent Terminal
           </Heading>
-          <Text variant="small" muted>
+          <Text variant="base" muted>
             Chat with our AI to quickly deploy your applications or get help with any questions
           </Text>
         </div>
@@ -542,7 +542,7 @@ const ChatInterface = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Ask me anything..."
-                className="flex-1 bg-transparent text-sm focus:outline-none placeholder-muted-foreground py-1"
+                className="flex-1 bg-transparent text-base focus:outline-none placeholder-muted-foreground py-2 px-1"
                 disabled={isLoading}
               />
 

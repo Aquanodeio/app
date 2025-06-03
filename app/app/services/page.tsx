@@ -26,13 +26,13 @@ const services = [
     name: "Backend Apps",
     description:
       "Launch Node.js, Flask, or Go backends instantly.",
-    url: "/app/services/hosting",
+    url: "/app/services/backend",
     comingSoon: false,
     buttonText: "Launch →",
     icon: <Server className="w-6 h-6 text-foreground/80" />
   },
   {
-    name: "Custom VMs",
+    name: "Container VMs",
     description:
       "Book an orchestrated VM with GPU for advanced compute.",
     url: "https://forms.gle/CAovZoBDG7rgMUuK6",

@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DeploymentOption } from "./interfaces";
+import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 
 export interface ServiceDeployPageProps {
   title: string;
@@ -91,25 +92,25 @@ export default function ServiceDeployPage({
   const renderAuthContent = (content: React.ReactNode) => {
     if (authLoading) {
       return (
-        <div className="p-4 sm:p-8 flex flex-col items-center justify-center">
-          <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mb-4 text-primary" />
-          <p className="text-muted-foreground text-sm sm:text-base">
+        <Card variant="elevated" className="text-center space-element">
+          <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mb-4 text-primary mx-auto" />
+          <Text variant="base" muted>
             Loading authentication...
-          </p>
-        </div>
+          </Text>
+        </Card>
       );
     }
 
     if (!user?.id) {
       return (
-        <div className="dashboard-card text-center py-8 sm:py-12">
-          <p className="text-base sm:text-lg mb-4">
+        <Card variant="elevated" className="text-center space-element">
+          <Text variant="large" className="space-tight">
             Please sign in to create a deployment
-          </p>
-          <Button variant="outline" className="hover-effect mt-2">
+          </Text>
+          <Button variant="outline">
             Sign In
           </Button>
-        </div>
+        </Card>
       );
     }
 
@@ -117,21 +118,19 @@ export default function ServiceDeployPage({
   };
 
   return (
-    <div className="bg-background text-foreground">
-      <div className="container ml-5 px-0 sm:px-6 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8 px-4 sm:px-0">
-          <div>
-            <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
-              {title}
-            </h1>
-            <p className="text-muted-foreground text-sm sm:text-base">
-              {description}
-            </p>
-          </div>
+    <section className="min-h-screen bg-background text-foreground space-dashboard">
+      <Container variant="wide">
+        <div className="space-element">
+          <Heading level={1} className="space-tight">
+            {title}
+          </Heading>
+          <Text variant="base" muted>
+            {description}
+          </Text>
         </div>
 
         {renderAuthContent(
-          <div className="px-4 sm:px-0">
+          <div className="space-component">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
               {deploymentOptions.map((option, index) => (
                 <DeploymentOptionCard
@@ -147,12 +146,12 @@ export default function ServiceDeployPage({
               ))}
             </div>
 
-            <div className="dashboard-card subtle-glow mb-6 sm:mb-8">
+            <Card variant="primary" className="space-element">
               {/* Provider Selection (Common for both default and custom) */}
-              <div className="mb-4 sm:mb-5">
-                <label className="block text-xs font-medium mb-2 ml-2">
+              <div className="space-tight">
+                <Text variant="small" className="font-medium">
                   Deployment Provider
-                </label>
+                </Text>
                 <div className="w-full sm:w-1/3">
                   <Select
                     value={selectedProvider}
@@ -184,19 +183,19 @@ export default function ServiceDeployPage({
                   {defaultView ? (
                     defaultView
                   ) : (
-                    <div className="mb-6 sm:mb-8">
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                    <div className="space-tight">
+                      <Heading level={3} className="space-tight">
                         Quick Deploy
-                      </h3>
+                      </Heading>
   
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4 sm:mb-5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 space-tight">
                         {deploymentOptions[0].resources.map((resource, i) => {
                           const [label, value] = resource.split(":");
                           return (
-                            <div key={i} className="p-3 rounded-lg bg-secondary/5 border border-border/30">
-                              <p className="text-xs text-muted-foreground mb-1">{label.trim()}</p>
-                              <p className="text-base sm:text-lg font-medium">{value.trim()}</p>
-                            </div>
+                            <Card key={i} variant="dense" className="space-tight">
+                              <Text variant="caption" muted className="space-tight">{label.trim()}</Text>
+                              <Text variant="base" className="font-medium">{value.trim()}</Text>
+                            </Card>
                           );
                         })}
                       </div>
@@ -204,37 +203,34 @@ export default function ServiceDeployPage({
                   )}
 
                   {showSourceControlInDefault && sourceControlSection && (
-                    <div className="mt-6">
+                    <div className="space-tight">
                       {sourceControlSection}
                     </div>
                   )}
 
                   {showBuildSettingsInDefault && buildSettingsSection && (
-                    <div className="mt-6">
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                    <div className="space-tight">
+                      <Heading level={3} className="space-tight">
                         Build Settings
-                      </h3>
+                      </Heading>
                       {buildSettingsSection}
                     </div>
                   )}
 
                   {showEnvironmentVarsInDefault && environmentVariablesSection && (
-                    <div className="mt-6">
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
-                        Environment Variables
-                      </h3>
+                    <div className="space-tight">
                       {environmentVariablesSection}
                     </div>
                   )}
 
-                  <div className="flex justify-end">
+                  <div className="flex justify-end space-tight">
                     <Button
-                      // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
                       size="default"
                       onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
                       disabled={isLoading}
+                      className="w-full sm:w-auto"
                     >
-                      {isLoading ? "Deploying..." : "Deploy Default Instance"}
+                      {isLoading ? "Deploying..." : "Deploy Instance"}
                       {!isLoading && <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />}
                     </Button>
                   </div>
@@ -243,26 +239,26 @@ export default function ServiceDeployPage({
                 <div className="space-y-4">
                   <div className="space-y-4 sm:space-y-6">
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                      <Heading level={3} className="space-tight">
                         Resource Settings
-                      </h3>
+                      </Heading>
                       {resourceSettingSection}
                     </div>
                     
                     {sourceControlSection && (
                       <div>
-                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        <Heading level={3} className="space-tight">
                           Source Control
-                        </h3>
+                        </Heading>
                         {sourceControlSection}
                       </div>
                     )}
                     
                     {buildSettingsSection && (
                       <div>
-                        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                        <Heading level={3} className="space-tight">
                           Build Settings
-                        </h3>
+                        </Heading>
                         {buildSettingsSection}
                       </div>
                     )}
@@ -275,12 +271,12 @@ export default function ServiceDeployPage({
                     
                     {children}
 
-                    <div className="flex justify-end mt-4 sm:mt-5">
+                    <div className="flex justify-end space-tight">
                       <Button
                         size="default"
-                        // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-                        onClick={() => handleDefaultDeploy(selectedProvider, getConfigData())}
+                        onClick={() => handleCustomDeploy(selectedProvider, getConfigData())}
                         disabled={isLoading}
+                        className="w-full sm:w-auto"
                       >
                         {isLoading ? "Deploying..." : customDeployButtonText || "Deploy Custom Instance"}
                         {!isLoading && <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />}
@@ -289,10 +285,10 @@ export default function ServiceDeployPage({
                   </div>
                 </div>
               )}
-            </div>
+            </Card>
           </div>
         )}
-      </div>
-    </div>
+      </Container>
+    </section>
   );
 } 

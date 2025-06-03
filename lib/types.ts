@@ -121,6 +121,8 @@ export interface DeploymentResponse {
 export enum ServiceType {
   JUPYTER = "JUPYTER",
   BACKEND = "BACKEND",
+  AI_MODEL = "AI_MODEL",
+  CONTAINER_VM = "CONTAINER_VM",
 }
 
 export interface Deployment {
@@ -128,7 +130,7 @@ export interface Deployment {
   appUrl: string | null;
   createdAt: string;
   provider: string;
-  serviceType: string;
+  deployment_type: string;
   image: string;
   cpu: number;
   memory: string;
