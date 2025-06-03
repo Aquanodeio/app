@@ -17,16 +17,15 @@ import {
 import { getChatHistory, sendChatMessage } from "@/hooks/service";
 import { ChatMessage } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Badge } from "../../../components/ui/badge";
+import { Container, Heading, Text, Card as DSCard, Grid } from "@/components/ui/design-system";
 
 // Updated interfaces
 interface DeploymentInfo {
@@ -224,47 +223,45 @@ const DeploymentStatusCard = ({
               {depInfo.memorySize} RAM, {depInfo.storageSize} Storage
             </span>
           </div>
+          {depInfo.appUrl && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">App URL:</span>
+              <Link
+                href={depInfo.appUrl}
+                target="_blank"
+                className="flex items-center gap-1 text-primary hover:underline"
+              >
+                View App <ExternalLink size={10} />
+              </Link>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-muted-foreground">Status:</span>
             <Badge
               variant="outline"
               className="bg-green-500/10 text-green-600 hover:bg-green-500/20 border-green-500/20 text-xs"
             >
-              Completed
+              <Server size={10} className="mr-1" />
+              Active
             </Badge>
           </div>
         </CardContent>
-        {depInfo.appUrl && (
-          <CardFooter className="pt-2">
-            <Button
-              variant="default"
-              size="sm"
-              className="w-full gap-1 text-xs"
-              asChild
-            >
-              <Link href={depInfo.appUrl} target="_blank">
-                Open Application <ExternalLink size={10} />
-              </Link>
-            </Button>
-          </CardFooter>
-        )}
       </Card>
     );
-  } else {
-    const errorInfo = data as DeploymentError;
+  } else if (status === "error") {
+    const depError = data as DeploymentError;
     return (
-      <Card className="mt-3 border-red-500/20 bg-red-500/5">
+      <Card className="mt-3 border-destructive/20 bg-destructive/5">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-sm text-red-600">
-            <Server size={16} className="text-red-600" />
+          <CardTitle className="flex items-center gap-2 text-sm text-destructive">
+            <MessageSquare size={16} />
             Deployment Failed
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-xs">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Error:</span>
-            <span className="text-red-600">{errorInfo.error}</span>
-          </div>
+        <CardContent className="text-xs">
+          <Text variant="small" className="text-destructive">
+            {depError.error}
+          </Text>
         </CardContent>
       </Card>
     );
@@ -408,19 +405,21 @@ const ChatInterface = () => {
 
   return (
     <div className="bg-background text-foreground min-h-screen">
-      <div className="container max-w-6xl mx-auto px-2 py-4">
+      <Container variant="wide" className="space-dashboard">
         {/* Header */}
-        <div className="mb-4 px-2">
-          <h1 className="text-2xl font-semibold mb-2">Agent Terminal</h1>
-          <p className="text-muted-foreground text-sm">
+        <div className="space-element">
+          <Heading level={1} className="space-tight">
+            Agent Terminal
+          </Heading>
+          <Text variant="small" muted>
             Chat with our AI to quickly deploy your applications or get help with any questions
-          </p>
+          </Text>
         </div>
 
         {/* Chat Container */}
-        <div className="border border-border/20 rounded-xl bg-secondary/5 shadow-sm mx-2">
+        <DSCard variant="primary" className="space-component">
           {/* Messages Area */}
-          <div className="h-[65vh] overflow-y-auto p-4">
+          <div className="h-[65vh] overflow-y-auto">
             <div className="space-y-4">
               {messages.map((message, index) => {
                 const deploymentData =
@@ -453,15 +452,23 @@ const ChatInterface = () => {
                           : "bg-secondary/40 text-foreground"
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                      <Text 
+                        variant="small" 
+                        className="leading-relaxed whitespace-pre-wrap"
+                        as="div"
+                      >
                         {displayContent}
-                      </p>
-                      <span className="text-xs opacity-60 mt-1 block">
+                      </Text>
+                      <Text 
+                        variant="caption" 
+                        className="opacity-60 space-tight"
+                        as="span"
+                      >
                         {new Date(message.timestamp || "").toLocaleTimeString([], {
                           hour: '2-digit',
                           minute: '2-digit'
                         })}
-                      </span>
+                      </Text>
 
                       {/* Deployment Status Card */}
                       {deploymentData.status && deploymentData.data && (
@@ -484,8 +491,10 @@ const ChatInterface = () => {
               {/* Suggested Prompts */}
               {showSuggestedPrompts && (
                 <div className="flex flex-col items-center space-y-3 py-6">
-                  <p className="text-sm text-muted-foreground mb-2">Try these suggestions:</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-4xl">
+                  <Text variant="small" muted className="space-tight">
+                    Try these suggestions:
+                  </Text>
+                  <Grid variant="responsive-2" className="w-full max-w-4xl">
                     {SUGGESTED_PROMPTS.map((suggestion, index) => {
                       const Icon = suggestion.icon;
                       return (
@@ -496,11 +505,13 @@ const ChatInterface = () => {
                           disabled={isLoading}
                         >
                           <Icon size={16} className="text-primary flex-shrink-0" />
-                          <span className="text-foreground">{suggestion.text}</span>
+                          <Text variant="small" className="text-foreground">
+                            {suggestion.text}
+                          </Text>
                         </button>
                       );
                     })}
-                  </div>
+                  </Grid>
                 </div>
               )}
 
@@ -552,8 +563,8 @@ const ChatInterface = () => {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </DSCard>
+      </Container>
     </div>
   );
 };

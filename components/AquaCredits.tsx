@@ -66,30 +66,30 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
 
   return (
     <>
-      <Card className={`p-3 ${className}`}>
+      <Card className={`card-compact ${className}`}>
         {/* Header with icon and title */}
         <div className="flex items-center mb-2">
-          <div className="bg-primary/10 p-2 rounded-md mr-2">
-            <LayoutGrid size={16} className="text-primary" />
+          <div className="bg-primary/10 p-1.5 rounded-md mr-2">
+            <LayoutGrid size={14} className="text-primary" />
           </div>
-          <h3 className="text-sm font-medium">Aqua Credits</h3>
+          <h3 className="text-xs font-medium uppercase tracking-wide">Aqua Credits</h3>
         </div>
 
         {/* Credits amount */}
-        <div className="mb-3">
+        <div className="mb-2">
           {isLoading ? (
-            <p className="text-lg font-bold animate-pulse">Loading...</p>
+            <p className="text-base font-bold animate-pulse">Loading...</p>
           ) : error ? (
-            <p className="text-lg font-bold text-muted-foreground">--</p>
+            <p className="text-base font-bold text-muted-foreground">--</p>
           ) : (
-            <p className="text-lg font-bold">{data?.credits || 0} Credits</p>
+            <p className="text-base font-bold">{data?.credits || 0} Credits</p>
           )}
         </div>
 
         <Dialog open={isPurchaseModalOpen} onOpenChange={setIsPurchaseModalOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full text-xs">
-              <Plus size={14} className="mr-1" />
+            <Button variant="outline" size="sm" className="w-full text-xs h-8">
+              <Plus size={12} className="mr-1" />
               Add Credits
             </Button>
           </DialogTrigger>
