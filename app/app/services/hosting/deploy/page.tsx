@@ -21,6 +21,7 @@ import DefaultResourceView from "@/components/services/common/DefaultResourceVie
 import { Button } from "@/components/ui/button";
 import { getProviderFromEnv } from "@/lib/utils";
 import { toast } from "sonner";
+import { Card, Text } from "@/components/ui/design-system";
 
 export default function CustomServiceDeployment() {
   const { user } = useAuth();
@@ -106,14 +107,14 @@ export default function CustomServiceDeployment() {
 
   if (!user?.id) {
     return (
-      <div className="dashboard-card text-center py-8 sm:py-12 px-4 sm:px-6">
-        <p className="text-base sm:text-lg mb-4">
+      <Card variant="elevated" className="text-center space-element">
+        <Text variant="large" className="space-tight">
           Please sign in to deploy custom services
-        </p>
-        <Button variant="outline" className="hover-effect mt-2">
+        </Text>
+        <Button variant="outline">
           Sign In
         </Button>
-      </div>
+      </Card>
     );
   }
 

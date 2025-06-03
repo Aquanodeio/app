@@ -32,7 +32,7 @@ const services = [
     icon: <Server className="w-6 h-6 text-foreground/80" />
   },
   {
-    name: "Custom VMs",
+    name: "Container VMs",
     description:
       "Book an orchestrated VM with GPU for advanced compute.",
     url: "https://forms.gle/CAovZoBDG7rgMUuK6",

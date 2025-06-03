@@ -5,6 +5,7 @@ import { Deployment } from "@/lib/types";
 import DeploymentStats from "./DeploymentStats";
 import DeploymentsList from "./DeploymentsList";
 import ServiceSidebar from "./ServiceSidebar";
+import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 
 interface ServicePageProps {
   title: string;
@@ -48,25 +49,25 @@ const ServicePage: React.FC<ServicePageProps> = ({
   const renderAuthContent = (content: React.ReactNode) => {
     if (authLoading) {
       return (
-        <div className="p-4 sm:p-8 flex flex-col items-center justify-center">
-          <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mb-4 text-primary" />
-          <p className="text-muted-foreground text-sm sm:text-base">
+        <Card variant="elevated" className="text-center space-element">
+          <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mb-4 text-primary mx-auto" />
+          <Text variant="base" muted>
             Loading authentication...
-          </p>
-        </div>
+          </Text>
+        </Card>
       );
     }
 
     if (!user?.id) {
       return (
-        <div className="dashboard-card text-center py-8 sm:py-12 px-4 sm:px-6">
-          <p className="text-base sm:text-lg mb-4">
+        <Card variant="elevated" className="text-center space-element">
+          <Text variant="large" className="space-tight">
             Please sign in to view your deployments
-          </p>
-          <Button variant="outline" className="hover-effect mt-2">
+          </Text>
+          <Button variant="outline">
             Sign In
           </Button>
-        </div>
+        </Card>
       );
     }
 
@@ -74,37 +75,35 @@ const ServicePage: React.FC<ServicePageProps> = ({
   };
 
   return (
-    <div className="bg-background text-foreground py-4 sm:py-8">
-      <div className="container ml-4 px-0 sm:px-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+    <section className="min-h-screen bg-background text-foreground space-dashboard">
+      <Container variant="wide">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-element gap-4 sm:gap-6">
           <div>
-            <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
+            <Heading level={1} className="space-tight">
               {title}
-            </h1>
-            <p className="text-muted-foreground text-sm sm:text-base">
+            </Heading>
+            <Text variant="base" muted>
               {description}
-            </p>
+            </Text>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              size="default"
+              onClick={() => router.push(deployPath)}
+              className="w-full sm:w-auto"
+            >
+              <span>Create Instance</span>
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+            </Button>
 
-          <Button
-            size="default"
-            // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-            onClick={() => router.push(deployPath)}
-          >
-            <span>Create Instance</span>
-            <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
-
-          <Button variant="outline" className="hover-effect mt-2">
-            <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
+            <Button variant="outline" onClick={fetchDeployments}>
+              <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
+            </Button>
           </div>
-
         </div>
 
         {renderAuthContent(
-          <div className="w-full overflow-hidden">
+          <div className="w-full overflow-hidden space-component">
             {/* Stats Overview */}
             <DeploymentStats
               isLoading={isLoading}
@@ -129,17 +128,19 @@ const ServicePage: React.FC<ServicePageProps> = ({
 
               {/* Deployments List */}
               <div className="md:col-span-3 w-full overflow-x-auto">
-                <div className="dashboard-card subtle-glow min-w-full">
-                  <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
+                <Card variant="primary" className="space-element">
+                  <Heading level={2} className="space-tight">
                     Your Deployments
-                  </h2>
+                  </Heading>
 
-                  <div className="flex items-center gap-2 py-2 px-3 mb-4 rounded-md bg-primary/5 border border-primary/10">
-                    <InfoIcon className="h-4 w-4 text-primary" />
-                    <p className="text-sm text-muted-foreground">
-                      Note: Deployments take a few minutes to become active
-                    </p>
-                  </div>
+                  <Card variant="dense" className="border-primary/10 bg-primary/5 space-tight">
+                    <div className="flex items-center gap-2">
+                      <InfoIcon className="h-4 w-4 text-primary" />
+                      <Text variant="small" muted>
+                        Note: Deployments take a few minutes to become active
+                      </Text>
+                    </div>
+                  </Card>
 
                   <DeploymentsList
                     isLoading={isLoading}
@@ -148,7 +149,7 @@ const ServicePage: React.FC<ServicePageProps> = ({
                     onDelete={onDelete}
                     serviceName={serviceName}
                   />
-                </div>
+                </Card>
               </div>
 
               {/* Desktop: Sidebar on right for larger screens */}
@@ -164,8 +165,8 @@ const ServicePage: React.FC<ServicePageProps> = ({
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </Container>
+    </section>
   );
 };
 

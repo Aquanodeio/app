@@ -346,7 +346,7 @@ export default function ResourceSettingSection({
           )}
         </div>
 
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-2 hover:bg-secondary/5 p-2 rounded-md cursor-pointer">
               <input
@@ -385,7 +385,7 @@ export default function ResourceSettingSection({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ export default function DefaultResourceView({
         ))}
       </div>
       
-      <div className="flex flex-col space-y-3 mt-4 border-t border-border/30 pt-4">
+      {/* <div className="flex flex-col space-y-3 mt-4 border-t border-border/30 pt-4">
         <div className="flex items-center space-x-2 hover:bg-secondary/5 p-2 rounded-md cursor-pointer">
           <input
             type="checkbox"
@@ -75,7 +75,7 @@ export default function DefaultResourceView({
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 } 
