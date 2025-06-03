@@ -1,5 +1,5 @@
 import React from "react";
-import { Deployment } from "@/lib/types";
+import { Deployment, ServiceType } from "@/lib/types";
 import { NotebookEnvironmentSection } from "@/components/deployments/sections/NotebookEnvironmentSection";
 import { InstanceLogsSection } from "@/components/deployments/sections/InstanceLogsSection";
 
@@ -89,14 +89,14 @@ const SERVICE_CONFIGS: Record<string, ServiceConfig> = {
 
 // Service type mapping for different naming conventions
 const SERVICE_TYPE_MAPPING: Record<string, string> = {
-  BACKEND: "BACKEND",
-  JUPYTER: "JUPYTER", 
-  CUSTOM_VM: "CUSTOM_VM",
-  AI_MODEL: "AI_MODEL",
-  backend: "BACKEND",
-  jupyter: "JUPYTER",
-  ai_model: "AI_MODEL",
-  custom_vm: "CUSTOM_VM",
+  BACKEND: ServiceType.BACKEND,
+  JUPYTER: ServiceType.JUPYTER, 
+  CONTAINER_VM: ServiceType.CONTAINER_VM,
+  AI_MODEL: ServiceType.AI_MODEL,
+  backend: ServiceType.BACKEND,
+  jupyter: ServiceType.JUPYTER,
+  ai_model: ServiceType.AI_MODEL,
+  container_vm: ServiceType.CONTAINER_VM,
 };
 
 // Main API functions
