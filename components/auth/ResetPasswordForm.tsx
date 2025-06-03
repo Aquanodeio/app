@@ -47,48 +47,49 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">Reset Your Password</h1>
-        <p className="text-gray-500 mt-2">
+    <div className="auth-card">
+      <div className="auth-header">
+        <h1 className="auth-title">Reset Your Password</h1>
+        <p className="auth-subtitle">
           Enter your email and we&apos;ll send you instructions to reset your
           password
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="auth-form">
         {error && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
-            {error}
+          <div className="auth-error">
+            <p className="body-small">{error}</p>
           </div>
         )}
 
         {successMessage && (
-          <div className="bg-green-50 text-green-600 p-3 rounded-md text-sm">
-            {successMessage}
+          <div className="auth-success">
+            <p className="body-small">{successMessage}</p>
           </div>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+        <div className="auth-field">
+          <Label htmlFor="email" className="auth-label">Email</Label>
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
+            className="input-base input-focus"
             required
           />
         </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="btn-primary btn-md w-full" disabled={isLoading}>
           {isLoading ? "Sending instructions..." : "Send reset instructions"}
         </Button>
       </form>
 
-      <div className="text-center text-sm">
+      <div className="auth-footer">
         Remember your password?{" "}
-        <a href="/signin" className="text-blue-600 hover:underline">
+        <a href="/signin" className="auth-link">
           Sign in
         </a>
       </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "../ui/skeleton";
+import { Card, Grid, Heading, Text } from "../ui/design-system";
 
 interface DeploymentStats {
   deployment_id: number;
@@ -49,77 +50,77 @@ export function LiveMetrics({ deploymentId }: LiveMetricsProps) {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <Grid variant="responsive-2" className="space-component">
         <Skeleton className="h-32" />
         <Skeleton className="h-32" />
-      </div>
+      </Grid>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-destructive/10 p-4 rounded-lg text-destructive">
-        <p>Error loading metrics: {error}</p>
-        <Button variant="ghost" size="sm" onClick={fetchStats} className="mt-2">
+      <Card variant="elevated" className="text-destructive">
+        <Text variant="base">Error loading metrics: {error}</Text>
+        <Button variant="ghost" size="sm" onClick={fetchStats} className="btn-ghost btn-sm mt-2">
           <RefreshCw className="h-4 w-4 mr-2" />
           Retry
         </Button>
-      </div>
+      </Card>
     );
   }
 
   const latestStats = stats[0];
   if (!latestStats) {
     return (
-      <div className="bg-secondary/10 p-4 rounded-lg text-muted-foreground">
-        No metrics available yet
-      </div>
+      <Card variant="glass" className="text-muted-foreground">
+        <Text variant="base">No metrics available yet</Text>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Live Metrics</h3>
-        <Button variant="ghost" size="sm" onClick={fetchStats}>
+    <div className="space-component">
+      <div className="flex justify-between items-center space-element">
+        <Heading level={4}>Live Metrics</Heading>
+        <Button variant="ghost" size="sm" onClick={fetchStats} className="btn-ghost btn-sm">
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
         </Button>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="bg-secondary/20 p-4 rounded-xl">
-          <h4 className="text-sm text-muted-foreground mb-2">Memory Usage</h4>
+      <Grid variant="responsive-2">
+        <Card variant="primary">
+          <Heading level={6} className="text-muted-foreground space-tight">Memory Usage</Heading>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span className="text-sm">Current:</span>
-              <span className="font-mono">{(latestStats.memory_current_bytes / 1024 / 1024).toFixed(2)} MB</span>
+              <Text variant="small">Current:</Text>
+              <Text variant="small" className="font-mono">{(latestStats.memory_current_bytes / 1024 / 1024).toFixed(2)} MB</Text>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm">Max:</span>
-              <span className="font-mono">{(latestStats.memory_max_bytes / 1024 / 1024).toFixed(2)} MB</span>
+              <Text variant="small">Max:</Text>
+              <Text variant="small" className="font-mono">{(latestStats.memory_max_bytes / 1024 / 1024).toFixed(2)} MB</Text>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-secondary/20 p-4 rounded-xl">
-          <h4 className="text-sm text-muted-foreground mb-2">CPU Usage</h4>
+        <Card variant="primary">
+          <Heading level={6} className="text-muted-foreground space-tight">CPU Usage</Heading>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span className="text-sm">Total:</span>
-              <span className="font-mono">{(latestStats.cpu_usage_usec / 1000000).toFixed(2)}s</span>
+              <Text variant="small">Total:</Text>
+              <Text variant="small" className="font-mono">{(latestStats.cpu_usage_usec / 1000000).toFixed(2)}s</Text>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm">User:</span>
-              <span className="font-mono">{(latestStats.cpu_user_usec / 1000000).toFixed(2)}s</span>
+              <Text variant="small">User:</Text>
+              <Text variant="small" className="font-mono">{(latestStats.cpu_user_usec / 1000000).toFixed(2)}s</Text>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm">System:</span>
-              <span className="font-mono">{(latestStats.cpu_system_usec / 1000000).toFixed(2)}s</span>
+              <Text variant="small">System:</Text>
+              <Text variant="small" className="font-mono">{(latestStats.cpu_system_usec / 1000000).toFixed(2)}s</Text>
             </div>
           </div>
-        </div>
-      </div>
+        </Card>
+      </Grid>
     </div>
   );
 }

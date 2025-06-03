@@ -268,6 +268,67 @@
     background-size: 200% 100%;
     animation: gradient-shift 8s ease infinite;
   }
+
+  /* Auth System */
+  .auth-container {
+    @apply flex min-h-screen flex-col items-center justify-center p-4;
+  }
+  
+  .auth-card {
+    @apply card-glass w-full max-w-md space-y-6;
+  }
+  
+  .auth-header {
+    @apply text-center;
+  }
+  
+  .auth-title {
+    @apply heading-3 space-tight;
+  }
+  
+  .auth-subtitle {
+    @apply body-base text-muted-foreground;
+  }
+  
+  .auth-form {
+    @apply space-y-4;
+  }
+  
+  .auth-field {
+    @apply space-y-2;
+  }
+  
+  .auth-label {
+    @apply body-small font-medium;
+  }
+  
+  .auth-error {
+    @apply card-compact bg-destructive/10 text-destructive border-destructive/20 mb-4;
+  }
+  
+  .auth-success {
+    @apply card-compact bg-green-500/10 text-green-600 border-green-500/20 mb-4;
+  }
+  
+  .auth-divider {
+    @apply relative my-6;
+  }
+  
+  .auth-divider-line {
+    @apply w-full border-t border-border;
+  }
+  
+  .auth-divider-text {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-3 caption uppercase tracking-wide text-muted-foreground;
+  }
+  
+  .auth-link {
+    @apply text-primary hover:text-primary/80 hover:underline transition-colors;
+  }
+  
+  .auth-footer {
+    @apply text-center body-small text-muted-foreground mt-6;
+  }
 }
 
 /* ==========================================

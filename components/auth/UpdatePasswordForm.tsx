@@ -55,44 +55,46 @@ export default function UpdatePasswordForm() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">Update Your Password</h1>
-        <p className="text-gray-500 mt-2">Create a new secure password</p>
+    <div className="auth-card">
+      <div className="auth-header">
+        <h1 className="auth-title">Update Your Password</h1>
+        <p className="auth-subtitle">Create a new secure password</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="auth-form">
         {error && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
-            {error}
+          <div className="auth-error">
+            <p className="body-small">{error}</p>
           </div>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="password">New Password</Label>
+        <div className="auth-field">
+          <Label htmlFor="password" className="auth-label">New Password</Label>
           <Input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
+            className="input-base input-focus"
             required
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm New Password</Label>
+        <div className="auth-field">
+          <Label htmlFor="confirmPassword" className="auth-label">Confirm New Password</Label>
           <Input
             id="confirmPassword"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
+            className="input-base input-focus"
             required
           />
         </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="btn-primary btn-md w-full" disabled={isLoading}>
           {isLoading ? "Updating password..." : "Update password"}
         </Button>
       </form>

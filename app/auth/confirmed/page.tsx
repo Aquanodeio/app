@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 
 export default function EmailConfirmedPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6 text-center">
-        <div className="mb-6">
-          <div className="mx-auto h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
+    <div className="auth-container">
+      <div className="auth-card text-center">
+        <div className="space-element">
+          <div className="mx-auto h-16 w-16 rounded-full bg-green-500/10 flex items-center justify-center space-tight">
             <svg
               className="h-8 w-8 text-green-500"
               fill="none"
@@ -23,15 +23,15 @@ export default function EmailConfirmedPage() {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold">Email Confirmed!</h1>
-        <p className="text-gray-600">
+        <h1 className="auth-title">Email Confirmed!</h1>
+        <p className="auth-subtitle space-element">
           Your email address has been successfully verified. You can now sign in
           to your account.
         </p>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <Link href="/signin">
-            <Button className="w-full">Sign In</Button>
+            <Button className="btn-primary btn-md w-full">Sign In</Button>
           </Link>
         </div>
       </div>

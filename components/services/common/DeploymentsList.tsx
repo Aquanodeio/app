@@ -24,21 +24,21 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   const router = useRouter();
 
   const renderSkeletonDeployments = () => (
-    <div className="grid gap-4">
+    <div className="grid gap-3">
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="dashboard-card flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          className="card-primary flex flex-col md:flex-row md:items-center md:justify-between gap-3"
         >
-          <div className="space-y-3 flex-grow">
-            <Skeleton className="h-5 w-full max-w-[300px]" />
-            <Skeleton className="h-5 w-full max-w-[250px]" />
-            <Skeleton className="h-5 w-full max-w-[200px]" />
+          <div className="space-y-2 flex-grow">
+            <Skeleton className="h-4 w-full max-w-[300px]" />
+            <Skeleton className="h-4 w-full max-w-[250px]" />
+            <Skeleton className="h-4 w-full max-w-[200px]" />
           </div>
-          <div className="flex gap-3 self-end md:self-center">
-            <Skeleton className="h-9 w-24" />
-            <Skeleton className="h-9 w-24" />
-            <Skeleton className="h-9 w-24" />
+          <div className="flex gap-2 self-end md:self-center">
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-8 w-20" />
           </div>
         </div>
       ))}
@@ -50,14 +50,14 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   }
 
   if (error) {
-    return <p className="text-destructive">{error}</p>;
+    return <p className="body-base text-destructive">{error}</p>;
   }
 
   if (deployments.length === 0) {
     return (
-      <div className="text-center py-20 bg-secondary/10 rounded-xl border border-border/40 backdrop-blur-sm">
-        <p className="text-lg text-muted-foreground">No deployments found</p>
-        <p className="mt-2 text-sm text-muted-foreground/70">
+      <div className="card-glass text-center py-16">
+        <p className="heading-5 text-muted-foreground space-tight">No deployments found</p>
+        <p className="body-small text-muted-foreground/70">
           Create a new instance to get started
         </p>
       </div>
@@ -65,7 +65,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   }
 
   return (
-    <div className="grid gap-4 w-full">
+    <div className="grid gap-3 w-full">
       {deployments.map((deployment) => {
         const deploymentActive = isDeploymentActive(
           deployment.createdAt,
@@ -74,23 +74,23 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
         return (
           <div
             key={deployment.deploymentId}
-            className="dashboard-card flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full overflow-hidden"
+            className="card-primary flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full overflow-hidden"
           >
-            <div className="space-y-3 flex-grow min-w-0">
+            <div className="space-y-2 flex-grow min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground text-sm">ID:</span>
+                <span className="body-small text-muted-foreground">ID:</span>
                 <Link
                   href={`/app/deployments/${deployment.deploymentId}`}
-                  className="text-foreground hover:text-primary hover:underline font-medium truncate max-w-[180px] sm:max-w-[240px]"
+                  className="body-small text-foreground hover:text-primary hover:underline font-medium truncate max-w-[180px] sm:max-w-[240px]"
                   title={deployment.deploymentId}
                 >
                   {deployment.deploymentId}
                 </Link>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${
+                  className={`status-badge ${
                     deploymentActive
-                      ? "bg-green-500/10 text-green-500"
-                      : "bg-red-500/10 text-red-500"
+                      ? "status-active"
+                      : "status-inactive"
                   }`}
                 >
                   {deploymentActive ? "Active" : "Expired"}
@@ -98,12 +98,12 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
               </div>
               {deployment.appUrl && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-muted-foreground text-sm">URL:</span>
+                  <span className="body-small text-muted-foreground">URL:</span>
                   <a
                     href={deployment.appUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-foreground hover:text-primary hover:underline truncate max-w-[180px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-md"
+                    className="body-small text-foreground hover:text-primary hover:underline truncate max-w-[180px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-md"
                     title={deployment.appUrl}
                   >
                     {deployment.appUrl}
@@ -111,22 +111,22 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                 </div>
               )}
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground text-sm">Created:</span>
-                <span className="text-muted-foreground/90">
+                <span className="body-small text-muted-foreground">Created:</span>
+                <span className="body-small text-muted-foreground/90">
                   {formatDistanceToNow(new Date(deployment.createdAt))} ago
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-muted-foreground text-sm">
+                <span className="body-small text-muted-foreground">
                   Resources:
                 </span>
-                <span className="text-muted-foreground/90 break-all sm:break-normal">
+                <span className="body-small text-muted-foreground/90 break-all sm:break-normal">
                   {deployment.cpu} CPU | {deployment.memory} RAM |{" "}
                   {deployment.storage} Storage
                 </span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 self-end md:self-center mt-2 md:mt-0">
+            <div className="flex flex-wrap gap-2 self-end md:self-center mt-2 md:mt-0">
               {deployment.appUrl && deploymentActive && (
                 <a
                   href={
@@ -140,7 +140,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                 >
                   <Button
                     size="sm"
-                    className="hover-effect px-5 w-full sm:w-auto"
+                    className="btn-primary btn-sm w-full sm:w-auto"
                   >
                     Open {serviceName === "JUPYTER" ? "Notebook" : "App"}
                   </Button>
@@ -150,7 +150,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="hover-effect px-5 w-full sm:w-auto"
+                className="btn-secondary btn-sm w-full sm:w-auto"
                 onClick={() => {
                   router.push(`/app/deployments/${deployment.deploymentId}`);
                 }}
@@ -161,7 +161,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="hover-effect text-destructive hover:text-destructive px-5 w-full sm:w-auto"
+                  className="btn-secondary btn-sm text-destructive hover:text-destructive w-full sm:w-auto"
                   onClick={() => onDelete && onDelete(deployment.deploymentId)}
                 >
                   Stop
