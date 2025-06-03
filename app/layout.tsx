@@ -5,39 +5,13 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import DesktopOnly from "@/components/DesktopOnly";
 import Layout from "@/components/Layout";
-import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  RainbowKitProvider,
-  darkTheme,
-  getDefaultConfig,
-} from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
-import { baseSepolia } from "viem/chains";
 import { useState, useEffect } from "react";
-import {
-  metaMaskWallet,
-  coinbaseWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
 import { AuthProvider } from "@/hooks/auth/useAuthContext";
 import { Toaster } from "sonner";
-import Navbar from "@/components/Navbar";
 import AppNavbar from "@/components/AppNavbar";
 const inter = Inter({ subsets: ["latin"] });
 
-const wagmiConfig = getDefaultConfig({
-  appName: "Aquanode",
-  projectId: "YOUR_PROJECT_ID",
-  chains: [baseSepolia],
-  wallets: [
-    {
-      groupName: "Popular",
-      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet],
-    },
-  ],
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,10 +23,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const demoAppInfo = {
-  appName: "Aquanode",
-};
-
 function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
@@ -61,12 +31,10 @@ function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+
       <QueryClientProvider client={queryClient}>
         <AuthProvider>{mounted && children}</AuthProvider>
-        {/* {process.env.NODE_ENV === "development" && <ReactQueryDevtools />} */}
       </QueryClientProvider>
-    </WagmiProvider>
   );
 }
 
@@ -106,10 +74,9 @@ export default function RootLayout({
               {showNavbar && (
                 <>
                   {isLandingPage ? (
-                    // <Navbar />
                     <></>
                   ) : (
-                    pathname.startsWith("/app") && <AppNavbar onMobileMenuToggle={toggleMobileMenu} />
+                    (pathname.startsWith("/app") || pathname.startsWith("/pricing")) && <AppNavbar onMobileMenuToggle={toggleMobileMenu} />
                   )}
                 </>
               )}

@@ -66,7 +66,7 @@ export const Hero = () => {
           </div>
 
           <div className="flex flex-row gap-6 sm:gap-10 mt-8 sm:mt-10 items-center">
-            <a href="mailto:contact@aquanode.com">
+            <Link href="/app">
               <button
                 className="flex items-center justify-center px-6 py-2 rounded-full border border-white/10 w-full sm:w-auto"
                 style={{
@@ -74,16 +74,16 @@ export const Hero = () => {
                 }}
               >
                 <GradientText className="text-sm font-medium">
-                  Contact for offers
+                Launch App
                 </GradientText>
               </button>
-            </a>
-
-            <Link href="/app">
-              <GradientText className="text-sm font-medium">
-                Try Demo
-              </GradientText>
             </Link>
+
+            {/* <Link href="/app">
+              <GradientText className="text-sm font-medium">
+                Launch App
+              </GradientText>
+            </Link> */}
           </div>
 
           <div className="hidden lg:block absolute -right-[200px] top-10">
