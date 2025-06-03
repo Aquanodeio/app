@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Copy, ExternalLink } from "lucide-react";
+import { Copy, ExternalLink, Clock, Server, Cpu, HardDrive, Database, Timer } from "lucide-react";
 import {
   useDeployment,
   useCloseDeployment,
@@ -96,12 +96,13 @@ export default function DeploymentDetailsPage() {
 
   return (
     <Container variant="wide" className="space-dashboard">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-element gap-4 sm:gap-0">
-        <div>
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div className="space-y-2">
           <Heading level={1}>Deployment Details</Heading>
-          {/* <Text variant="small" muted className="space-tight">
-            {serviceConfig.name}
-          </Text> */}
+          <Text variant="base" muted>
+            {serviceConfig.name} • ID: {deployment.deploymentId}
+          </Text>
         </div>
         <Button
           variant="destructive"
@@ -113,11 +114,11 @@ export default function DeploymentDetailsPage() {
         </Button>
       </div>
 
-      <div className="space-component">
-        {/* Top Row with Status, Timestamps, and App URL - all conditionally rendered */}
+      <div className="space-y-8">
+        {/* Status Overview Row */}
         {(showStatus || showTimestamps || showAppUrl) && (
-          <Grid variant="responsive-4" className="space-tight">
-            {/* Status */}
+          <Grid variant="responsive-3" className="gap-4">
+            {/* Status Card */}
             {showStatus && (
               <StatsCard
                 title="Status"
@@ -125,52 +126,49 @@ export default function DeploymentDetailsPage() {
               />
             )}
             
-            {/* Timestamps */}
+            {/* Timestamps Card */}
             {showTimestamps && (
-              <Card variant="compact">
-                <Heading level={6} className="space-tight">
-                  Timestamps
-                </Heading>
-                <div className="space-y-2">
-                  <div>
-                    <Text variant="caption" muted>
-                      Created
-                    </Text>
-                    <Text variant="small">
-                      {new Date(deployment.createdAt).toLocaleString()}
-                    </Text>
-                  </div>
+              <Card variant="compact" className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <Clock size={16} className="text-muted-foreground" />
+                  <Text variant="caption" muted>
+                    Created
+                  </Text>
                 </div>
+                <Text variant="small" className="font-medium">
+                  {new Date(deployment.createdAt).toLocaleString()}
+                </Text>
               </Card>
             )}
 
-            {/* App URL */}
+            {/* App URL Card */}
             {showAppUrl && deployment.appUrl && (
-              <Card variant="compact" className="sm:col-span-2" interactive>
-                <div className="flex justify-between items-center">
-                  <div className="max-w-[calc(100%-50px)] overflow-hidden">
-                    <Text variant="caption" muted className="space-tight">
-                      App URL
-                    </Text>
+              <Card variant="compact" interactive>
+                <div className="flex justify-between items-start">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <ExternalLink size={16} className="text-muted-foreground flex-shrink-0" />
+                      <Text variant="caption" muted>
+                        App URL
+                      </Text>
+                    </div>
                     <a
                       href={deployment.appUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-foreground font-mono hover:text-primary transition-colors inline-flex items-center gap-2 truncate text-sm sm:text-base"
+                      className="text-primary hover:text-primary/80 transition-colors font-mono text-sm truncate block"
+                      title={deployment.appUrl}
                     >
-                      <span className="truncate">{deployment.appUrl}</span>
-                      <ExternalLink size={16} className="flex-shrink-0" />
+                      {deployment.appUrl.replace(/^https?:\/\//, '')}
                     </a>
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() =>
-                      copyToClipboard(deployment.appUrl!, "App URL")
-                    }
-                    className="hover:bg-secondary/30 flex-shrink-0"
+                    onClick={() => copyToClipboard(deployment.appUrl!, "App URL")}
+                    className="hover:bg-secondary/30 flex-shrink-0 ml-2"
                   >
-                    <Copy size={18} />
+                    <Copy size={16} />
                   </Button>
                 </div>
               </Card>
@@ -178,60 +176,86 @@ export default function DeploymentDetailsPage() {
           </Grid>
         )}
         
-        {/* Configuration Row */}
+        {/* Configuration Section */}
         {showConfiguration && (
           <Card variant="primary">
-            <Heading level={2} className="space-tight">
-              Configuration
-            </Heading>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-              <div>
-                <Text variant="caption" muted>
-                  Service Type
-                </Text>
-                <Text variant="small" className="capitalize">
-                  {serviceConfig.name}
-                </Text>
+            <Grid variant="responsive-3" className="gap-6">
+              {/* Service & Provider Info */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Server size={16} className="text-primary" />
+                  <Text variant="small" className="font-medium text-primary">
+                    Service Details
+                  </Text>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <Text variant="caption" muted>Service Type</Text>
+                    <Text variant="small" className="font-medium capitalize">
+                      {serviceConfig.name}
+                    </Text>
+                  </div>
+                  <div>
+                    <Text variant="caption" muted>Provider</Text>
+                    <Text variant="small" className="font-medium capitalize">
+                      {deployment.provider}
+                    </Text>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Text variant="caption" muted>
-                  Provider
-                </Text>
-                <Text variant="small" className="capitalize">
-                  {deployment.provider}
-                </Text>
+
+              {/* Resource Allocation */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Cpu size={16} className="text-primary" />
+                  <Text variant="small" className="font-medium text-primary">
+                    Resources
+                  </Text>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <Text variant="caption" muted>CPU</Text>
+                    <Text variant="small" className="font-medium">
+                      {deployment.cpu} units
+                    </Text>
+                  </div>
+                  <div>
+                    <Text variant="caption" muted>Memory</Text>
+                    <Text variant="small" className="font-medium">
+                      {deployment.memory}
+                    </Text>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Text variant="caption" muted>
-                  CPU
-                </Text>
-                <Text variant="small">
-                  {deployment.cpu} units
-                </Text>
+
+              {/* Storage & Duration */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Database size={16} className="text-primary" />
+                  <Text variant="small" className="font-medium text-primary">
+                    Storage & Time
+                  </Text>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <Text variant="caption" muted>Storage</Text>
+                    <Text variant="small" className="font-medium">
+                      {deployment.storage}
+                    </Text>
+                  </div>
+                  <div>
+                    <Text variant="caption" muted>Duration</Text>
+                    <Text variant="small" className="font-medium">
+                      {deployment.duration}
+                    </Text>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Text variant="caption" muted>
-                  Memory
-                </Text>
-                <Text variant="small">{deployment.memory}</Text>
-              </div>
-              <div>
-                <Text variant="caption" muted>
-                  Storage
-                </Text>
-                <Text variant="small">{deployment.storage}</Text>
-              </div>
-              <div>
-                <Text variant="caption" muted>
-                  Duration
-                </Text>
-                <Text variant="small">{deployment.duration}</Text>
-              </div>
-            </div>
+            </Grid>
           </Card>
         )}
 
-        {/* Conditionally show Live Metrics based on service type */}
+        {/* Live Metrics Section */}
         {showLiveMetrics && <LiveMetricsSection deployment={deployment} />}
 
         {/* Service-Specific Custom Sections */}
