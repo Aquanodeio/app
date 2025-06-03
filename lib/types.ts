@@ -128,7 +128,7 @@ export interface Deployment {
   appUrl: string | null;
   createdAt: string;
   provider: string;
-  serviceType: string;
+  deployment_type: string;
   image: string;
   cpu: number;
   memory: string;

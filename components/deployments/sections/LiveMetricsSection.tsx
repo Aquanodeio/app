@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Card, Grid, Heading, Text } from "@/components/ui/design-system";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "../ui/skeleton";
-import { Card, Grid, Heading, Text } from "../ui/design-system";
+import { Skeleton } from "@/components/ui/skeleton";
+import { RefreshCw } from "lucide-react";
+import { SectionProps } from "@/lib/serviceConfig";
 
 interface DeploymentStats {
   deployment_id: number;
@@ -14,18 +15,14 @@ interface DeploymentStats {
   created_at: string;
 }
 
-interface LiveMetricsProps {
-  deploymentId: string;
-}
-
-export function LiveMetrics({ deploymentId }: LiveMetricsProps) {
+export function LiveMetricsSection({ deployment }: SectionProps) {
   const [stats, setStats] = useState<DeploymentStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/monitoring/stats/${deploymentId}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/monitoring/stats/${deployment.deploymentId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch stats');
       }
@@ -46,25 +43,31 @@ export function LiveMetrics({ deploymentId }: LiveMetricsProps) {
     getInitialStats();
     const interval = setInterval(fetchStats, 1000);
     return () => clearInterval(interval);
-  }, [deploymentId]);
+  }, [deployment.deploymentId]);
 
   if (isLoading) {
     return (
-      <Grid variant="responsive-2" className="space-component">
-        <Skeleton className="h-32" />
-        <Skeleton className="h-32" />
-      </Grid>
+      <Card variant="primary">
+        <Heading level={4} className="space-tight">Live Metrics</Heading>
+        <Grid variant="responsive-2" className="space-component">
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
+        </Grid>
+      </Card>
     );
   }
 
   if (error) {
     return (
-      <Card variant="elevated" className="text-destructive">
-        <Text variant="base">Error loading metrics: {error}</Text>
-        <Button variant="ghost" size="sm" onClick={fetchStats} className="btn-ghost btn-sm mt-2">
-          <RefreshCw className="h-4 w-4 mr-2" />
-          Retry
-        </Button>
+      <Card variant="primary">
+        <div className="flex justify-between items-center space-tight">
+          <Heading level={4}>Live Metrics</Heading>
+          <Button variant="ghost" size="sm" onClick={fetchStats}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Retry
+          </Button>
+        </div>
+        <Text variant="base" className="text-destructive">Error loading metrics: {error}</Text>
       </Card>
     );
   }
@@ -72,23 +75,24 @@ export function LiveMetrics({ deploymentId }: LiveMetricsProps) {
   const latestStats = stats[0];
   if (!latestStats) {
     return (
-      <Card variant="glass" className="text-muted-foreground">
-        <Text variant="base">No metrics available yet</Text>
+      <Card variant="primary">
+        <Heading level={4} className="space-tight">Live Metrics</Heading>
+        <Text variant="base" className="text-muted-foreground">No metrics available yet</Text>
       </Card>
     );
   }
 
   return (
-    <div className="space-component">
-      <div className="flex justify-between items-center space-element">
+    <Card variant="primary">
+      <div className="flex justify-between items-center space-tight">
         <Heading level={4}>Live Metrics</Heading>
-        <Button variant="ghost" size="sm" onClick={fetchStats} className="btn-ghost btn-sm">
+        <Button variant="ghost" size="sm" onClick={fetchStats}>
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
         </Button>
       </div>
       
-      <Grid variant="responsive-2">
+      <Grid variant="responsive-2" className="space-tight">
         <Card variant="primary">
           <Heading level={6} className="text-muted-foreground space-tight">Memory Usage</Heading>
           <div className="space-y-1">
@@ -121,6 +125,6 @@ export function LiveMetrics({ deploymentId }: LiveMetricsProps) {
           </div>
         </Card>
       </Grid>
-    </div>
+    </Card>
   );
 }
