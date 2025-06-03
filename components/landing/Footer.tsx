@@ -1,18 +1,18 @@
 import React from "react";
 import Image from "next/image";
 import HorizontalDivider from "./HorizontalDivider";
-import AquanodeText from "@/assets/aquanode-text.png";
+// import AquanodeText from "@/assets/aquanode-text-footer.png";
 
 // className="w-full px-4 sm:px-20 lg:px-40 py-6 sm:py-10 relative"
 
 const Footer = () => {
   return (
     <div className="w-full">
-      <HorizontalDivider />
+      {/* <HorizontalDivider /> */}
 
-      <div className="flex items-center justify-center  overflow-visible relative py-5">
+      {/* <div className="flex items-center justify-center px-20 overflow-visible relative py-5">
         <Image src={AquanodeText} alt="Aquanode" className=" w-full h-full" />
-      </div>
+      </div> */}
 
       <div className="px-4 sm:px-20 lg:px-40 py-6 sm:py-10">
         <HorizontalDivider />
