@@ -106,7 +106,7 @@ export default function Navbar({
                   <DropdownMenuSeparator className="bg-border/20" />
                   <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="cursor-pointer hover:bg-destructive/10 hover:text-destructive"
+                    className="cursor-pointer hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive"
                   >
                     <LogOut className="w-4 h-4 mr-2 opacity-70" />
                     Sign out
@@ -114,7 +114,7 @@ export default function Navbar({
                 </DropdownMenuContent>
               </DropdownMenu>
               <Link href="/app/services">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="btn-primary btn-md">
                   Launch App
                 </Button>
               </Link>
@@ -131,7 +131,7 @@ export default function Navbar({
                 </Button>
               </Link>
               <Link href="/app/services">
-                <Button className="bg-accent hover:bg-accent/90 hidden sm:flex">
+                <Button className="btn-primary btn-md hidden sm:flex">
                   Launch App
                 </Button>
               </Link>
@@ -164,7 +164,7 @@ export default function Navbar({
             </a>
             {!isAuthenticated && (
               <Link href="/app" className="pt-2">
-                <Button className="bg-accent hover:bg-accent/90 w-full">
+                <Button className="btn-primary btn-md w-full">
                   Launch App
                 </Button>
               </Link>
