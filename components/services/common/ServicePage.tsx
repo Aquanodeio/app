@@ -110,7 +110,7 @@ const ServicePage: React.FC<ServicePageProps> = ({
               isLoading={isLoading}
               activeInstances={activeInstances}
               totalDeployments={totalDeployments}
-              currentCpuUsage={currentCpuUsage}
+              currentCpuUsage={currentCpuUsage.toString()}
               currentRamUsage={currentRamUsage}
             />
 

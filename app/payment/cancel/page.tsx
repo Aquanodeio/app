@@ -11,34 +11,37 @@ const PaymentCancelPage = () => {
   const orderNumber = searchParams.get('order');
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-blue-50 p-4">
-      <div className="max-w-md w-full p-8 bg-blue-900/15 border border-blue-500/30 backdrop-blur-md rounded-lg shadow-lg">
-        <div className="flex flex-col items-center text-center">
-          <XCircle className="h-16 w-16 text-red-500 mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Payment Cancelled</h1>
-          <p className="text-blue-200 mb-6">
-            Your payment process was cancelled. No charges have been made to your account.
+    <div className="auth-container">
+      <div className="auth-card text-center">
+        <div className="space-element">
+          <XCircle className="h-16 w-16 text-destructive mb-4 mx-auto" />
+        </div>
+        
+        <h1 className="auth-title">Payment Cancelled</h1>
+        <p className="auth-subtitle space-element">
+          Your payment process was cancelled. No charges have been made to your account.
+        </p>
+        
+        {orderNumber && (
+          <p className="body-small text-muted-foreground space-element">
+            Order Reference: {orderNumber}
           </p>
-          {orderNumber && (
-            <p className="text-sm text-blue-300 mb-6">
-              Order Reference: {orderNumber}
-            </p>
-          )}
-          <div className="space-y-3 w-full">
-            <Button 
-              onClick={() => router.push('/pricing')}
-              className="bg-blue-600 hover:bg-blue-700 w-full"
-            >
-              Try Again
-            </Button>
-            <Button 
-              onClick={() => router.push('/app/dashboard')}
-              variant="outline"
-              className="w-full"
-            >
-              Return to Dashboard
-            </Button>
-          </div>
+        )}
+        
+        <div className="space-y-3 w-full mt-6">
+          <Button 
+            onClick={() => router.push('/pricing')}
+            className="btn-primary btn-md w-full"
+          >
+            Try Again
+          </Button>
+          <Button 
+            onClick={() => router.push('/app/deployments')}
+            variant="outline"
+            className="btn-secondary btn-md w-full"
+          >
+            Return to Dashboard
+          </Button>
         </div>
       </div>
     </div>

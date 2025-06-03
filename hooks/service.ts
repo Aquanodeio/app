@@ -185,7 +185,7 @@ export async function sendChatMessage(
   if (onStream) {
     const token = authService.getAccessToken();
     // Streaming request
-    const response = await fetch(`${API_BASE_URL}/api/ai/chat/completions`, {
+    const response = await fetch(`${API_BASE_URL}/api/agent/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -268,7 +268,7 @@ export async function sendChatMessage(
     return { text: accumulatedText };
   } else {
     // Non-streaming request
-    return request<ChatResponse>("/api/ai/chat/completions", {
+    return request<ChatResponse>("/api/agent/chat/completions", {
       method: "POST",
       body: JSON.stringify({
         ...chatRequest,
@@ -496,13 +496,13 @@ export async function getSession() {
 export async function signInWithGoogle(): Promise<{ error: Error | null }> {
   console.log(
     "Signing in with Google",
-    `${window.location.origin}/app/dashboard`
+    `${window.location.origin}/app/deployments`
   );
   try {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/app/dashboard`,
+        redirectTo: `${window.location.origin}/app/deployments`,
       },
     });
 

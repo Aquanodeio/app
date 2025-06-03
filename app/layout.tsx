@@ -5,39 +5,13 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import DesktopOnly from "@/components/DesktopOnly";
 import Layout from "@/components/Layout";
-import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  RainbowKitProvider,
-  darkTheme,
-  getDefaultConfig,
-} from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
-import { baseSepolia } from "viem/chains";
 import { useState, useEffect } from "react";
-import {
-  metaMaskWallet,
-  coinbaseWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
 import { AuthProvider } from "@/hooks/auth/useAuthContext";
 import { Toaster } from "sonner";
-import Navbar from "@/components/Navbar";
 import AppNavbar from "@/components/AppNavbar";
 const inter = Inter({ subsets: ["latin"] });
 
-const wagmiConfig = getDefaultConfig({
-  appName: "Aquanode",
-  projectId: "YOUR_PROJECT_ID",
-  chains: [baseSepolia],
-  wallets: [
-    {
-      groupName: "Popular",
-      wallets: [metaMaskWallet, coinbaseWallet, walletConnectWallet],
-    },
-  ],
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,10 +23,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const demoAppInfo = {
-  appName: "Aquanode",
-};
-
 function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
@@ -61,12 +31,10 @@ function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+
       <QueryClientProvider client={queryClient}>
         <AuthProvider>{mounted && children}</AuthProvider>
-        {/* {process.env.NODE_ENV === "development" && <ReactQueryDevtools />} */}
       </QueryClientProvider>
-    </WagmiProvider>
   );
 }
 
@@ -76,6 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Check if current route is auth-related
   const isAuthRoute =
@@ -90,6 +59,10 @@ export default function RootLayout({
   // Determine which navbar to show based on route
   const showNavbar = !isAuthRoute;
 
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
     <html lang="en" className="dark">
       <body
@@ -101,16 +74,15 @@ export default function RootLayout({
               {showNavbar && (
                 <>
                   {isLandingPage ? (
-                    // <Navbar />
                     <></>
                   ) : (
-                    pathname.startsWith("/app") && <AppNavbar />
+                    (pathname.startsWith("/app") || pathname.startsWith("/pricing")) && <AppNavbar onMobileMenuToggle={toggleMobileMenu} />
                   )}
                 </>
               )}
               <main className="flex-1">
                 {pathname.startsWith("/app") ? (
-                  <Layout>{children}</Layout>
+                  <Layout mobileMenuOpen={mobileMenuOpen} onMobileMenuToggle={toggleMobileMenu}>{children}</Layout>
                 ) : (
                   <div className="mx-auto">{children}</div>
                 )}

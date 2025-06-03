@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Example, examples } from "@/lib/catalog";
 import { useExampleDeploy } from "@/lib/logic/ExampleDeployLogic";
+import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const ExamplesDetailsPage = () => {
   const router = useRouter();
@@ -38,23 +39,25 @@ const ExamplesDetailsPage = () => {
   // If template is not found, show not found message
   if (!example) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <Container variant="wide" className="space-dashboard">
         <Button
           variant="outline"
           onClick={handleBack}
-          className="hover-effect flex items-center gap-2"
+          className="interactive-hover flex items-center gap-2"
           size="sm"
         >
           <ArrowLeft size={16} />
           Back
         </Button>
-        <div className="mt-8 text-center">
-          <h1 className="text-2xl font-bold">Template not found</h1>
-          <p className="mt-2 text-muted-foreground">
+        <Card variant="elevated" className="text-center space-component">
+          <Heading level={2} className="space-tight">
+            Template not found
+          </Heading>
+          <Text variant="base" muted>
             The template you're looking for doesn't exist or has been removed.
-          </p>
-        </div>
-      </div>
+          </Text>
+        </Card>
+      </Container>
     );
   }
 
@@ -73,66 +76,67 @@ const ExamplesDetailsPage = () => {
   };
 
   return (
-    <div>
-      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-        <div className="flex items-center mb-4 sm:mb-6">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            className="hover-effect flex items-center gap-2 text-sm sm:text-base"
-            size="sm"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Button>
-        </div>
+    <Container variant="wide" className="space-dashboard">
+      <div className="flex items-center space-element">
+        <Button
+          variant="outline"
+          onClick={handleBack}
+          className="interactive-hover flex items-center gap-2"
+          size="sm"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </Button>
+      </div>
 
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2 text-foreground">
-            {example.name}
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            {example.description}
-          </p>
-        </div>
+      <div className="space-element">
+        <Heading level={1} className="space-tight">
+          {example.name}
+        </Heading>
+        <Text variant="base" muted>
+          {example.description}
+        </Text>
+      </div>
 
-        <div className="dashboard-card subtle-glow">
-          <div className="space-y-4 sm:space-y-6">
-            <h2 className="text-lg sm:text-xl font-semibold">Configuration</h2>
-            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
-              {Object.entries(displayDetails).map(([key, value]) => (
-                <div
-                  key={key}
-                  className="p-3 sm:p-4 rounded-lg bg-secondary/5 border border-border/30"
-                >
-                  <p className="text-xs text-muted-foreground mb-1">{key}</p>
-                  <p className="text-xs sm:text-sm font-medium font-mono break-all">
-                    {value}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button
-                size="default"
-                className="btn-primary shadow-lg shadow-primary/10 hover-effect w-full sm:w-auto"
-                onClick={handleDeploy}
-                disabled={isButtonDisabled}
+      <Card variant="primary" className="space-component">
+        <div className="space-y-4 sm:space-y-6">
+          <Heading level={2}>Configuration</Heading>
+          <Grid variant="responsive-2">
+            {Object.entries(displayDetails).map(([key, value]) => (
+              <Card
+                key={key}
+                variant="dense"
+                className="bg-secondary/5 border-border/30"
               >
-                {isDeploying ? (
-                  <span className="animate-pulse">Deploying...</span>
-                ) : (
-                  <>
-                    Deploy Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            </div>
+                <Text variant="caption" muted className="space-tight">
+                  {key}
+                </Text>
+                <Text variant="small" className="font-medium font-mono break-all">
+                  {value}
+                </Text>
+              </Card>
+            ))}
+          </Grid>
+          <div className="flex justify-end mt-4">
+            <Button
+              size="default"
+              className="interactive-hover shadow-lg shadow-primary/10 w-full sm:w-auto"
+              onClick={handleDeploy}
+              disabled={isButtonDisabled}
+            >
+              {isDeploying ? (
+                <span className="animate-pulse">Deploying...</span>
+              ) : (
+                <>
+                  Deploy Now
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </Card>
+    </Container>
   );
 };
 

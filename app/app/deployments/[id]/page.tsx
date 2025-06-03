@@ -13,6 +13,7 @@ import {
 import { isDeploymentActive } from "@/lib/deployment";
 import { LiveMetrics } from "@/components/deployments/LiveMetrics";
 import { ProviderType } from "@/lib/types";
+import { Container, Heading, Text, Card, Grid, StatsCard } from "@/components/ui/design-system";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();
@@ -65,30 +66,30 @@ export default function DeploymentDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background text-foreground px-0 sm:px-6 py-4 sm:py-6">
-        <div className="animate-pulse space-y-4 px-4 sm:px-0">
+      <Container variant="wide" className="space-dashboard">
+        <div className="animate-pulse space-y-4">
           <div className="h-8 w-64 bg-secondary/20 rounded"></div>
           <div className="h-32 bg-secondary/20 rounded"></div>
           <div className="h-32 bg-secondary/20 rounded"></div>
         </div>
-      </div>
+      </Container>
     );
   }
 
   if (!deployment) {
     return (
-      <div className="min-h-screen bg-background text-foreground px-0 sm:px-6 py-4 sm:py-6">
-        <h1 className="text-2xl sm:text-4xl font-bold mb-8 px-4 sm:px-0">
+      <Container variant="wide" className="space-dashboard">
+        <Heading level={1}>
           Deployment Not Found
-        </h1>
-      </div>
+        </Heading>
+      </Container>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground px-0 sm:px-6 py-4 sm:py-6">
-      <div className="ml-4 flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 px-4 sm:px-0 gap-4 sm:gap-0">
-        <h1 className="text-2xl sm:text-4xl font-bold">Deployment Details</h1>
+    <Container variant="wide" className="space-dashboard">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-element gap-4 sm:gap-0">
+        <Heading level={1}>Deployment Details</Heading>
         <Button
           variant="destructive"
           onClick={handleClose}
@@ -99,48 +100,40 @@ export default function DeploymentDetailsPage() {
         </Button>
       </div>
 
-      <div className="ml-4 space-y-4 sm:space-y-6 px-4 sm:px-0">
+      <div className="space-component">
         {/* Top Row with Status, Timestamps, and App URL */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6">
-          {/* Status - 25% width */}
-          <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl hover:bg-secondary/30 transition-colors">
-            <span className="text-sm text-muted-foreground block mb-1">
-              Status
-            </span>
-            <span className="text-foreground font-semibold">
-              {isDeploymentActive(
-                deployment.createdAt,
-                deployment.duration
-              )
-                ? "Active"
-                : "Expired"}
-            </span>
-          </div>
-          {/* Timestamps - 25% width */}
-          <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+        <Grid variant="responsive-4" className="space-tight">
+          {/* Status */}
+          <StatsCard
+            title="Status"
+            value={isDeploymentActive(deployment.createdAt, deployment.duration) ? "Active" : "Expired"}
+          />
+          
+          {/* Timestamps */}
+          <Card variant="compact">
+            <Heading level={6} className="space-tight">
               Timestamps
-            </h2>
-            <div className="space-y-2 sm:space-y-3 text-sm sm:text-base">
+            </Heading>
+            <div className="space-y-2">
               <div>
-                <span className="text-sm text-muted-foreground block">
+                <Text variant="caption" muted>
                   Created
-                </span>
-                <span className="text-foreground">
+                </Text>
+                <Text variant="small">
                   {new Date(deployment.createdAt).toLocaleString()}
-                </span>
+                </Text>
               </div>
             </div>
-          </div>
+          </Card>
 
-          {/* App URL - 50% width */}
+          {/* App URL */}
           {deployment.appUrl && (
-            <div className="sm:col-span-2 bg-secondary/20 p-4 sm:p-6 rounded-xl hover:bg-secondary/30 transition-colors">
+            <Card variant="compact" className="sm:col-span-2" interactive>
               <div className="flex justify-between items-center">
                 <div className="max-w-[calc(100%-50px)] overflow-hidden">
-                  <span className="text-sm text-muted-foreground block mb-1">
+                  <Text variant="caption" muted className="space-tight">
                     App URL
-                  </span>
+                  </Text>
                   <a
                     href={deployment.appUrl}
                     target="_blank"
@@ -162,70 +155,70 @@ export default function DeploymentDetailsPage() {
                   <Copy size={18} />
                 </Button>
               </div>
-            </div>
+            </Card>
           )}
-        </div>
+        </Grid>
         
-        {/* Configuration Row - Full Width */}
-        <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl">
-          <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+        {/* Configuration Row */}
+        <Card variant="primary">
+          <Heading level={2} className="space-tight">
             Configuration
-          </h2>
+          </Heading>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 Provider
-              </span>
-              <span className="text-foreground capitalize">
+              </Text>
+              <Text variant="small" className="capitalize">
                 {deployment.provider}
-              </span>
+              </Text>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 CPU
-              </span>
-              <span className="text-foreground">
+              </Text>
+              <Text variant="small">
                 {deployment.cpu} units
-              </span>
+              </Text>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 Memory
-              </span>
-              <span className="text-foreground">{deployment.memory}</span>
+              </Text>
+              <Text variant="small">{deployment.memory}</Text>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 Storage
-              </span>
-              <span className="text-foreground">{deployment.storage}</span>
+              </Text>
+              <Text variant="small">{deployment.storage}</Text>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 Duration
-              </span>
-              <span className="text-foreground">{deployment.duration}</span>
+              </Text>
+              <Text variant="small">{deployment.duration}</Text>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground block">
+              <Text variant="caption" muted>
                 Deployment ID
-              </span>
-              <span className="text-foreground break-words">
+              </Text>
+              <Text variant="small" className="break-words">
                 {deployment.deploymentId}
-              </span>
+              </Text>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Live Metrics */}
-        <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl">
+        <Card variant="primary">
           <LiveMetrics deploymentId={deployment.deploymentId} />
-        </div>
+        </Card>
         
         {/* Logs Panel */}
         <LogsPanel leaseId={Number(deployment.leaseId)} provider={deployment.provider as ProviderType} />
       </div>
-    </div>
+    </Container>
   );
 }
 
@@ -243,9 +236,9 @@ function LogsPanel({ leaseId, provider }: { leaseId: number, provider: ProviderT
   const formattedLogs = logs || "No logs available";
   
   return (
-    <div className="bg-secondary/20 p-4 sm:p-6 rounded-xl h-full flex flex-col">
-      <div className="flex justify-between items-center mb-3 sm:mb-4">
-        <h2 className="text-base sm:text-lg font-semibold">Instance Logs</h2>
+    <Card variant="primary" className="h-full flex flex-col">
+      <div className="flex justify-between items-center space-tight">
+        <Heading level={2}>Instance Logs</Heading>
         <Button 
           variant="ghost" 
           size="sm" 
@@ -267,6 +260,6 @@ function LogsPanel({ leaseId, provider }: { leaseId: number, provider: ProviderT
           <pre className="whitespace-pre-wrap break-all text-gray-300">{formattedLogs}</pre>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

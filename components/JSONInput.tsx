@@ -69,21 +69,21 @@ function JSONInput({ value, onChange }: JSONInputProps) {
           type="button"
           variant="ghost"
           size="sm"
-          className="h-7 text-xs hover:bg-secondary/20"
+          className="btn-ghost btn-sm h-7"
           onClick={formatEnvJson}
         >
           Format JSON
         </Button>
       </div>
 
-      <div className="border rounded-md bg-secondary/10 border-border/30 overflow-hidden font-mono">
+      <div className="card-base overflow-hidden font-mono">
         <textarea
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
             validateEnvJson(e.target.value);
           }}
-          className={`w-full h-40 p-3 bg-transparent resize-none focus:outline-none text-sm ${
+          className={`w-full h-40 p-3 bg-transparent resize-none focus:outline-none body-small ${
             isJsonValid ? "text-foreground" : "text-red-400"
           }`}
           placeholder={'{\n  "EXAMPLE_ENV_VAR": "EXAMPLE_VALUE"\n}'}
@@ -91,7 +91,7 @@ function JSONInput({ value, onChange }: JSONInputProps) {
       </div>
 
       {!isJsonValid && (
-        <p className="text-xs text-red-400 mt-1">{envVarsError}</p>
+        <p className="caption text-red-400 mt-1">{envVarsError}</p>
       )}
     </div>
   );

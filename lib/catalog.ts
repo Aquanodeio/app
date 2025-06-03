@@ -56,7 +56,7 @@ export const examples: Example[] = [
     name: "Express Javascript Server",
     description:
       "Express.js Server with HTML rendered frontend. A simple web server with a calculator interface rendered directly from the backend.",
-    url: (id) => `/app/examples/${id}?from=/app/dashboard`,
+    url: (id) => `/app/examples/${id}?from=/app/deployments`,
     config: {
       repoUrl: "https://github.com/Aquanodeio/templates.git",
       runCommands:
@@ -74,7 +74,7 @@ export const examples: Example[] = [
     name: "Streamlit Python Calculator",
     description:
       "Streamlit Python calculator example. Interactive calculator built with Python and Streamlit for a modern data-focused web interface.",
-    url: (id) => `/app/examples/${id}?from=/app/dashboard`,
+    url: (id) => `/app/examples/${id}?from=/app/deployments`,
     config: {
       repoUrl: "https://github.com/Aquanodeio/templates.git",
       branchName: "main",

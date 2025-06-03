@@ -100,15 +100,15 @@ const PurchaseCredits: React.FC<PurchaseCreditsProps> = ({ onSuccess }) => {
   };
   
   return (
-    <div className="space-y-6 p-4 bg-secondary/20 rounded-lg">
-      <div className="space-y-2">
-        <h3 className="text-xl font-semibold">Purchase Aqua Credits</h3>
-        <p className="text-muted-foreground">Enter the amount of credits you want to purchase</p>
+    <div className="card-primary space-component">
+      <div className="space-element">
+        <h3 className="heading-4 space-tight">Purchase Aqua Credits</h3>
+        <p className="body-base text-muted-foreground">Enter the amount of credits you want to purchase</p>
       </div>
       
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="credits">Credits Amount</Label>
+      <div className="space-y-3">
+        <div className="space-tight">
+          <Label htmlFor="credits" className="body-small font-medium">Credits Amount</Label>
           <div className="relative">
             <Input
               id="credits"
@@ -116,23 +116,23 @@ const PurchaseCredits: React.FC<PurchaseCreditsProps> = ({ onSuccess }) => {
               min="1"
               value={credits}
               onChange={handleCreditsChange}
-              className="pr-20"
+              className="input-base input-focus pr-20"
             />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground body-small">
               = ${cost}
             </div>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">1 USD = 100 Credits</p>
+          <p className="caption mt-1">1 USD = 100 Credits</p>
         </div>
         
-        <div className="space-y-2">
-          <Label htmlFor="currency">Payment Currency</Label>
+        <div className="space-tight">
+          <Label htmlFor="currency" className="body-small font-medium">Payment Currency</Label>
           <Select 
             value={selectedCurrency} 
             onValueChange={setSelectedCurrency}
             disabled={isLoadingCurrencies || !currencies}
           >
-            <SelectTrigger id="currency">
+            <SelectTrigger id="currency" className="input-base">
               <SelectValue placeholder="Select currency" />
             </SelectTrigger>
             <SelectContent>
@@ -151,20 +151,20 @@ const PurchaseCredits: React.FC<PurchaseCreditsProps> = ({ onSuccess }) => {
           </Select>
           
           {cryptoAmount && (
-            <p className="text-sm mt-2">
+            <p className="body-small mt-2">
               <span className="font-medium">≈ {cryptoAmount} {selectedCurrency}</span>
-              <span className="text-xs text-muted-foreground ml-1">
+              <span className="caption ml-1">
                 (approximate value)
               </span>
             </p>
           )}
         </div>
         
-        <div className="pt-4">
+        <div className="pt-3">
           <Button 
             onClick={handlePurchase} 
             disabled={isPending || credits <= 0}
-            className="w-full"
+            className="btn-primary btn-md w-full"
           >
             {isPending ? (
               <>

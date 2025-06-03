@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { FileText, Server, Database, Cpu } from "lucide-react";
+import { Container, Heading, Text, Card, Grid, StatusBadge } from "@/components/ui/design-system";
 
 const services = [
   {
@@ -43,74 +44,87 @@ const services = [
 
 const ServicesPage = () => {
   return (
-    <section className="min-h-screen bg-background text-foreground py-4 sm:py-8">
-      <div className="max-w-full mx-auto px-0">
-        <div className="px-4 md:px-6 lg:px-8 mb-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+    <section className="min-h-screen bg-background text-foreground space-dashboard">
+      <Container variant="wide">
+        <div className="space-element">
+          <Heading level={1} className="space-tight">
             Aqua Services
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-3xl">
+          </Heading>
+          <Text variant="base" muted className="max-w-3xl">
             Deploy inference APIs, notebooks, and compute apps with zero DevOps.
-          </p>
+          </Text>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-4 md:px-6 lg:px-8">
+        
+        <Grid variant="responsive-2" className="space-component">
           {services.map((service, index) => (
-            <div key={index} className="block">
-              <div className="dashboard-card h-full subtle-glow p-4">
-                <div className="flex flex-col h-full">
-                  <div className="flex items-start gap-3 mb-2">
-                    <div className="rounded-md p-1 bg-background/20">
-                      {service.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-base sm:text-lg font-semibold text-foreground mb-1">
-                        {service.name}
-                      </h3>
-                      {service.comingSoon && (
-                        <span className="bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded-md text-xs font-medium w-24 text-center self-start">
-                          Coming Soon
-                        </span>
-                      )}
-                    </div>
+            <Card key={index} variant="compact" interactive className="h-full">
+              <div className="flex flex-col h-full">
+                <div className="flex items-start gap-3 space-tight">
+                  <div className="rounded-md p-1 bg-background/20">
+                    {service.icon}
                   </div>
-                  <p className="text-muted-foreground text-xs sm:text-sm flex-grow">
-                    {service.description}
-                  </p>
-                  <div className="mt-3 sm:mt-4 text-right">
-                    <Link
-                      href={service.url}
-                      target={service.comingSoon ? "_blank" : undefined}
-                      rel={service.comingSoon ? "noopener noreferrer" : undefined}
-                      className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300"
-                    >
-                      {service.buttonText}
-                    </Link>
+                  <div>
+                    <Heading level={5} className="space-tight">
+                      {service.name}
+                    </Heading>
+                    {service.comingSoon && (
+                      <StatusBadge variant="pending">
+                        Coming Soon
+                      </StatusBadge>
+                    )}
                   </div>
                 </div>
+                <Text variant="small" muted className="flex-grow">
+                  {service.description}
+                </Text>
+                <div className="mt-3 sm:mt-4 text-right">
+                  <Link
+                    href={service.url}
+                    target={service.comingSoon ? "_blank" : undefined}
+                    rel={service.comingSoon ? "noopener noreferrer" : undefined}
+                    className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300"
+                  >
+                    {service.buttonText}
+                  </Link>
+                </div>
               </div>
-            </div>
+            </Card>
           ))}
-        </div>
+        </Grid>
 
         {/* Features Section */}
-        <div className="mt-10 px-4 md:px-6 lg:px-8">
-          <h2 className="text-lg sm:text-xl font-bold mb-4">Why Choose Aqua Services?</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="dashboard-card subtle-glow p-4">
-              <h3 className="text-sm sm:text-base font-semibold mb-1">Zero DevOps</h3>
-              <p className="text-muted-foreground text-xs sm:text-sm">Focus on your code and let us handle infrastructure, scaling, and maintenance.</p>
-            </div>
-            <div className="dashboard-card subtle-glow p-4">
-              <h3 className="text-sm sm:text-base font-semibold mb-1">GPU-Accelerated</h3>
-              <p className="text-muted-foreground text-xs sm:text-sm">Access powerful GPU resources for machine learning and compute-intensive workloads.</p>
-            </div>
-            <div className="dashboard-card subtle-glow p-4">
-              <h3 className="text-sm sm:text-base font-semibold mb-1">Language Agnostic</h3>
-              <p className="text-muted-foreground text-xs sm:text-sm">Deploy applications in Python, JavaScript, Go, or any other language.</p>
-            </div>
-          </div>
+        <div className="space-component">
+          <Heading level={2} className="space-element">
+            Why Choose Aqua Services?
+          </Heading>
+          <Grid variant="responsive-3">
+            <Card variant="compact">
+              <Heading level={6} className="space-tight">
+                Zero DevOps
+              </Heading>
+              <Text variant="small" muted>
+                Focus on your code and let us handle infrastructure, scaling, and maintenance.
+              </Text>
+            </Card>
+            <Card variant="compact">
+              <Heading level={6} className="space-tight">
+                GPU-Accelerated
+              </Heading>
+              <Text variant="small" muted>
+                Access powerful GPU resources for machine learning and compute-intensive workloads.
+              </Text>
+            </Card>
+            <Card variant="compact">
+              <Heading level={6} className="space-tight">
+                Language Agnostic
+              </Heading>
+              <Text variant="small" muted>
+                Deploy applications in Python, JavaScript, Go, or any other language.
+              </Text>
+            </Card>
+          </Grid>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

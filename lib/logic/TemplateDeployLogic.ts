@@ -23,7 +23,7 @@ export function useTemplateDeploy({
   const router = useRouter();
 
   const { mutate: createDeployment, isPending: isDeploying } =
-    useCreateDeployment("/app/dashboard");
+    useCreateDeployment("/app/deployments");
 
   const handleDeploy = async () => {
     if (!user?.id) {
@@ -64,7 +64,7 @@ export function useTemplateDeploy({
         },
         onSuccess: () => {
           toast.success("Template deployed successfully!");
-          router.push("/app/dashboard");
+          router.push("/app/deployments");
         },
       }
     );

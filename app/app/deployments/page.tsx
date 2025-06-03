@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { getProviderFromEnv } from "@/lib/utils";
 import DeploymentsList from "@/components/services/common/DeploymentsList";
 import { InfoIcon } from "lucide-react";
-
+import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 
 interface DeploymentTableProps {
   userId: string;
@@ -48,29 +48,31 @@ function DeploymentTable({ userId }: DeploymentTableProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6 w-full overflow-hidden">
-      <div className="flex items-center gap-2 py-2 px-3 mb-4 rounded-md bg-primary/5 border border-primary/10">
-        <InfoIcon className="h-4 w-4 text-primary" />
-        <p className="text-sm text-muted-foreground">
-          Note: Deployments take a few minutes to become active
-        </p>
-      </div>
+      <Card variant="dense" className="border-primary/10 bg-primary/5">
+        <div className="flex items-center gap-2">
+          <InfoIcon className="h-4 w-4 text-primary" />
+          <Text variant="small" muted>
+            Note: Deployments take a few minutes to become active
+          </Text>
+        </div>
+      </Card>
+      
       {!loading && deployments.length === 0 ? (
-        <div className="text-center py-12 sm:py-20 bg-secondary/10 rounded-xl border border-border/40 backdrop-blur-sm">
-          <p className="text-base sm:text-lg text-muted-foreground">
+        <Card variant="elevated" className="text-center space-element">
+          <Text variant="large" muted>
             {envProvider ? (
               <>
-                {" "}
                 No active deployments found for provider:{" "}
                 <span className="capitalize">{envProvider}</span>
               </>
             ) : (
               "No active deployments found"
             )}
-          </p>
-          <p className="mt-2 text-xs sm:text-sm text-muted-foreground/70">
+          </Text>
+          <Text variant="small" muted className="opacity-70">
             Create a new deployment to get started
-          </p>
-        </div>
+          </Text>
+        </Card>
       ) : (
         <div className="grid gap-4 w-full">
           <DeploymentsList
@@ -89,49 +91,41 @@ export default function Dashboard() {
   const { user, isLoading } = useAuth();
 
   return (
-    <div className="container mx-auto px-0 sm:px-6 py-6 sm:py-10">
-      <div className="flex flex-col sm:flex-row justify-between items-start ml-4 sm:items-center mb-6 sm:mb-12 gap-4 sm:gap-6">
+    <Container variant="wide" className="space-dashboard">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-element gap-4 sm:gap-6">
         <div>
-          <h1 className="section-title text-xl sm:text-2xl md:text-3xl">
+          <Heading level={1} className="space-tight">
             Deployments
-          </h1>
-          <p className="text-muted-foreground text-sm sm:text-base">
+          </Heading>
+          <Text variant="base" muted>
             Manage all your deployed apps and services at one place.
-          </p>
+          </Text>
         </div>
         <Link href="/app/services" className="w-full sm:w-auto">
-          <Button
-            size="default"
-            // className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 w-full sm:w-auto"
-          >
+          <Button size="default" className="w-full sm:w-auto">
             Deploy New Service
           </Button>
         </Link>
       </div>
 
-      <div className="subtle-glow mb-6 sm:mb-8">
-        <div className="dashboard-card">
-          {/* <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">
-            Your Deployments
-          </h2> */}
-          {isLoading ? (
-            <div className="flex justify-center items-center py-8 sm:py-12 text-muted-foreground">
-              <div className="animate-pulse text-sm sm:text-base">
-                Loading authentication...
-              </div>
+      <Card variant="primary" className="space-component">
+        {isLoading ? (
+          <div className="flex justify-center items-center space-element text-muted-foreground">
+            <div className="animate-pulse">
+              <Text variant="base">Loading authentication...</Text>
             </div>
-          ) : user?.id ? (
-            <DeploymentTable userId={user.id} />
-          ) : (
-            <div className="text-center py-12 sm:py-20 bg-secondary/10 rounded-xl border border-border/40 backdrop-blur-sm">
-              <p className="text-base sm:text-lg text-muted-foreground">
-                Please sign in to view your deployments
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        ) : user?.id ? (
+          <DeploymentTable userId={user.id} />
+        ) : (
+          <Card variant="elevated" className="text-center space-element">
+            <Text variant="large" muted>
+              Please sign in to view your deployments
+            </Text>
+          </Card>
+        )}
+      </Card>
       <Toaster />
-    </div>
+    </Container>
   );
 }

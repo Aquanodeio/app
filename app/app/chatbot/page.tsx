@@ -10,20 +10,22 @@ import {
   Server,
   Loader2,
   MessageSquare,
+  Github,
+  Globe,
+  Zap,
 } from "lucide-react";
 import { getChatHistory, sendChatMessage } from "@/hooks/service";
 import { ChatMessage } from "@/lib/types";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Badge } from "../../../components/ui/badge";
+import { Container, Heading, Text, Card as DSCard, Grid } from "@/components/ui/design-system";
 
 // Updated interfaces
 interface DeploymentInfo {
@@ -39,6 +41,30 @@ interface DeploymentInfo {
 interface DeploymentError {
   error: string;
 }
+
+// Suggestive prompts
+const SUGGESTED_PROMPTS = [
+  {
+    icon: Github,
+    text: "Deploy a Node.js app from GitHub",
+    prompt: "I want to deploy a Node.js application from my GitHub repository"
+  },
+  {
+    icon: Globe,
+    text: "Deploy a React frontend",
+    prompt: "Help me deploy a React frontend application"
+  },
+  {
+    icon: Server,
+    text: "Deploy a Python API",
+    prompt: "I need to deploy a Python Flask/FastAPI backend"
+  },
+  {
+    icon: Zap,
+    text: "What deployment options do I have?",
+    prompt: "What are the different deployment options and configurations available?"
+  }
+];
 
 // Extract deployment data from special tags in the message
 const extractDeploymentData = (
@@ -115,14 +141,14 @@ const DeploymentStatusCard = ({
   if (status === "pending") {
     const depInfo = data as DeploymentInfo;
     return (
-      <Card className="mt-4 border-primary/20 bg-primary/5">
+      <Card className="mt-3 border-primary/20 bg-primary/5">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Loader2 size={18} className="text-primary animate-spin" />
+          <CardTitle className="flex items-center gap-2 text-sm">
+            <Loader2 size={16} className="text-primary animate-spin" />
             Deployment in Progress
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
+        <CardContent className="space-y-2 text-xs">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Repository:</span>
             <Link
@@ -134,7 +160,7 @@ const DeploymentStatusCard = ({
                 /(https?:\/\/)?(www\.)?(github|gitlab)\.com\//,
                 ""
               )}
-              <ExternalLink size={12} />
+              <ExternalLink size={10} />
             </Link>
           </div>
           <div className="flex justify-between">
@@ -152,9 +178,9 @@ const DeploymentStatusCard = ({
             <span className="text-muted-foreground">Status:</span>
             <Badge
               variant="outline"
-              className="bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border-amber-500/20"
+              className="bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border-amber-500/20 text-xs"
             >
-              <Loader2 size={12} className="mr-1 animate-spin" />
+              <Loader2 size={10} className="mr-1 animate-spin" />
               Processing
             </Badge>
           </div>
@@ -164,14 +190,14 @@ const DeploymentStatusCard = ({
   } else if (status === "complete") {
     const depInfo = data as DeploymentInfo;
     return (
-      <Card className="mt-4 border-primary/20 bg-primary/5">
+      <Card className="mt-3 border-primary/20 bg-primary/5">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Server size={18} className="text-primary" />
+          <CardTitle className="flex items-center gap-2 text-sm">
+            <Server size={16} className="text-primary" />
             Deployment Successful
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
+        <CardContent className="space-y-2 text-xs">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Repository:</span>
             <Link
@@ -183,7 +209,7 @@ const DeploymentStatusCard = ({
                 /(https?:\/\/)?(www\.)?(github|gitlab)\.com\//,
                 ""
               )}
-              <ExternalLink size={12} />
+              <ExternalLink size={10} />
             </Link>
           </div>
           <div className="flex justify-between">
@@ -197,47 +223,45 @@ const DeploymentStatusCard = ({
               {depInfo.memorySize} RAM, {depInfo.storageSize} Storage
             </span>
           </div>
+          {depInfo.appUrl && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">App URL:</span>
+              <Link
+                href={depInfo.appUrl}
+                target="_blank"
+                className="flex items-center gap-1 text-primary hover:underline"
+              >
+                View App <ExternalLink size={10} />
+              </Link>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-muted-foreground">Status:</span>
             <Badge
               variant="outline"
-              className="bg-green-500/10 text-green-600 hover:bg-green-500/20 border-green-500/20"
+              className="bg-green-500/10 text-green-600 hover:bg-green-500/20 border-green-500/20 text-xs"
             >
-              Completed
+              <Server size={10} className="mr-1" />
+              Active
             </Badge>
           </div>
         </CardContent>
-        {depInfo.appUrl && (
-          <CardFooter className="pt-2">
-            <Button
-              variant="default"
-              size="sm"
-              className="w-full gap-1"
-              asChild
-            >
-              <Link href={depInfo.appUrl} target="_blank">
-                Open Application <ExternalLink size={12} />
-              </Link>
-            </Button>
-          </CardFooter>
-        )}
       </Card>
     );
-  } else {
-    const errorInfo = data as DeploymentError;
+  } else if (status === "error") {
+    const depError = data as DeploymentError;
     return (
-      <Card className="mt-4 border-red-500/20 bg-red-500/5">
+      <Card className="mt-3 border-destructive/20 bg-destructive/5">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base text-red-600">
-            <Server size={18} className="text-red-600" />
+          <CardTitle className="flex items-center gap-2 text-sm text-destructive">
+            <MessageSquare size={16} />
             Deployment Failed
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Error:</span>
-            <span className="text-red-600">{errorInfo.error}</span>
-          </div>
+        <CardContent className="text-xs">
+          <Text variant="small" className="text-destructive">
+            {depError.error}
+          </Text>
         </CardContent>
       </Card>
     );
@@ -312,6 +336,10 @@ const ChatInterface = () => {
     }
   };
 
+  const handleSuggestedPrompt = (prompt: string) => {
+    setInput(prompt);
+  };
+
   const sendPrompt = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -373,136 +401,170 @@ const ChatInterface = () => {
     }
   };
 
+  const showSuggestedPrompts = messages.length <= 1;
+
   return (
-    <div className="bg-background text-foreground">
-      <div className="container ml-5 px-0 sm:px-6 py-4 sm:py-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8 px-4 sm:px-0">
-          <div>
-            <h1 className="section-title text-xl sm:text-2xl md:text-3xl mb-2">
-              AI Assistant
-            </h1>
-            <p className="text-muted-foreground text-sm sm:text-base">
-              Chat with our AI to quickly deploy your applications or get help with any questions
-            </p>
-          </div>
+    <div className="bg-background text-foreground min-h-screen">
+      <Container variant="wide" className="space-dashboard">
+        {/* Header */}
+        <div className="space-element">
+          <Heading level={1} className="space-tight">
+            Agent Terminal
+          </Heading>
+          <Text variant="small" muted>
+            Chat with our AI to quickly deploy your applications or get help with any questions
+          </Text>
         </div>
 
-        <div className="px-4 sm:px-0">
-          <div className="dashboard-card subtle-glow mb-6 sm:mb-8">
+        {/* Chat Container */}
+        <DSCard variant="primary" className="space-component">
+          {/* Messages Area */}
+          <div className="h-[65vh] overflow-y-auto">
             <div className="space-y-4">
-              {/* Chat messages area */}
-              <div className="rounded-xl bg-secondary/5 border border-border/20 p-4 shadow-sm overflow-y-auto" style={{ height: "60vh", maxHeight: "calc(100vh - 300px)" }}>
-                <div className="max-w-3xl mx-auto space-y-8 pb-2">
-                  {messages.map((message, index) => {
-                    const deploymentData =
-                      message.role === "assistant"
-                        ? extractDeploymentData(message.content)
-                        : { status: null, data: null };
+              {messages.map((message, index) => {
+                const deploymentData =
+                  message.role === "assistant"
+                    ? extractDeploymentData(message.content)
+                    : { status: null, data: null };
 
-                    const displayContent =
-                      message.role === "assistant"
-                        ? cleanMessageContent(message.content)
-                        : message.content;
+                const displayContent =
+                  message.role === "assistant"
+                    ? cleanMessageContent(message.content)
+                    : message.content;
 
-                    // Determine if this message is from a different sender than the previous one
-                    const isNewSender = index === 0 || messages[index - 1].role !== message.role;
-                    
-                    return (
-                      <div
-                        key={index}
-                        className={`flex items-start gap-3 ${
-                          message.role === "user" ? "justify-end" : "justify-start"
-                        } ${isNewSender ? "mt-6" : "mt-2"}`}
-                      >
-                        {message.role === "assistant" && (
-                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                            <Bot size={16} />
-                          </div>
-                        )}
-
-                        <div
-                          className={`p-3 rounded-xl max-w-[80%] ${
-                            message.role === "user"
-                              ? "bg-primary/10 text-foreground"
-                              : "bg-secondary/20 text-foreground"
-                          }`}
-                        >
-                          <p className="text-sm whitespace-pre-wrap">
-                            {displayContent}
-                          </p>
-                          <span className="text-xs opacity-70 mt-1 block">
-                            {new Date(message.timestamp || "").toLocaleTimeString()}
-                          </span>
-
-                          {/* Deployment Status Card */}
-                          {deploymentData.status && deploymentData.data && (
-                            <DeploymentStatusCard
-                              status={deploymentData.status}
-                              data={deploymentData.data}
-                            />
-                          )}
-                        </div>
-
-                        {message.role === "user" && (
-                          <div className="w-8 h-8 rounded-full bg-secondary/40 flex items-center justify-center text-foreground/80">
-                            <User size={16} />
-                          </div>
-                        )}
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-start gap-3 ${
+                      message.role === "user" ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {message.role === "assistant" && (
+                      <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0">
+                        <Bot size={14} />
                       </div>
-                    );
-                  })}
-                  <div ref={messagesEndRef} className="h-0" />
-                </div>
-              </div>
+                    )}
 
-              {/* Input area */}
-              <div className="max-w-3xl mx-auto w-full">
-                <div className="border border-border/30 bg-secondary/10 rounded-xl p-1 shadow-sm backdrop-blur-sm hover:border-primary/20 transition-colors duration-300">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      style={{ display: "none" }}
-                      onChange={handleFileChange}
-                    />
-
-                    <button
-                      onClick={handlePaperclipClick}
-                      className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
-                      disabled={isLoading}
+                    <div
+                      className={`rounded-lg px-3 py-2 max-w-[80%] ${
+                        message.role === "user"
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary/40 text-foreground"
+                      }`}
                     >
-                      <Paperclip className="w-5 h-5" />
-                    </button>
+                      <Text 
+                        variant="small" 
+                        className="leading-relaxed whitespace-pre-wrap"
+                        as="div"
+                      >
+                        {displayContent}
+                      </Text>
+                      <Text 
+                        variant="caption" 
+                        className="opacity-60 space-tight"
+                        as="span"
+                      >
+                        {new Date(message.timestamp || "").toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </Text>
 
-                    <div className="flex-1">
-                      <input
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyPress}
-                        placeholder="Ask me anything..."
-                        className="w-full bg-transparent text-foreground focus:outline-none placeholder-muted-foreground py-2 px-1 rounded-md"
-                        disabled={isLoading}
-                      />
+                      {/* Deployment Status Card */}
+                      {deploymentData.status && deploymentData.data && (
+                        <DeploymentStatusCard
+                          status={deploymentData.status}
+                          data={deploymentData.data}
+                        />
+                      )}
                     </div>
 
-                    <button
-                      onClick={sendPrompt}
-                      className={`p-2 rounded-lg transition-all duration-300 ${
-                        input.trim() && !isLoading
-                          ? "bg-primary text-white hover:bg-primary/90"
-                          : "text-muted-foreground bg-secondary/30 cursor-not-allowed"
-                      }`}
-                      disabled={!input.trim() || isLoading}
-                    >
-                      <ArrowUp className="w-5 h-5" />
-                    </button>
+                    {message.role === "user" && (
+                      <div className="w-7 h-7 rounded-full bg-secondary/40 flex items-center justify-center text-foreground/80 flex-shrink-0">
+                        <User size={14} />
+                      </div>
+                    )}
                   </div>
+                );
+              })}
+
+              {/* Suggested Prompts */}
+              {showSuggestedPrompts && (
+                <div className="flex flex-col items-center space-y-3 py-6">
+                  <Text variant="small" muted className="space-tight">
+                    Try these suggestions:
+                  </Text>
+                  <Grid variant="responsive-2" className="w-full max-w-4xl">
+                    {SUGGESTED_PROMPTS.map((suggestion, index) => {
+                      const Icon = suggestion.icon;
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleSuggestedPrompt(suggestion.prompt)}
+                          className="flex items-center gap-3 p-3 rounded-lg border border-border/30 bg-secondary/20 hover:bg-secondary/40 hover:border-primary/30 transition-all duration-200 text-left text-sm"
+                          disabled={isLoading}
+                        >
+                          <Icon size={16} className="text-primary flex-shrink-0" />
+                          <Text variant="small" className="text-foreground">
+                            {suggestion.text}
+                          </Text>
+                        </button>
+                      );
+                    })}
+                  </Grid>
                 </div>
-              </div>
+              )}
+
+              <div ref={messagesEndRef} />
             </div>
           </div>
-        </div>
-      </div>
+
+          {/* Input Area */}
+          <div className="border-t border-border/20 p-4">
+            <div className="flex items-center gap-2 bg-background border border-border/30 rounded-lg p-2 hover:border-primary/20 transition-colors max-w-4xl mx-auto">
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+
+              <button
+                onClick={handlePaperclipClick}
+                className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+                disabled={isLoading}
+              >
+                <Paperclip size={16} />
+              </button>
+
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="Ask me anything..."
+                className="flex-1 bg-transparent text-sm focus:outline-none placeholder-muted-foreground py-1"
+                disabled={isLoading}
+              />
+
+              <button
+                onClick={sendPrompt}
+                className={`p-1.5 rounded-md transition-all ${
+                  input.trim() && !isLoading
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "text-muted-foreground bg-secondary/30 cursor-not-allowed"
+                }`}
+                disabled={!input.trim() || isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <ArrowUp size={16} />
+                )}
+              </button>
+            </div>
+          </div>
+        </DSCard>
+      </Container>
     </div>
   );
 };

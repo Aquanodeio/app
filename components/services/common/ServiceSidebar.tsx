@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Deployment } from "@/lib/types";
 import { formatDistanceToNow } from "date-fns";
+import { Card, Heading, Text } from "../../ui/design-system";
 
 interface ServiceSidebarProps {
   deployments: Deployment[];
@@ -19,55 +20,55 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
   serviceName,
 }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-component">
       {/* Quick Actions */}
-      {/* <div className="dashboard-card subtle-glow">
-        <h3 className="text-lg font-medium text-foreground mb-4">
+      {/* <Card variant="primary">
+        <Heading level={5} className="space-element">
           Quick Actions
-        </h3>
-        <div className="space-y-3">
+        </Heading>
+        <div className="space-y-2">
           <Button
             onClick={onRefresh}
-            className="w-full hover-effect"
+            className="btn-secondary btn-sm w-full"
             variant="outline"
           >
             Refresh Deployments
           </Button>
           <Button
-            className="w-full hover-effect bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-900/30 text-white"
+            className="btn-primary btn-sm w-full"
             onClick={onCreateNew}
           >
             Create New Instance
           </Button>
         </div>
-      </div> */}
+      </Card> */}
 
       {/* Recent Activity */}
-      <div className="dashboard-card subtle-glow">
-        <h3 className="text-lg font-medium text-foreground mb-4">
+      <Card variant="primary">
+        <Heading level={5} className="space-element">
           Recent Activity
-        </h3>
+        </Heading>
         {deployments.length === 0 ? (
-          <p className="text-muted-foreground text-sm">No recent activity</p>
+          <Text variant="small" muted>No recent activity</Text>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {deployments.slice(0, 3).map((deployment) => (
               <div
                 key={deployment.deploymentId}
-                className="border-b border-border/40 pb-3 last:border-0"
+                className="border-b border-border/40 pb-2 last:border-0"
               >
-                <div className="flex items-center justify-between">
-                  <p className="text-foreground">
+                <div className="flex items-center justify-between space-tight">
+                  <Text variant="small" className="font-medium">
                     {serviceName} {deployment.deploymentId}
-                  </p>
+                  </Text>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${
+                    className={`status-badge ${
                       isDeploymentActive(
                         deployment.createdAt,
                         deployment.duration
                       )
-                        ? "bg-green-500/10 text-green-500"
-                        : "bg-red-500/10 text-red-500"
+                        ? "status-active"
+                        : "status-inactive"
                     }`}
                   >
                     {isDeploymentActive(
@@ -78,14 +79,14 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
                       : "Expired"}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm">
+                <Text variant="small" muted>
                   {formatDistanceToNow(new Date(deployment.createdAt))} ago
-                </p>
+                </Text>
               </div>
             ))}
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 };

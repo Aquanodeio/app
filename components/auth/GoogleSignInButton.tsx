@@ -23,7 +23,7 @@ export default function GoogleSignInButton() {
     <Button
       type="button"
       variant="outline"
-      className="w-full"
+      className="btn-secondary btn-md w-full"
       onClick={handleGoogleSignIn}
       disabled={isLoading}
     >
