@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LogOut, User, Menu, X } from "lucide-react";
+import { LogOut, User, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuthSession } from "@/hooks/auth/useAuthSession";
@@ -23,7 +23,6 @@ export default function Navbar({
   onMobileMenuToggle?: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, displayName, signOut, isLoading, accessToken } =
@@ -36,10 +35,6 @@ export default function Navbar({
   const handleSignOut = async () => {
     await signOut();
     router.push("/");
-  };
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   // Check if we're in the app section to display the menu toggle
@@ -123,32 +118,8 @@ export default function Navbar({
               </Link>
             </>
           )}
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-muted-foreground hover:text-primary hover:bg-primary/10"
-            onClick={toggleMobileMenu}
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </Button>
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden px-6 py-4 border-t border-border/20 bg-background/95 backdrop-blur-md">
-          <div className="flex flex-col space-y-3">
-            {!isAuthenticated && (
-              <Link href="/app" className="pt-2">
-                <Button className="btn-primary btn-md w-full">
-                  Launch App
-                </Button>
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
     </nav>
   );
 }

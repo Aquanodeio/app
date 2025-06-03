@@ -76,6 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Check if current route is auth-related
   const isAuthRoute =
@@ -89,6 +90,10 @@ export default function RootLayout({
 
   // Determine which navbar to show based on route
   const showNavbar = !isAuthRoute;
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   return (
     <html lang="en" className="dark">
@@ -104,13 +109,13 @@ export default function RootLayout({
                     // <Navbar />
                     <></>
                   ) : (
-                    pathname.startsWith("/app") && <AppNavbar />
+                    pathname.startsWith("/app") && <AppNavbar onMobileMenuToggle={toggleMobileMenu} />
                   )}
                 </>
               )}
               <main className="flex-1">
                 {pathname.startsWith("/app") ? (
-                  <Layout>{children}</Layout>
+                  <Layout mobileMenuOpen={mobileMenuOpen} onMobileMenuToggle={toggleMobileMenu}>{children}</Layout>
                 ) : (
                   <div className="mx-auto">{children}</div>
                 )}

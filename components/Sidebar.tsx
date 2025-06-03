@@ -17,7 +17,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
 
   return (
     <div
-      className={`fixed h-[calc(100vh-4rem)] w-72 bg-secondary/30 backdrop-blur-sm border-r border-border/30 flex flex-col p-3 overflow-y-auto z-40 transition-transform duration-300 md:translate-x-0 ${
+      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-72 bg-secondary/30 backdrop-blur-lg border-r border-border/30 flex flex-col p-3 overflow-y-auto z-50 transition-transform duration-300 md:translate-x-0 ${
         isMobileOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >

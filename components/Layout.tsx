@@ -1,16 +1,17 @@
 // components/Layout.tsx
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { user, isLoading } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+interface LayoutProps {
+  children: React.ReactNode;
+  mobileMenuOpen: boolean;
+  onMobileMenuToggle: () => void;
+}
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+const Layout = ({ children, mobileMenuOpen, onMobileMenuToggle }: LayoutProps) => {
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -20,15 +21,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex flex-1">
         {/* Mobile menu overlay */}
         {mobileMenuOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-30 md:hidden"
-            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={onMobileMenuToggle}
           />
         )}
 
