@@ -33,7 +33,7 @@ const PaymentSuccessPage = () => {
             </p>
           )}
           <Button 
-            onClick={() => router.push('/app/dashboard')}
+            onClick={() => router.push('/app/deployments')}
             className="bg-blue-600 hover:bg-blue-700"
           >
             Return to Dashboard

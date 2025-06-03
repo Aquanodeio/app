@@ -47,7 +47,7 @@ export default function SignInForm() {
       }
 
       // Redirect to dashboard on successful login
-      router.push("/app/dashboard");
+      router.push("/app/deployments");
     } catch (err) {
       setError("An unexpected error occurred");
       console.error(err);

@@ -32,7 +32,7 @@ const PaymentCancelPage = () => {
               Try Again
             </Button>
             <Button 
-              onClick={() => router.push('/app/dashboard')}
+              onClick={() => router.push('/app/deployments')}
               variant="outline"
               className="w-full"
             >

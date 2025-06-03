@@ -26,16 +26,16 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
       <Button
           variant="ghost"
           className={`w-full justify-start gap-3 ${
-            pathname?.includes("/app/dashboard")
+            pathname?.includes("/app/deployments")
               ? "text-primary bg-primary/10"
               : "text-muted-foreground"
           } hover:text-primary hover:bg-primary/10 py-5 rounded-xl group text-base`}
-          onClick={() => router.push("/app/dashboard")}
+          onClick={() => router.push("/app/deployments")}
         >
           <LayoutDashboard
             size={22}
             className={`${
-              pathname?.includes("/app/dashboard")
+              pathname?.includes("/app/deployments")
                 ? "text-primary"
                 : "text-muted-foreground"
             } group-hover:text-primary transition-colors`}
