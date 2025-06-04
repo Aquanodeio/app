@@ -81,7 +81,7 @@ const gpuOptions: GPUOption[] = [
 const GPUCard: React.FC<{ gpu: GPUOption; onClick: () => void }> = ({ gpu, onClick }) => (
   <div className="bg-secondary/20 border border-border/40 rounded-xl p-6 transition-all duration-300 hover:border-primary/30 hover:bg-secondary/30 group h-full flex flex-col">
     <div className="flex-none">
-      <div className="bg-gradient-to-br from-primary to-accent w-12 h-12 rounded-xl flex items-center justify-center mb-4 transform transition-transform duration-300 group-hover:scale-105">
+      <div className="bg-primary w-12 h-12 rounded-xl flex items-center justify-center mb-4 transform transition-transform duration-300 group-hover:scale-105">
         <Server className="h-6 w-6 text-primary-foreground" />
       </div>
       <div className="flex justify-between items-start mb-4">
@@ -135,7 +135,7 @@ const PricingComponent: React.FC = () => {
       <div className="container-content relative z-10">
         <div className="text-center max-w-3xl mx-auto space-component">
           <h2 className="heading-1 space-element text-foreground">
-            <span className="gradient-text">GPU Pricing</span>
+            <span className="text-primary">GPU Pricing</span>
           </h2>
           <p className="body-large text-muted-foreground">
             Access high-performance GPUs at a fraction of the cost of traditional cloud providers.
