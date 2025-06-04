@@ -20,8 +20,18 @@ const TemplateDetailsPage = () => {
   useEffect(() => {
     if (params.id) {
       const templateId = Array.isArray(params.id) ? params.id[0] : params.id;
-      const foundTemplate = templates.find(t => t.id === templateId);
-      setTemplate(foundTemplate || null);
+      
+      // Search through all categories to find the template
+      let foundTemplate: Template | null = null;
+      for (const categoryTemplates of Object.values(templates)) {
+        const template = categoryTemplates.find(t => t.id === templateId);
+        if (template) {
+          foundTemplate = template;
+          break;
+        }
+      }
+      
+      setTemplate(foundTemplate);
     }
   }, [params.id]);
 
