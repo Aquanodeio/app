@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Code, Terminal, Package, Folder, Globe } from "lucide-react";
 
 interface BuildSettingsProps {
@@ -12,6 +13,8 @@ interface BuildSettingsProps {
   setInstallCommand?: (value: string) => void;
   portNumber: number;
   setPortNumber: (number: number) => void;
+  language: string;
+  setLanguage: (value: string) => void;
 }
 
 export default function BuildSettings({
@@ -23,11 +26,36 @@ export default function BuildSettings({
   setInstallCommand,
   portNumber,
   setPortNumber,
+  language,
+  setLanguage,
 }: BuildSettingsProps) {
   return (
     <div className="dashboard-card mb-8">
-      <h3 className="text-lg font-medium mb-4">Build Settings</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div>
+          <Label htmlFor="language" className="text-sm font-medium mb-2 block">
+            Language
+          </Label>
+          <div className="flex items-center gap-2">
+            <div className="relative w-full">
+              <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger className="w-full h-10 text-sm bg-secondary/10 border-border/30 pl-10">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="nodejs">Node.js</SelectItem>
+                  <SelectItem value="python">Python</SelectItem>
+                  <SelectItem value="go">Go</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1.5">
+            Programming language for your application
+          </p>
+        </div>
+
         {setInstallCommand && (
           <div>
             <Label htmlFor="install-command" className="text-sm font-medium mb-2 block">
@@ -50,7 +78,6 @@ export default function BuildSettings({
             </p>
           </div>
         )}
-
 
         <div>
           <Label htmlFor="run-command" className="text-sm font-medium mb-2 block">

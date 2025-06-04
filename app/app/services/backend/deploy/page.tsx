@@ -62,6 +62,7 @@ export default function CustomServiceDeployment() {
   const [dockerUsername, setDockerUsername] = useState<string>("");
   const [dockerPassword, setDockerPassword] = useState<string>("");
   const [privateRegistry, setPrivateRegistry] = useState<boolean>(false);
+  const [language, setLanguage] = useState<string>("nodejs");
 
   // Create deployment config object
   const createConfigObject = (customValues?: ResourceValueOptions) => {
@@ -180,14 +181,14 @@ export default function CustomServiceDeployment() {
   const deploymentOptions = [
     {
       title: "Default Deployment",
-      description: "Quick deployment with standard resources",
+      description: "Deploy instantly on shared infrastructure",
       resources: ["CPU: 1 unit", "Memory: 1Gi", "Storage: 1Gi", "Duration: 1h"],
       free: true,
       icon: <Database className="h-5 w-5" />,
     },
     {
       title: "Custom Deployment",
-      description: "Configure your own resources",
+      description: "Configure your own dedicated resources",
       resources: [
         "Customizable CPU",
         "Adjustable memory",
@@ -262,6 +263,8 @@ export default function CustomServiceDeployment() {
           setOutputDirectory={setOutputDirectory}
           portNumber={portNumber}
           setPortNumber={setPortNumber}
+          language={language}
+          setLanguage={setLanguage}
         />
       }
       serviceName="hosting"
