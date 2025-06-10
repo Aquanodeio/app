@@ -82,7 +82,7 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
           ) : error ? (
             <p className="text-base font-bold text-muted-foreground">--</p>
           ) : (
-            <p className="text-base font-bold">{data?.credits || 0} Credits</p>
+            <p className="text-base font-bold">{data?.credits?.toFixed(2) || 0} Credits</p>
           )}
         </div>
 

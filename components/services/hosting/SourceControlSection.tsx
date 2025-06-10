@@ -1,24 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GitBranch, Github, Dock, Server, KeyRound, User, Globe, Tag } from "lucide-react";
+import {
+  GitBranch,
+  Github,
+  Dock,
+  KeyRound,
+  User,
+  Tag,
+  Globe,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Unit } from "@/constants/constrains";
 import { Checkbox } from "@/components/ui/checkbox";
-
-interface State {
-  isPrivate: boolean;
-  cpuValue: string;
-  isGpuEnabled: boolean;
-  gpuValue: number;
-  memoryValue: number;
-  memoryUnit: Unit;
-  ephemeralValue: number;
-  ephemeralUnit: Unit;
-  deploymentDuration: number; // Now in hours
-}
+import GitHubProviderSection from "./GitHubProviderSection";
 
 export type SourceType = "github" | "docker";
 
@@ -62,10 +57,13 @@ export function SourceControlSection({
   return (
     <div className="dashboard-card mb-8">
       <h3 className="text-lg font-medium mb-4">Source Control</h3>
-      
+
       <div className="mb-6">
-        <Tabs defaultValue={sourceType} onValueChange={(value) => setSourceType(value as SourceType)}>
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+        <Tabs
+          defaultValue={sourceType}
+          onValueChange={(value) => setSourceType(value as SourceType)}
+        >
+          {/* <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="github" className="flex items-center gap-2">
               <Github className="h-4 w-4" />
               <span>GitHub Repository</span>
@@ -74,9 +72,33 @@ export function SourceControlSection({
               <Dock className="h-4 w-4" />
               <span>Docker Image</span>
             </TabsTrigger>
+          </TabsList> */}
+
+          <TabsList className="grid w-full grid-cols-3 space-element">
+            <TabsTrigger value="github" className="flex items-center gap-2">
+              <Github className="h-4 w-4" />
+              Git Provider
+            </TabsTrigger>
+            <TabsTrigger value="public" className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              Public Git Repository
+            </TabsTrigger>
+            <TabsTrigger value="docker" className="flex items-center gap-2">
+              <Dock className="h-4 w-4" />
+              Docker Image
+            </TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="github" className="space-y-6">
+
+          <TabsContent value="github" className="space-y-6 mt-6">
+            <GitHubProviderSection
+              repoUrl={repoUrl}
+              setRepoUrl={setRepoUrl}
+              branchName={branchName}
+              setBranchName={setBranchName}
+            />
+          </TabsContent>
+
+          <TabsContent value="public" className="space-y-6">
             <div>
               <Label
                 htmlFor="repo-url"
@@ -121,7 +143,7 @@ export function SourceControlSection({
               </p>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="docker" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               <div>
@@ -168,12 +190,14 @@ export function SourceControlSection({
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-2 mt-2 mb-4">
-              <Checkbox 
-                id="private-registry" 
+              <Checkbox
+                id="private-registry"
                 checked={privateRegistry}
-                onCheckedChange={(checked: boolean) => setPrivateRegistry(checked)}
+                onCheckedChange={(checked: boolean) =>
+                  setPrivateRegistry(checked)
+                }
               />
               <Label
                 htmlFor="private-registry"
@@ -182,7 +206,7 @@ export function SourceControlSection({
                 Private Registry
               </Label>
             </div>
-            
+
             {privateRegistry && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pl-6 border-l-2 border-border/30">
                 <div>
