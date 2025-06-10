@@ -106,13 +106,13 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         <Button
           variant="ghost"
           className="w-full justify-between items-center text-muted-foreground py-3 rounded-lg group text-sm"
-          disabled
+          onClick={() => router.push("/app/payments")}
         >
           <div className="flex items-center gap-2.5">
             <CreditCard size={18} className="text-muted-foreground" />
             <span>Payments</span>
           </div>
-          <Lock size={16} className="text-muted-foreground" />
+          {/* <Lock size={16} className="text-muted-foreground" /> */}
         </Button>
 
         <Button
