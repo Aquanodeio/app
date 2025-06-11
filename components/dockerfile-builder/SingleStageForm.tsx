@@ -1,8 +1,11 @@
+'use client'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { Text } from '@/components/ui/design-system'
-import { FaDocker } from 'react-icons/fa'
+import { Button } from '@/components/ui/button'
+import { Container, Trash2 } from 'lucide-react'
 
 import KeyValueList from './fields/KeyValueList'
 import RunList from './fields/RunList'
@@ -12,7 +15,9 @@ import type { DockerStage } from './DockerfileBuilderPage'
 
 type Props = {
   stage: DockerStage
+  stages: DockerStage[]
   onChange: (updated: DockerStage) => void
+  onRemove?: () => void
   index: number
 }
 
@@ -27,17 +32,23 @@ const baseImageOptions = [
   'custom'
 ]
 
-export default function SingleStageForm({ stage, onChange, index }: Props) {
+export default function SingleStageForm({ stage, stages, onChange, onRemove, index }: Props) {
   const update = <K extends keyof DockerStage>(key: K, value: DockerStage[K]) =>
     onChange({ ...stage, [key]: value })
 
   const isCustom = !baseImageOptions.includes(stage.baseImage)
+  const availableAliases = stages
+    .filter((s, i) => i !== index && s.alias)
+    .map(s => s.alias!) // non-null assert since we filtered
 
   return (
     <Card className="p-6 space-y-6 border border-muted-foreground/20">
       {/* Base Image */}
       <div className="space-y-1">
-        <Label>Stage {index + 1} Base Image</Label>
+        <Label className="flex items-center gap-2 text-base">
+          <Container className="w-4 h-4 text-blue-600" />
+          Stage {index + 1} Base Image
+        </Label>
         <select
           className="w-full rounded-md border bg-background px-3 py-2 text-sm"
           value={isCustom ? 'custom' : stage.baseImage}
@@ -63,7 +74,20 @@ export default function SingleStageForm({ stage, onChange, index }: Props) {
         )}
 
         <Text variant="small" muted>
-          Image used for this build stage.
+          FROM image used in this build stage.
+        </Text>
+      </div>
+
+      {/* Optional Alias */}
+      <div className="space-y-1">
+        <Label>Stage Alias (optional)</Label>
+        <Input
+          placeholder="e.g. builder"
+          value={stage.alias ?? ''}
+          onChange={e => update('alias', e.target.value)}
+        />
+        <Text variant="small" muted>
+          Used as: <code>FROM {stage.baseImage} AS {stage.alias || '<alias>'}</code>
         </Text>
       </div>
 
@@ -98,6 +122,7 @@ export default function SingleStageForm({ stage, onChange, index }: Props) {
         <CopyList
           entries={stage.copies}
           onChange={val => update('copies', val)}
+          availableAliases={availableAliases}
         />
       </div>
 
@@ -111,7 +136,7 @@ export default function SingleStageForm({ stage, onChange, index }: Props) {
             onChange={e => update('workdir', e.target.value)}
           />
           <Text variant="small" muted>
-            Working directory for CMD/RUN/ENTRYPOINT.
+            Working directory for RUN/CMD/ENTRYPOINT
           </Text>
         </div>
 
@@ -123,11 +148,25 @@ export default function SingleStageForm({ stage, onChange, index }: Props) {
             onChange={e => update('user', e.target.value)}
           />
           <Text variant="small" muted>
-            Set user before CMD/RUN/etc.
+            Switch user before commands
           </Text>
         </div>
       </div>
+
+      {/* Remove Stage */}
+      {onRemove && (
+        <div className="pt-2 flex justify-end">
+          <Button
+            variant="destructive"
+            type="button"
+            onClick={onRemove}
+            className="flex items-center gap-2"
+          >
+            <Trash2 className="w-4 h-4" />
+            Remove Stage
+          </Button>
+        </div>
+      )}
     </Card>
   )
 }
-

@@ -7,11 +7,12 @@ import DockerfileOutput from './DockerfileOutput'
 
 export type DockerStage = {
   baseImage: string
+  alias?: string
   labels: { key: string; value: string }[]
   args: { key: string; value: string }[]
   envs: { key: string; value: string }[]
   runs: string[]
-  copies: { src: string; dest: string }[]
+  copies: { src: string; dest: string; from?: string }[]
   workdir: string
   user: string
 }
@@ -40,25 +41,32 @@ export default function DockerfileBuilderPage() {
     setStages([...stages, defaultStage()])
   }
 
+  const removeStage = (i: number) => {
+    if (stages.length === 1) return // prevent deleting the last stage
+    const newStages = stages.filter((_, idx) => idx !== i)
+    setStages(newStages)
+  }
+
   const generateDockerfile = () => {
     const lines: string[] = []
 
     stages.forEach((stage, idx) => {
-      lines.push(`FROM ${stage.baseImage}${idx > 0 ? ` AS stage${idx}` : ''}`)
+      const fromLine = `FROM ${stage.baseImage}${stage.alias ? ` AS ${stage.alias}` : ''}`
+      lines.push(fromLine)
 
-      stage.labels.filter(l => l.key).forEach(({ key, value }) =>
-        lines.push(`LABEL ${key}="${value}"`)
-      )
-      stage.args.filter(a => a.key).forEach(({ key, value }) =>
-        lines.push(`ARG ${key}=${value}`)
-      )
-      stage.envs.filter(e => e.key).forEach(({ key, value }) =>
-        lines.push(`ENV ${key}=${value}`)
-      )
+      stage.labels?.filter(l => l.key).forEach(({ key, value }) => lines.push(`LABEL ${key}="${value}"`))
+      stage.args?.filter(a => a.key).forEach(({ key, value }) => lines.push(`ARG ${key}=${value}`))
+      stage.envs?.filter(e => e.key).forEach(({ key, value }) => lines.push(`ENV ${key}=${value}`))
       if (stage.workdir) lines.push(`WORKDIR ${stage.workdir}`)
-      stage.copies.forEach(c => c.src && c.dest && lines.push(`COPY ${c.src} ${c.dest}`))
-      stage.runs.forEach(cmd => cmd && lines.push(`RUN ${cmd}`))
+      stage.copies?.forEach(({ src, dest, from }) => {
+        if (src && dest) {
+          const fromClause = from ? `--from=${from} ` : ''
+          lines.push(`COPY ${fromClause}${src} ${dest}`)
+        }
+      })
+      stage.runs?.forEach(cmd => cmd && lines.push(`RUN ${cmd}`))
       if (stage.user) lines.push(`USER ${stage.user}`)
+
       lines.push('')
     })
 
@@ -77,9 +85,12 @@ export default function DockerfileBuilderPage() {
             </summary>
             <div className="p-4">
               <SingleStageForm
+                key={idx}
                 index={idx}
                 stage={stage}
+                stages={stages}
                 onChange={updated => updateStage(idx, updated)}
+                onRemove={() => removeStage(idx)}
               />
             </div>
           </details>
