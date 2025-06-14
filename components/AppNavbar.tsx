@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LogOut, User, Menu } from "lucide-react";
+import { LogOut, User, Menu, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuthSession } from "@/hooks/auth/useAuthSession";
@@ -64,6 +64,15 @@ export default function Navbar({
           <div className="hidden md:flex items-center space-x-4"></div>
           {isAuthenticated ? (
             <>
+              <Link href="/app/services">
+                <Button
+                    variant="secondary"
+                    className="flex items-center gap-2 bg-card/80 hover:bg-accent/10 text-accent hover:border-accent/40 shadow-sm transition-all duration-300 border-accent/40"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span className="hidden sm:inline">Create Services</span>
+                </Button>
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

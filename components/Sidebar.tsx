@@ -318,8 +318,8 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
       </nav>
 
       {/* Examples Section - Sticky to bottom */}
-      <div className="mt-auto pt-4 border-t border-border/40">
-        <h3 className="text-xs font-medium mb-3 text-muted-foreground uppercase tracking-wide">Examples</h3>
+      {/* <div className="mt-auto pt-4 border-t border-border/40">
+        <h3 className="text-xs font-medium mb-3 text-muted-foreground tracking-wide">QuickStart</h3>
         <div className="space-y-1">
           {examples.map((example, index) => (
             <Link 
@@ -331,7 +331,7 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
 
       <div className="pt-4 border-t border-border/40 text-muted-foreground text-sm flex items-center">
         <a

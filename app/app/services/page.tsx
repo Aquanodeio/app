@@ -147,31 +147,31 @@ const ServicesPage = () => {
         {/* Features Section */}
         <div className="space-component mt-12">
           <Heading level={2} className="space-element text-foreground/90 mb-8">
-            Why Choose Aqua Services?
+            Check these out
           </Heading>
           <Grid variant="responsive-3">
             <Card variant="compact" className="border-border/60 hover:border-border/80 transition-all duration-300">
               <Heading level={5} className="space-tight text-foreground/95 mb-3">
-                Zero DevOps
+                Model Gallery
               </Heading>
               <Text variant="small" muted className="leading-relaxed">
-                Focus on your code and let us handle infrastructure, scaling, and maintenance.
+                Browse our collection of pre-trained models and deploy them with a single click.
               </Text>
             </Card>
             <Card variant="compact" className="border-border/60 hover:border-border/80 transition-all duration-300">
               <Heading level={5} className="space-tight text-foreground/95 mb-3">
-                GPU-Accelerated
+                One-Click Apps
               </Heading>
               <Text variant="small" muted className="leading-relaxed">
-                Access powerful GPU resources for machine learning and compute-intensive workloads.
+                Deploy backend services, runtimes, tools, and more with a single click.
               </Text>
             </Card>
             <Card variant="compact" className="border-border/60 hover:border-border/80 transition-all duration-300">
               <Heading level={5} className="space-tight text-foreground/95 mb-3">
-                Language Agnostic
+                Pre-Configured Templates
               </Heading>
               <Text variant="small" muted className="leading-relaxed">
-                Deploy applications in Python, JavaScript, Go, or any other language.
+                Browse our collection of pre-configured templates and deploy them with a single click.
               </Text>
             </Card>
           </Grid>
