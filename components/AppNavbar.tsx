@@ -14,8 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import aquanodeLogo from "@/assets/aquanode-logo.png";
 
 export default function Navbar({
   onMobileMenuToggle,
@@ -45,27 +43,21 @@ export default function Navbar({
   }
 
   return (
-    <nav className="border-b border-border/20 bg-background/70 backdrop-blur-md sticky top-0 z-50">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+    <nav className="border-b border-border/40 bg-card/70 backdrop-blur-md sticky top-0 z-50">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
       <div className="flex justify-between h-16 items-center px-6 max-w-[129rem] mx-auto">
         <div className="flex items-center gap-3">
           {isAppSection && onMobileMenuToggle && (
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden text-muted-foreground hover:text-primary hover:bg-primary/10"
+              className="md:hidden text-muted-foreground hover:text-accent hover:bg-accent/10 transition-all duration-300"
               onClick={onMobileMenuToggle}
             >
               <Menu size={20} />
             </Button>
           )}
-          <Link
-            href="/"
-            className="text-xl font-bold text-white transition-colors duration-300 flex items-center gap-2"
-          >
-            <Image src={aquanodeLogo} alt="Aquanode" width={32} height={32} />
-            AQUANODE
-          </Link>
+          {/* Logo removed - now in sidebar */}
         </div>
 
         <div className="flex items-center gap-4">
@@ -76,7 +68,7 @@ export default function Navbar({
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="secondary"
-                    className="flex items-center gap-2 bg-background/60 hover:bg-primary/10 hover:text-primary hover:border-primary/30 shadow-sm"
+                    className="flex items-center gap-2 bg-card/80 hover:bg-accent/10 hover:text-accent hover:border-accent/40 shadow-sm transition-all duration-300"
                   >
                     <User className="w-4 h-4" />
                     <span className="hidden sm:inline">{displayName}</span>
@@ -84,15 +76,15 @@ export default function Navbar({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="bg-secondary/80 backdrop-blur-md border-border/40 shadow-xl shadow-black/20"
+                  className="bg-card/90 backdrop-blur-md border-border/60 shadow-xl shadow-black/30"
                 >
                   <DropdownMenuLabel className="text-foreground/90">
                     My Account
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-border/20" />
+                  <DropdownMenuSeparator className="bg-border/40" />
                   <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="cursor-pointer hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive"
+                    className="cursor-pointer hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive transition-colors duration-300"
                   >
                     <LogOut className="w-4 h-4 mr-2 opacity-70" />
                     Sign out
@@ -105,7 +97,7 @@ export default function Navbar({
               <Link href="/signin">
                 <Button
                   variant="secondary"
-                  className="bg-background/60 hover:bg-primary/10 hover:text-primary hover:border-primary/30 shadow-sm"
+                  className="bg-card/80 hover:bg-accent/10 hover:text-accent hover:border-accent/40 shadow-sm transition-all duration-300"
                 >
                   <span className="hidden sm:inline">Sign In</span>
                   <User className="w-4 h-4 sm:hidden" />

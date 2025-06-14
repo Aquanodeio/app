@@ -69,7 +69,7 @@ const Templates = () => {
                     <Heading level={5} className="space-tight transition-colors duration-300 flex-1">
                       {template.name}
                     </Heading>
-                    <span className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full whitespace-nowrap shrink-0">
+                    <span className="px-2 py-1 text-xs bg-muted/20 text-muted-foreground rounded-md whitespace-nowrap shrink-0 border border-border/50">
                       {template.category}
                     </span>
                   </div>

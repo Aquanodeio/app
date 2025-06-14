@@ -6,6 +6,8 @@ import { FileText, Server, Grid, LayoutDashboard, Lock, CreditCard, Bot } from "
 import Link from "next/link";
 import { examples } from "@/lib/catalog";
 import AquaCredits from "@/components/AquaCredits";
+import Image from "next/image";
+import aquanodeLogo from "@/assets/aquanode-logo.png";
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -17,28 +19,39 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
 
   return (
     <div
-      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-72 bg-secondary/30 backdrop-blur-lg border-r border-border/30 flex flex-col p-3 overflow-y-auto z-50 transition-transform duration-300 md:translate-x-0 ${
+      className={`fixed top-0 left-0 h-screen w-72 bg-card/90 backdrop-blur-lg border-r border-border/60 flex flex-col p-3 overflow-y-auto z-[60] transition-transform duration-300 md:translate-x-0 ${
         isMobileOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <nav className="flex-1 flex flex-col gap-2 mt-4">
-      <AquaCredits credits={1250.75} threshold="2/2" />
-      <Button
+      {/* Logo Section */}
+      <div className="flex items-center gap-2 p-4 border-b border-border/40 mb-4">
+        <Link
+          href="/"
+          className="text-xl font-bold text-foreground transition-colors duration-300 flex items-center gap-2 hover:text-accent"
+        >
+          <Image src={aquanodeLogo} alt="Aquanode" width={32} height={32} />
+          AQUANODE
+        </Link>
+      </div>
+
+      <nav className="flex-1 flex flex-col gap-2">
+        <AquaCredits credits={1250.75} threshold="2/2" />
+        <Button
           variant="ghost"
           className={`w-full justify-start gap-2.5 ${
             pathname?.includes("/app/deployments")
-              ? "text-primary bg-primary/10"
-              : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-3 rounded-lg group text-sm`}
+              ? "text-accent bg-accent/10 border-accent/20"
+              : "text-muted-foreground hover:text-foreground"
+          } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
           onClick={() => router.push("/app/deployments")}
         >
           <LayoutDashboard
             size={18}
             className={`${
               pathname?.includes("/app/deployments")
-                ? "text-primary"
-                : "text-muted-foreground"
-            } group-hover:text-primary transition-colors`}
+                ? "text-accent"
+                : "text-muted-foreground group-hover:text-accent"
+            } transition-colors duration-300`}
           />
           <span>Deployments</span>
         </Button>
@@ -47,18 +60,18 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           variant="ghost"
           className={`w-full justify-start gap-2.5 ${
             pathname?.includes("/app/services")
-              ? "text-primary bg-primary/10"
-              : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-3 rounded-lg group text-sm`}
+              ? "text-accent bg-accent/10 border-accent/20"
+              : "text-muted-foreground hover:text-foreground"
+          } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
           onClick={() => router.push("/app/services")}
         >
           <Server
             size={18}
             className={`${
               pathname?.includes("/app/services")
-                ? "text-primary"
-                : "text-muted-foreground"
-            } group-hover:text-primary transition-colors`}
+                ? "text-accent"
+                : "text-muted-foreground group-hover:text-accent"
+            } transition-colors duration-300`}
           />
           <span>Services</span>
         </Button>
@@ -67,18 +80,18 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           variant="ghost"
           className={`w-full justify-start gap-2.5 ${
             pathname?.includes("/app/templates")
-              ? "text-primary bg-primary/10"
-              : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-3 rounded-lg group text-sm`}
+              ? "text-accent bg-accent/10 border-accent/20"
+              : "text-muted-foreground hover:text-foreground"
+          } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
           onClick={() => router.push("/app/templates")}
         >
           <FileText
             size={18}
             className={`${
               pathname?.includes("/app/templates")
-                ? "text-primary"
-                : "text-muted-foreground"
-            } group-hover:text-primary transition-colors`}
+                ? "text-accent"
+                : "text-muted-foreground group-hover:text-accent"
+            } transition-colors duration-300`}
           />
           <span>Templates</span>
         </Button>
@@ -87,37 +100,36 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
           variant="ghost"
           className={`w-full justify-start gap-2.5 ${
             pathname?.includes("/app/chatbot")
-              ? "text-primary bg-primary/10"
-              : "text-muted-foreground"
-          } hover:text-primary hover:bg-primary/10 py-3 rounded-lg group text-sm`}
+              ? "text-accent bg-accent/10 border-accent/20"
+              : "text-muted-foreground hover:text-foreground"
+          } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
           onClick={() => router.push("/app/chatbot")}
         >
           <Bot
             size={18}
             className={`${
               pathname?.includes("/app/chatbot")
-                ? "text-primary"
-                : "text-muted-foreground"
-            } group-hover:text-primary transition-colors`}
+                ? "text-accent"
+                : "text-muted-foreground group-hover:text-accent"
+            } transition-colors duration-300`}
           />
           <span>Agent Terminal</span>
         </Button>
 
         <Button
           variant="ghost"
-          className="w-full justify-between items-center text-muted-foreground py-3 rounded-lg group text-sm"
+          className="w-full justify-between items-center text-muted-foreground hover:text-foreground hover:bg-accent/10 py-3 rounded-lg group text-sm transition-all duration-300"
           onClick={() => router.push("/app/payments")}
         >
           <div className="flex items-center gap-2.5">
-            <CreditCard size={18} className="text-muted-foreground" />
+            <CreditCard size={18} className="text-muted-foreground group-hover:text-accent transition-colors duration-300" />
             <span>Payments</span>
           </div>
-          {/* <Lock size={16} className="text-muted-foreground" /> */}
         </Button>
 
         <Button
           variant="ghost"
-          className="w-full justify-between items-center text-muted-foreground py-3 rounded-lg group text-sm"
+          className="w-full justify-between items-center text-muted-foreground opacity-60 py-3 rounded-lg group text-sm cursor-not-allowed"
           disabled
         >
           <div className="flex items-center gap-2.5">
@@ -129,14 +141,14 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
       </nav>
 
       {/* Examples Section */}
-      <div className="mt-4 mb-auto border-t border-border/30 pt-4">
+      <div className="mt-4 mb-auto border-t border-border/40 pt-4">
         <h3 className="text-xs font-medium mb-3 text-muted-foreground uppercase tracking-wide">Examples</h3>
         <div className="space-y-1">
           {examples.map((example, index) => (
             <Link 
               key={index} 
               href={example.url(example.id)}
-              className="block text-sm text-muted-foreground hover:text-primary transition-colors py-2 px-2.5 rounded-md hover:bg-primary/5"
+              className="block text-sm text-muted-foreground hover:text-accent transition-colors duration-300 py-2 px-2.5 rounded-md hover:bg-accent/5"
             >
               {example.name}
             </Link>
@@ -144,12 +156,12 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         </div>
       </div>
 
-      <div className="mt-auto pt-4 border-t border-border/30 text-muted-foreground/70 text-sm flex items-center">
+      <div className="mt-auto pt-4 border-t border-border/40 text-muted-foreground text-sm flex items-center">
         <a
           href="https://github.com/Aquanodeio"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2.5 hover:text-primary transition-colors px-2.5 py-2"
+          className="flex items-center gap-2.5 hover:text-accent transition-colors duration-300 px-2.5 py-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
