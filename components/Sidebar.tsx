@@ -61,7 +61,9 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
     isExpanded, 
     onToggle, 
     children,
-    indent = 0 
+    indent = 0,
+    onClick,
+    isActive
   }: {
     title: string;
     icon: any;
@@ -69,18 +71,29 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
     onToggle: () => void;
     children: React.ReactNode;
     indent?: number;
+    onClick?: () => void;
+    isActive?: boolean;
   }) => (
     <div>
       <Button
         variant="ghost"
-        className="w-full justify-start gap-2.5 text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300"
+        className={`w-full justify-start gap-2.5 ${
+          isActive
+            ? "text-accent bg-accent/10 border-accent/20"
+            : "text-muted-foreground hover:text-foreground"
+        } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
         style={{ paddingLeft: `${16 + (indent * 20)}px` }}
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          if (onClick) {
+            onClick();
+          }
+        }}
       >
         {isExpanded ? (
-          <ChevronDown size={16} className="text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+          <ChevronDown size={16} className={`${isActive ? "text-accent" : "text-muted-foreground group-hover:text-accent"} transition-colors duration-300`} />
         ) : (
-          <ChevronRight size={16} className="text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+          <ChevronRight size={16} className={`${isActive ? "text-accent" : "text-muted-foreground group-hover:text-accent"} transition-colors duration-300`} />
         )}
         <Icon size={18} className="text-muted-foreground group-hover:text-accent transition-colors duration-300" />
         <span>{title}</span>
@@ -115,155 +128,171 @@ export const Sidebar = ({ isMobileOpen }: SidebarProps) => {
         <AquaCredits credits={1250.75} threshold="2/2" />
 
         {/* Services Section */}
-        <CollapsibleSection
-          title="Services"
-          icon={Server}
-          isExpanded={isServicesExpanded}
-          onToggle={() => setIsServicesExpanded(!isServicesExpanded)}
-        >
-          {/* Inference API */}
-          <CollapsibleSection
-            title="Inference API"
-            icon={Cpu}
-            isExpanded={isInferenceAPIExpanded}
-            onToggle={() => setIsInferenceAPIExpanded(!isInferenceAPIExpanded)}
-            indent={1}
+        <div>
+          <Button
+            variant="ghost"
+            className={`w-full justify-start gap-2.5 ${
+              pathname === "/app/services"
+                ? "text-accent bg-accent/10 border-accent/20"
+                : "text-muted-foreground hover:text-foreground"
+            } hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300`}
+            style={{ paddingLeft: `16px` }}
+            onClick={() => router.push("/app/services")}
           >
-            <NavButton
-              onClick={() => router.push("/app/inference/overview")}
-              isActive={pathname?.includes("/app/inference/overview")}
-              indent={2}
+            {/* Arrow button - separate clickable area for expand/collapse */}
+            <button
+              className="p-1 rounded hover:bg-accent/20 transition-colors duration-200"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent parent onClick from firing
+                setIsServicesExpanded(!isServicesExpanded);
+              }}
             >
-              <LayoutDashboard
-                size={18}
-                className={`${
-                  pathname?.includes("/app/inference/overview")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>Overview</span>
-            </NavButton>
-            <NavButton
-              onClick={() => router.push("/app/inference/one-click-models")}
-              isActive={pathname?.includes("/app/inference/one-click-models")}
-              indent={2}
-            >
-              <Grid
-                size={18}
-                className={`${
-                  pathname?.includes("/app/inference/one-click-models")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>Models Gallery</span>
-            </NavButton>
-          </CollapsibleSection>
+              {isServicesExpanded ? (
+                <ChevronDown size={16} className={`${pathname === "/app/services" ? "text-accent" : "text-muted-foreground group-hover:text-accent"} transition-colors duration-300`} />
+              ) : (
+                <ChevronRight size={16} className={`${pathname === "/app/services" ? "text-accent" : "text-muted-foreground group-hover:text-accent"} transition-colors duration-300`} />
+              )}
+            </button>
+            <Server size={18} className="text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+            <span>Services</span>
+          </Button>
+          {isServicesExpanded && (
+            <div className="ml-2 space-y-1">
+              {/* Inference API */}
+              <CollapsibleSection
+                title="Inference API"
+                icon={Cpu}
+                isExpanded={isInferenceAPIExpanded}
+                onToggle={() => setIsInferenceAPIExpanded(!isInferenceAPIExpanded)}
+                onClick={() => router.push("/app/services/inference")}
+                indent={1}
+              >
+                <NavButton
+                  onClick={() => router.push("/app/services/inference")}
+                  isActive={pathname?.includes("/app/services/inference")}
+                  indent={2}
+                >
+                  <LayoutDashboard
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/services/inference")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>Overview</span>
+                </NavButton>
+                <NavButton
+                  onClick={() => router.push("/app/inference/one-click-models")}
+                  isActive={pathname?.includes("/app/inference/one-click-models")}
+                  indent={2}
+                >
+                  <Grid
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/inference/one-click-models")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>Models Gallery</span>
+                </NavButton>
+              </CollapsibleSection>
 
-          {/* Backend Apps */}
-          <CollapsibleSection
-            title="Backend Apps"
-            icon={Database}
-            isExpanded={isBackendAppsExpanded}
-            onToggle={() => setIsBackendAppsExpanded(!isBackendAppsExpanded)}
-            indent={1}
-          >
-            <NavButton
-              onClick={() => router.push("/app/backend/overview")}
-              isActive={pathname?.includes("/app/backend/overview")}
-              indent={2}
-            >
-              <LayoutDashboard
-                size={18}
-                className={`${
-                  pathname?.includes("/app/backend/overview")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>Overview</span>
-            </NavButton>
-            <NavButton
-              onClick={() => router.push("/app/backend/one-click-apps")}
-              isActive={pathname?.includes("/app/backend/one-click-apps")}
-              indent={2}
-            >
-              <FileText
-                size={18}
-                className={`${
-                  pathname?.includes("/app/backend/one-click-apps")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>One-Click Apps</span>
-            </NavButton>
-          </CollapsibleSection>
+              {/* Backend Apps */}
+              <CollapsibleSection
+                title="Backend Apps"
+                icon={Database}
+                isExpanded={isBackendAppsExpanded}
+                onToggle={() => setIsBackendAppsExpanded(!isBackendAppsExpanded)}
+                onClick={() => router.push("/app/services/backend")}
+                indent={1}
+              >
+                <NavButton
+                  onClick={() => router.push("/app/services/backend")}
+                  isActive={pathname?.includes("/app/services/backend")}
+                  indent={2}
+                >
+                  <LayoutDashboard
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/services/backend")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>Overview</span>
+                </NavButton>
+                <NavButton
+                  onClick={() => router.push("/app/services/backend/inference")}
+                  isActive={pathname?.includes("/app/services/backend/inference")}
+                  indent={2}
+                >
+                  <FileText
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/services/backend/inference")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>One-Click Apps</span>
+                </NavButton>
+              </CollapsibleSection>
 
-          {/* Container VMs */}
-          <CollapsibleSection
-            title="Container VMs"
-            icon={Container}
-            isExpanded={isContainerVMsExpanded}
-            onToggle={() => setIsContainerVMsExpanded(!isContainerVMsExpanded)}
-            indent={1}
-          >
-            <NavButton
-              onClick={() => router.push("/app/containers/overview")}
-              isActive={pathname?.includes("/app/containers/overview")}
-              indent={2}
-            >
-              <LayoutDashboard
-                size={18}
-                className={`${
-                  pathname?.includes("/app/containers/overview")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>Overview</span>
-            </NavButton>
-            <NavButton
-              onClick={() => router.push("/app/containers/pre-configured")}
-              isActive={pathname?.includes("/app/containers/pre-configured")}
-              indent={2}
-            >
-              <FileText
-                size={18}
-                className={`${
-                  pathname?.includes("/app/containers/pre-configured")
-                    ? "text-accent"
-                    : "text-muted-foreground group-hover:text-accent"
-                } transition-colors duration-300`}
-              />
-              <span>Pre-Configured VMs</span>
-            </NavButton>
-            {/* <NavButton
-              onClick={() => router.push("/app/containers/service-composer")}
-              isActive={pathname?.includes("/app/containers/service-composer")}
-              disabled
-              indent={2}
-            >
-              <Grid
-                size={18}
-                className="text-muted-foreground"
-              />
-              <span>Service Composer</span>
-              <Lock size={16} className="text-muted-foreground ml-auto" />
-            </NavButton> */}
-          </CollapsibleSection>
-        </CollapsibleSection>
+              {/* Container VMs */}
+              <CollapsibleSection
+                title="Container VMs"
+                icon={Container}
+                isExpanded={isContainerVMsExpanded}
+                onToggle={() => setIsContainerVMsExpanded(!isContainerVMsExpanded)}
+                onClick={() => router.push("/app/services/vm")}
+                indent={1}
+              >
+                <NavButton
+                  onClick={() => router.push("/app/services/vm")}
+                  isActive={pathname?.includes("/app/services/vm")}
+                  indent={2}
+                >
+                  <LayoutDashboard
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/services/vm")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>Overview</span>
+                </NavButton>
+                <NavButton
+                  onClick={() => router.push("/app/containers/pre-configured")}
+                  isActive={pathname?.includes("/app/containers/pre-configured")}
+                  indent={2}
+                >
+                  <FileText
+                    size={18}
+                    className={`${
+                      pathname?.includes("/app/containers/pre-configured")
+                        ? "text-accent"
+                        : "text-muted-foreground group-hover:text-accent"
+                    } transition-colors duration-300`}
+                  />
+                  <span>Pre-Configured VMs</span>
+                </NavButton>
+              </CollapsibleSection>
+            </div>
+          )}
+        </div>
 
         {/* Service Composer */}
         <NavButton
-          onClick={() => router.push("/app/chatbot")}
-          isActive={pathname?.includes("/app/chatbot")}
+          onClick={() => router.push("/app/service-composer")}
+          isActive={pathname?.includes("/app/service-composer")}
         >
           <Wrench
             size={18}
             className={`${
-              pathname?.includes("/app/chatbot")
+              pathname?.includes("/app/service-composer")
                 ? "text-accent"
                 : "text-muted-foreground group-hover:text-accent"
             } transition-colors duration-300`}
