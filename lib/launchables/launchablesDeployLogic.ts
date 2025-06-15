@@ -39,6 +39,8 @@ export function useLaunchablesDeploy({
       return;
     }
 
+    console.log("repository", repository);
+
     // For basic templates, we need different handling
     const configArg = config ? config : {
       serviceType: ServiceType.BACKEND,
@@ -65,7 +67,7 @@ export function useLaunchablesDeploy({
           toast.error("Failed to deploy template. Please try again.");
         },
         onSuccess: () => {
-          toast.success("Template deployed successfully!");
+          toast.success("Deployed successfully!");
           router.push("/app/deployments");
         },
       }
