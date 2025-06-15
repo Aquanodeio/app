@@ -31,13 +31,13 @@ export interface Example {
 }
 
 // Templates organized by category
-export const templates = {
+export const templates: Record<string, Template[]> = {
   "Jupyter Notebooks": [
     {
       id: "jupyter-tensorflow-notebook",
       name: "Jupyter TensorFlow Notebook",
       description: "Jupyter notebook with TensorFlow, Keras, and deep learning libraries pre-installed. Perfect for ML model development and training.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "jupyter/tensorflow-notebook",
       config: {
         deploymentDuration: "3h",
@@ -51,7 +51,7 @@ export const templates = {
       id: "jupyter-scipy-notebook",
       name: "Jupyter SciPy Notebook",
       description: "Scientific computing environment with NumPy, SciPy, Matplotlib, and pandas for data analysis and scientific research.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "jupyter/scipy-notebook",
       config: {
         deploymentDuration: "2h",
@@ -65,7 +65,7 @@ export const templates = {
       id: "jupyter-datascience-notebook",
       name: "Jupyter Data Science Notebook",
       description: "Complete data science environment with R, Python, Julia, and popular data analysis libraries for comprehensive analytics.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "jupyter/datascience-notebook",
       config: {
         deploymentDuration: "2h",
@@ -79,7 +79,7 @@ export const templates = {
       id: "ezkl-notebook",
       name: "EZKL Notebook",
       description: "Specialized notebook environment for zero-knowledge machine learning with EZKL framework and TensorFlow integration.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "inferencelabs/ezkl-notebook",
       config: {
         deploymentDuration: "3h",
@@ -95,7 +95,7 @@ export const templates = {
       id: "pytorch-conda-cuda",
       name: "PyTorch Conda CUDA",
       description: "PyTorch environment with Conda package manager and CUDA support for GPU-accelerated deep learning development.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "pytorch/conda-cuda",
       config: {
         deploymentDuration: "3h",
@@ -109,7 +109,7 @@ export const templates = {
       id: "nvidia-cuda",
       name: "NVIDIA CUDA",
       description: "NVIDIA CUDA toolkit environment for GPU computing, parallel processing, and high-performance computing applications.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "nvidia/cuda",
       config: {
         deploymentDuration: "2h",
@@ -123,7 +123,7 @@ export const templates = {
       id: "nvidia-tensorrt-llm",
       name: "NVIDIA TensorRT-LLM",
       description: "Optimized environment for large language model inference with NVIDIA TensorRT-LLM for high-performance AI serving.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "nvidia/tensorrt-llm",
       config: {
         deploymentDuration: "4h",
@@ -137,7 +137,7 @@ export const templates = {
       id: "ollama",
       name: "Ollama",
       description: "Run large language models locally with Ollama. Easy setup for LLaMA, CodeLlama, and other popular AI models.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "ollama/ollama",
       config: {
         deploymentDuration: "3h",
@@ -151,7 +151,7 @@ export const templates = {
       id: "tensorflow",
       name: "TensorFlow",
       description: "Official TensorFlow environment for machine learning model development, training, and deployment.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "tensorflow/tensorflow",
       config: {
         deploymentDuration: "3h",
@@ -165,7 +165,7 @@ export const templates = {
       id: "postgres",
       name: "PostgreSQL Database",
       description: "PostgreSQL relational database server for robust data storage, complex queries, and enterprise applications.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "postgres",
       config: {
         deploymentDuration: "2h",
@@ -181,7 +181,7 @@ export const templates = {
       id: "ubuntu-24-vm",
       name: "Ubuntu VM",
       description: "Lightweight Ubuntu VM with full SSH access, ideal for configuring your own stack from scratch.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "ubuntu",
       config: {
         deploymentDuration: "1h",
@@ -195,7 +195,7 @@ export const templates = {
       id: "alpine",
       name: "Alpine VM",
       description: "Lightweight Alpine Linux VM with full SSH access, ideal for minimal resource usage and custom configurations.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "alpine",
       config: {
         deploymentDuration: "1h",
@@ -209,7 +209,7 @@ export const templates = {
       id: "debian",
       name: "Debian VM",
       description: "Stable Debian Linux VM with full SSH access, perfect for production environments and enterprise applications.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "debian",
       config: {
         deploymentDuration: "1h",
@@ -225,7 +225,7 @@ export const templates = {
       id: "sglang-deepseek",
       name: "SGLang DeepSeek-R1",
       description: "DeepSeek-R1 Distill LLaMA 70B model with SGLang for high-performance language model inference and reasoning.",
-      url: (id: string) => `/app/templates/${id}?from=/app/templates`,
+      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
       image: "lmsysorg/sglang:v0.4.1.post4-cu124-srt",
       config: {
         deploymentDuration: "4h",
@@ -406,6 +406,10 @@ export const examples: Example[] = [
   },
 ];
 
+
+// oneClickApps
+export const oneClickApps = {
+}
 // Template categories for filtering
 export const templateCategories = [
   "All",

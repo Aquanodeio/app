@@ -24,13 +24,13 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <Button
+      {/* <Button
         onClick={onRefresh}
         className="btn-secondary btn-sm w-full"
         variant="outline"
       >
         Refresh Deployments
-      </Button>
+      </Button> */}
 
       <DeploymentStats
         isLoading={isLoading}

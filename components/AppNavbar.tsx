@@ -43,7 +43,7 @@ export default function Navbar({
   }
 
   return (
-    <nav className="border-b border-border/40 bg-card/70 backdrop-blur-md sticky top-0 z-50">
+    <nav className="border-b border-border/40 backdrop-blur-md sticky top-0 z-50">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
       <div className="flex justify-between h-16 items-center px-6 max-w-[129rem] mx-auto">
         <div className="flex items-center gap-3">

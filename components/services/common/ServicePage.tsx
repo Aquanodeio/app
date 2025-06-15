@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader2, InfoIcon, RefreshCw } from "lucide-react";
 import { Deployment } from "@/lib/types";
-import DeploymentStats from "./DeploymentStats";
 import DeploymentsList from "./DeploymentsList";
 import ServiceSidebar from "./ServiceSidebar";
 import { Container, Heading, Text, Card } from "@/components/ui/design-system";
@@ -19,9 +18,6 @@ interface ServicePageProps {
   isDeploymentActive: (createdAt: string, duration: string) => boolean;
   fetchDeployments: () => void;
   activeInstances: number;
-  totalDeployments: number;
-  currentCpuUsage: number;
-  currentRamUsage: string;
   serviceName: string;
   onDelete?: (deploymentId: string) => void;
   router: any;
@@ -39,9 +35,6 @@ const ServicePage: React.FC<ServicePageProps> = ({
   isDeploymentActive,
   fetchDeployments,
   activeInstances,
-  totalDeployments,
-  currentCpuUsage,
-  currentRamUsage,
   serviceName,
   onDelete,
   router,
@@ -103,14 +96,6 @@ const ServicePage: React.FC<ServicePageProps> = ({
         {renderAuthContent(
           <div className="w-full overflow-hidden space-component">
             {/* Stats Overview */}
-            {/* <DeploymentStats
-              isLoading={isLoading}
-              activeInstances={activeInstances}
-              totalDeployments={totalDeployments}
-              currentCpuUsage={currentCpuUsage.toString()}
-              currentRamUsage={currentRamUsage}
-            /> */}
-
             <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-4">
               {/* Mobile: Sidebar on top for small screens */}
               <div className="block md:hidden">

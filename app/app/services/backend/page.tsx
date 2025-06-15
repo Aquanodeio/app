@@ -98,9 +98,6 @@ export default function CustomPage() {
       isDeploymentActive={isDeploymentActive}
       fetchDeployments={fetchDeployments}
       activeInstances={activeInstances}
-      totalDeployments={totalDeployments}
-      currentCpuUsage={currentCpuUsage}
-      currentRamUsage={currentRamUsage}
       serviceName="BACKEND"
       onDelete={handleDelete}
       router={router}

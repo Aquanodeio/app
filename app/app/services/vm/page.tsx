@@ -89,7 +89,7 @@ export default function CustomPage() {
     <ServicePage
       title="VM Instances"
       description="Deploy and manage your custom backend instances"
-      deployPath="/app/services/backend/deploy"
+      deployPath="/app/services/vm/deploy"
       user={user}
       isLoading={isLoading}
       authLoading={authLoading}
@@ -98,9 +98,6 @@ export default function CustomPage() {
       isDeploymentActive={isDeploymentActive}
       fetchDeployments={fetchDeployments}
       activeInstances={activeInstances}
-      totalDeployments={totalDeployments}
-      currentCpuUsage={currentCpuUsage}
-      currentRamUsage={currentRamUsage}
       serviceName="VM"
       onDelete={handleDelete}
       router={router}
