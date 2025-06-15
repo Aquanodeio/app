@@ -9,11 +9,11 @@ import Image from "next/image";
 import aquanodeLogo from "@/assets/aquanode-logo.png";
 
 // Styling constants
-const BUTTON_BASE_CLASSES = "w-full justify-start gap-2.5 hover:bg-accent/10 hover:text-accent py-3 rounded-lg group text-sm transition-all duration-300";
+const BUTTON_BASE_CLASSES = "w-full justify-start gap-2.5 py-3 rounded-lg group text-sm transition-all duration-300 flex items-center";
 const ACTIVE_BUTTON_CLASSES = "text-accent bg-accent/10 border-accent/20";
-const INACTIVE_BUTTON_CLASSES = "text-muted-foreground hover:text-foreground";
-const CHEVRON_CLASSES = "text-muted-foreground group-hover:text-accent transition-colors duration-300";
-const ICON_CLASSES = "text-muted-foreground group-hover:text-accent transition-colors duration-300";
+const INACTIVE_BUTTON_CLASSES = "text-muted-foreground";
+const CHEVRON_CLASSES = "text-muted-foreground transition-colors duration-300";
+const ICON_CLASSES = "text-muted-foreground transition-colors duration-300";
 
 interface SidebarProps {
   isMobileOpen?: boolean;
@@ -57,17 +57,15 @@ export const Sidebar = ({ isMobileOpen, credits = 1250.75, threshold = "2/2" }: 
     disabled?: boolean;
     indent?: number;
   }) => (
-    <Button
-      variant="ghost"
+    <div
       className={`${BUTTON_BASE_CLASSES} ${
         isActive ? ACTIVE_BUTTON_CLASSES : INACTIVE_BUTTON_CLASSES
-      } ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${className}`}
+      } ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"} ${className}`}
       style={{ paddingLeft: `${16 + (indent * 20)}px` }}
-      onClick={onClick}
-      disabled={disabled}
+      onClick={disabled ? undefined : onClick}
     >
       {children}
-    </Button>
+    </div>
   );
 
   const CollapsibleSection = ({ 
@@ -98,7 +96,7 @@ export const Sidebar = ({ isMobileOpen, credits = 1250.75, threshold = "2/2" }: 
       >
         {/* Arrow icon - separate clickable area */}
         <div 
-          className="p-1 rounded hover:bg-accent/20 transition-colors duration-200"
+          className="p-1 rounded transition-colors duration-200"
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
@@ -137,7 +135,7 @@ export const Sidebar = ({ isMobileOpen, credits = 1250.75, threshold = "2/2" }: 
       <div className="flex items-center gap-2 p-4 border-b border-border/40 mb-4">
         <Link
           href="/"
-          className="text-xl font-bold text-foreground transition-colors duration-300 flex items-center gap-2 hover:text-accent"
+          className="text-xl font-bold text-foreground transition-colors duration-300 flex items-center gap-2"
         >
           <Image src={aquanodeLogo} alt="Aquanode" width={32} height={32} />
           AQUANODE
@@ -150,17 +148,16 @@ export const Sidebar = ({ isMobileOpen, credits = 1250.75, threshold = "2/2" }: 
 
         {/* Services Section */}
         <div>
-          <Button
-            variant="ghost"
+          <div
             className={`${BUTTON_BASE_CLASSES} ${
               isPathActive("/app/services", true) ? ACTIVE_BUTTON_CLASSES : INACTIVE_BUTTON_CLASSES
-            }`}
+            } cursor-pointer`}
             style={{ paddingLeft: `16px` }}
             onClick={() => router.push("/app/services")}
           >
             <Server size={18} className={ICON_CLASSES} />
             <span>Services</span>
-          </Button>
+          </div>
           <div className="ml-2 space-y-1">
               {/* Inference API */}
               <CollapsibleSection
@@ -353,7 +350,7 @@ export const Sidebar = ({ isMobileOpen, credits = 1250.75, threshold = "2/2" }: 
           href="https://github.com/Aquanodeio"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2.5 hover:text-accent transition-colors duration-300 px-2.5 py-2"
+          className="flex items-center gap-2.5 transition-colors duration-300 px-2.5 py-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

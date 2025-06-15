@@ -1,30 +1,50 @@
 "use client";
 
-import React, { useState } from "react";
-import { templates, templateCategories } from "@/lib/catalog";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
+import appsData from "@/lib/launchables/apps.json";
+
+// Define the app type based on the JSON structure
+type App = {
+  name: string;
+  description: string;
+  category: string;
+  slug: string;
+  logos?: string[];
+  project_site?: string;
+  developer?: string;
+  publisher?: string;
+  repository?: string;
+  technologies?: string[];
+  official?: boolean;
+  [key: string]: any; // for other properties
+};
 
 const Templates = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Get all templates or filtered by category
-  const getFilteredTemplates = () => {
-    if (selectedCategory === "All") {
-      // Flatten all templates from all categories
-      return Object.entries(templates).flatMap(([category, categoryTemplates]) =>
-        categoryTemplates.map(template => ({ ...template, category }))
-      );
-    } else {
-      // Get templates from specific category
-      return (templates[selectedCategory as keyof typeof templates] || []).map(template => ({
-        ...template,
-        category: selectedCategory
-      }));
-    }
+  // Cast the imported JSON data to our App type
+  const apps = appsData as App[];
+
+  // Generate unique categories from the apps array
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(apps.map(app => app.category));
+    return ["All", ...Array.from(uniqueCategories).sort()];
+  }, [apps]);
+
+  // Generate URL for each app (you may need to adjust this based on your routing structure)
+  const generateAppUrl = (slug: string) => {
+    return `/app/services/backend/one-click-apps/${slug}`;
   };
 
-  const filteredTemplates = getFilteredTemplates();
+  // Get filtered apps based on selected category
+  const filteredApps = useMemo(() => {
+    if (selectedCategory === "All") {
+      return apps;
+    }
+    return apps.filter(app => app.category === selectedCategory);
+  }, [apps, selectedCategory]);
 
   return (
     <section className="min-h-screen bg-background text-foreground space-dashboard">
@@ -50,7 +70,7 @@ const Templates = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="px-3 py-2 rounded-lg bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
               >
-                {templateCategories.map((category) => (
+                {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
                   </option>
@@ -61,20 +81,20 @@ const Templates = () => {
         </div>
         
         <Grid variant="responsive-3" className="space-component">
-          {filteredTemplates.map((template, index) => (
-            <Link href={template.url(template.id)} className="block group" key={index}>
+          {filteredApps.map((app, index) => (
+            <Link href={generateAppUrl(app.slug)} className="block group" key={app.slug || index}>
               <Card variant="compact" interactive className="h-full">
                 <div className="flex flex-col h-full">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <Heading level={5} className="space-tight transition-colors duration-300 flex-1">
-                      {template.name}
+                      {app.name}
                     </Heading>
                     <span className="px-2 py-1 text-xs bg-muted/20 text-muted-foreground rounded-md whitespace-nowrap shrink-0 border border-border/50">
-                      {template.category}
+                      {app.category}
                     </span>
                   </div>
                   <Text variant="small" muted className="flex-grow">
-                    {template.description}
+                    {app.description}
                   </Text>
                   <div className="mt-3 text-right">
                     <Text 
@@ -91,7 +111,7 @@ const Templates = () => {
           ))}
         </Grid>
 
-        {filteredTemplates.length === 0 && (
+        {filteredApps.length === 0 && (
           <div className="text-center py-12">
             <Text variant="base" muted>
               No templates found in the "{selectedCategory}" category.
