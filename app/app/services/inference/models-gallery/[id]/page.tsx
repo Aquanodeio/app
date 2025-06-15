@@ -6,6 +6,8 @@ import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 import { Badge } from "@/components/ui/badge";
 import modelsData from "@/lib/launchables/models.json";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { useAuth } from "@/hooks/auth/useAuthContext";
+import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
 
 // Define the model type based on the JSON structure
 type Model = {
@@ -23,12 +25,23 @@ type ModelDetailPageProps = {
 
 const ModelDetailPage = ({ params }: ModelDetailPageProps) => {
   const { id } = use(params);
+  const { user, isLoading } = useAuth();
 
   // Cast the imported JSON data to our Model type
   const models = modelsData as Model[];
 
   // Find the model by slug
   const model = models.find((model) => model.slug === id);
+
+  // Use the deployment hook
+  const deploymentRepository = model?.repository;
+  if (model && !deploymentRepository) throw new Error("Deployment repository not found");
+  
+  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
+    repository: deploymentRepository || '',
+    user,
+    isAuthLoading: isLoading,
+  });
 
   if (!model) {
     return (
@@ -90,8 +103,16 @@ const ModelDetailPage = ({ params }: ModelDetailPageProps) => {
               </Text>
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3">
-                <button className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                  Deploy Now
+                <button 
+                  className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleDeploy}
+                  disabled={isButtonDisabled}
+                >
+                  {isDeploying ? (
+                    <span className="animate-pulse">Deploying...</span>
+                  ) : (
+                    "Deploy Now"
+                  )}
                 </button>
 
                 {model.repository && (

@@ -1,25 +1,26 @@
 import { useRouter } from "next/navigation";
 import { getProviderFromEnv } from "@/lib/utils";
-import { ServiceType } from "@/lib/types";
+import { ProviderType, ServiceType } from "@/lib/types";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
-import { Example } from "@/lib/catalog";
 
 export interface User {
   id: string;
 }
 
-interface UseExampleDeployProps {
-  example: Example | null;
+interface UseLaunchablesDeployProps {
+  repository: string;
   user: User | null;
   isAuthLoading: boolean;
+  config?: any;
 }
 
-export function useExampleDeploy({
-  example,
+export function useLaunchablesDeploy({
+  repository,
   user,
   isAuthLoading,
-}: UseExampleDeployProps) {
+  config,
+}: UseLaunchablesDeployProps) {
   const router = useRouter();
 
   const { mutate: createDeployment, isPending: isDeploying } =
@@ -28,24 +29,25 @@ export function useExampleDeploy({
   const handleDeploy = async () => {
     if (!user?.id) {
       toast.error(
-        "Authentication Required. Please sign in to deploy a template."
+        "Authentication Required. Please sign in to deploy a launchable."
       );
       return;
     }
 
-    if (!example) {
-      toast.error("Template not found.");
+    if (!repository) {
+      toast.error("Launchable not found.");
       return;
     }
 
-    const config = {
+    // For basic templates, we need different handling
+    const configArg = config ? config : {
       serviceType: ServiceType.BACKEND,
-      image: example.config.repoUrl,
-      deploymentDuration: example.config.deploymentDuration,
-      appPort: Number(example.config.appPort),
-      appCpuUnits: Number(example.config.cpuUnits),
-      appMemorySize: example.config.memorySize,
-      appStorageSize: example.config.storageSize,
+      image: repository,
+      deploymentDuration: "1h",
+      appPort: 22,
+      appCpuUnits: 1,
+      appMemorySize: "2Gi",
+      appStorageSize: "10Gi",
       allowAutoscale: false,
       disablePull: false,
     };
@@ -53,9 +55,9 @@ export function useExampleDeploy({
     createDeployment(
       {
         service: "BACKEND",
-        tier: "DEFAULT",
-        provider: getProviderFromEnv(),
-        config,
+        tier: "CUSTOM",
+        provider: ProviderType.SPHERON,
+        config: configArg,
       },
       {
         onError: (error) => {
@@ -72,7 +74,7 @@ export function useExampleDeploy({
 
   return {
     isDeploying,
-    handleDeploy,
-    isButtonDisabled: isAuthLoading || !user?.id || isDeploying || !example,
+    handleDeploy, 
+    isButtonDisabled: isAuthLoading || !user?.id || isDeploying || !repository,
   };
 }

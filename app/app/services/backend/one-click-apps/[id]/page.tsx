@@ -6,6 +6,8 @@ import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 import { Badge } from "@/components/ui/badge";
 import appsData from "@/lib/launchables/apps.json";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { useAuth } from "@/hooks/auth/useAuthContext";
+import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
 
 // Define the app type based on the JSON structure
 type App = {
@@ -40,12 +42,22 @@ type AppDetailPageProps = {
 
 const AppDetailPage = ({ params }: AppDetailPageProps) => {
   const { id } = use(params);
+  const { user, isLoading } = useAuth();
 
   // Cast the imported JSON data to our App type
   const apps = appsData as App[];
 
   // Find the app by slug
   const app = apps.find((app) => app.slug === id);
+
+  // Use the deployment hook - prefer model_docker_image, fallback to repository
+  const deploymentRepository = app?.model_docker_image || app?.repository;
+  if (!deploymentRepository) throw new Error("Deployment repository not found");
+  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
+    repository: deploymentRepository,
+    user,
+    isAuthLoading: isLoading,
+  });
 
   if (!app) {
     return (
@@ -122,8 +134,16 @@ const AppDetailPage = ({ params }: AppDetailPageProps) => {
               </Text>
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3">
-                <button className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                  Deploy Now
+                <button 
+                  className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleDeploy}
+                  disabled={isButtonDisabled}
+                >
+                  {isDeploying ? (
+                    <span className="animate-pulse">Deploying...</span>
+                  ) : (
+                    "Deploy Now"
+                  )}
                 </button>
 
                 {app.project_site && (

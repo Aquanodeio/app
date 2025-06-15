@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { VMTemplate, templates } from "@/lib/catalog";
-import { useVMTemplateDeploy } from "@/lib/logic/TemplateDeployLogic";
+import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const TemplateDetailsPage = () => {
@@ -39,9 +39,12 @@ const TemplateDetailsPage = () => {
     router.push(from);
   };
 
-  // Always call hooks at the top level
-  const { isDeploying, handleDeploy, isButtonDisabled } = useVMTemplateDeploy({
-    template,
+  // Use the launchables deploy logic instead of VM template deploy
+  const deploymentRepository = template?.repository;
+  if (template && !deploymentRepository) throw new Error("Deployment repository not found");
+  
+  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
+    repository: deploymentRepository || '',
     user,
     isAuthLoading: isLoading,
   });
