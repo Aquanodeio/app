@@ -93,7 +93,7 @@
     "category": "OS VMs"
   },
   {
-    "   slug": "minecraft-server",
+    "slug": "minecraft-server",
     "name": "Minecraft Server",
     "description": "Dedicated Minecraft server with customizable settings, mods support, and multiplayer capabilities.",
     "repository": "https://hub.docker.com/r/itzg/minecraft-server",

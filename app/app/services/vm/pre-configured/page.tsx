@@ -1,23 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
-import { templates, templateCategories } from "@/lib/catalog";
+import { templates, templateCategories, VMTemplate } from "@/lib/catalog";
 import Link from "next/link";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const Templates = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   // Get all templates or filtered by category
-  const getFilteredTemplates = () => {
+  const getFilteredTemplates = (): (VMTemplate & { category: string })[] => {
     if (selectedCategory === "All") {
       // Flatten all templates from all categories
       return Object.entries(templates).flatMap(([category, categoryTemplates]) =>
-        categoryTemplates.map(template => ({ ...template, category }))
+        categoryTemplates.map((template: VMTemplate) => ({ ...template, category }))
       );
     } else {
       // Get templates from specific category
-      return (templates[selectedCategory as keyof typeof templates] || []).map(template => ({
+      return (templates[selectedCategory as keyof typeof templates] || []).map((template: VMTemplate) => ({
         ...template,
         category: selectedCategory
       }));
@@ -50,7 +50,7 @@ const Templates = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="px-3 py-2 rounded-lg bg-card border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
               >
-                {templateCategories.map((category) => (
+                {templateCategories.map((category: string) => (
                   <option key={category} value={category}>
                     {category}
                   </option>
@@ -61,7 +61,7 @@ const Templates = () => {
         </div>
         
         <Grid variant="responsive-3" className="space-component">
-          {filteredTemplates.map((template, index) => (
+          {filteredTemplates.map((template: VMTemplate & { category: string }, index: number) => (
             <Link href={template.url(template.id)} className="block group" key={index}>
               <Card variant="compact" interactive className="h-full">
                 <div className="flex flex-col h-full">
