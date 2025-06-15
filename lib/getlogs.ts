@@ -4,10 +4,15 @@ export async function getSpheronDeploymentLogs(leaseId: string) {
   try {
     console.log("leaseId", leaseId);
 
-    const sdk = new SpheronSDK(
-      "testnet",
-      process.env.NEXT_PUBLIC_SPHERON_PRIVATE_KEY!
-    );
+    const sdk = new SpheronSDK({
+      networkType: "mainnet",
+      privateKey: process.env.NEXT_PUBLIC_SPHERON_PRIVATE_KEY!,
+      rpcUrls: {
+          http: `https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+          websocket: `wss://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      },
+    });
+
     const logs = await sdk.deployment.getDeploymentLogs(
       leaseId!,
       process.env.NEXT_PUBLIC_SPHERON_PROXY!

@@ -5,26 +5,26 @@ import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Template, templates } from "@/lib/catalog";
-import { useTemplateDeploy } from "@/lib/logic/TemplateDeployLogic";
+import { VMTemplate, templates } from "@/lib/catalog";
+import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const TemplateDetailsPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = useParams();
-  const from = searchParams.get("from") || "/app/templates";
+  const from = searchParams.get("from") || "/app/services/vm/pre-configured";
   const { user, isLoading } = useAuth();
-  const [template, setTemplate] = useState<Template | null>(null);
+  const [template, setTemplate] = useState<VMTemplate | null>(null);
 
   useEffect(() => {
     if (params.id) {
       const templateId = Array.isArray(params.id) ? params.id[0] : params.id;
       
       // Search through all categories to find the template
-      let foundTemplate: Template | null = null;
+      let foundTemplate: VMTemplate | null = null;
       for (const categoryTemplates of Object.values(templates)) {
-        const template = categoryTemplates.find(t => t.id === templateId);
+        const template = categoryTemplates.find((t: VMTemplate) => t.id === templateId);
         if (template) {
           foundTemplate = template;
           break;
@@ -39,9 +39,12 @@ const TemplateDetailsPage = () => {
     router.push(from);
   };
 
-  // Always call hooks at the top level
-  const { isDeploying, handleDeploy, isButtonDisabled } = useTemplateDeploy({
-    template,
+  // Use the launchables deploy logic instead of VM template deploy
+  const deploymentRepository = template?.repository;
+  if (template && !deploymentRepository) throw new Error("Deployment repository not found");
+  
+  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
+    repository: deploymentRepository || '',
     user,
     isAuthLoading: isLoading,
   });
@@ -74,12 +77,8 @@ const TemplateDetailsPage = () => {
   // Create display details for the UI
   const displayDetails = {
     "Name": template.name,
-    "Description": template.description,
-    "App Port": template.config?.appPort,
-    "Deployment Duration": template.config?.deploymentDuration || "1h",
-    "CPU Units": template.config?.cpuUnits || "0.5",
-    "Memory Size": template.config?.memorySize || "1Gi",
-    "Storage Size": template.config?.storageSize || "2Gi",
+    "Repository": template.repository,
+    "Category": template.category,
   };
 
   return (
