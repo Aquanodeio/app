@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Example, examples } from "@/lib/catalog";
-import { useExampleDeploy } from "@/lib/logic/ExampleDeployLogic";
+import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const ExamplesDetailsPage = () => {
@@ -30,10 +30,11 @@ const ExamplesDetailsPage = () => {
   };
 
   // Always call hooks at the top level
-  const { isDeploying, handleDeploy, isButtonDisabled } = useExampleDeploy({
-    example,
+  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
+    repository: example?.config?.repoUrl || "",
     user,
     isAuthLoading: isLoading,
+    config: example?.config,
   });
 
   // If template is not found, show not found message
