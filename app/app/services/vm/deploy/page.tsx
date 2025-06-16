@@ -156,7 +156,7 @@ export default function CustomServiceDeployment() {
       // Include these fields in the config object instead
       repoUrl: sourceControlConfig.repoUrl,
       branchName: sourceControlConfig.branchName,
-      env: parseEnvVars()
+      envVars: parseEnvVars()
     };
 
      createDeployment({

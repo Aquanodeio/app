@@ -42,7 +42,6 @@ type TemplateDetailPageProps = {
 
 const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
   const { id } = use(params);
-  const { user, isLoading } = useAuth();
 
   const [values, setValues] = useState<ResourceValueOptions>({
     appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
@@ -63,12 +62,9 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
 
   // Find the template by slug
   const template = templates.find((template) => template.slug === id);
-  console.log("template", template);
-
-  if (!template?.repository) throw new Error("Deployment repository not found");
 
   const { mutate: createDeployment, isPending } = useCreateDeployment(
-    "/app/deployments"
+    "/app/services/vm"
   );
 
   const createConfigObject = (customValues?: ResourceValueOptions) => {
@@ -87,9 +83,8 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
 
   const handleDeploy = () => {
     const configToPass: DeploymentConfig = {
-      serviceType: ServiceType.CONTAINER_VM,
       ...createConfigObject(),
-      env: {
+      envVars: {
         SSH_PUBKEY: publicKey,
       },
       slug: id,
@@ -128,13 +123,6 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
       </Container>
     );
   }
-
-  // Create display details for the UI
-  const displayDetails = {
-    Name: template.name,
-    Repository: template.repository,
-    Category: template.category,
-  };
 
   return (
     <Container variant="wide" className="space-dashboard">

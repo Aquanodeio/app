@@ -92,7 +92,7 @@ export interface DeployCustomBackendRequest {
 }
 
 export interface DeploymentConfig {
-  serviceType: ServiceType;
+  serviceType?: ServiceType;
   appCpuUnits?: number;
   appMemorySize?: string;
   appPort?: number;
@@ -101,7 +101,7 @@ export interface DeploymentConfig {
   image?: string;
   repoUrl?: string | undefined;
   branchName?: string;
-  env?: Record<string, string>;
+  envVars?: Record<string, string>;
   runCommands?: string;
   spheronDeploymentMode?: SpheronDeploymentMode;
   allowAutoscale: boolean;
