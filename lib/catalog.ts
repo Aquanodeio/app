@@ -1,29 +1,3 @@
-import vmTemplatesData from './launchables/vms.json';
-
-export interface Template {
-  slug: string;
-  name: string;
-  description: string;
-  repository: string;
-  category: string;
-}
-
-export interface VMTemplate {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  repository: string;
-  category: string;
-  url: (id: string) => string;
-  config: {
-    appPort: string;
-    deploymentDuration: string;
-    memorySize: string;
-    cpuUnits: string;
-    storageSize: string;
-  };
-}
 
 export interface Example {
   id: string;
@@ -42,47 +16,6 @@ export interface Example {
   };
 }
 
-// Transform VM templates from JSON data
-const transformVMTemplates = (): VMTemplate[] => {
-  return vmTemplatesData
-    .filter((template): template is typeof template & { slug: string } => 
-      typeof template.slug === 'string' && template.slug.trim() !== ''
-    )
-    .map((template) => ({
-      id: template.slug,
-      slug: template.slug,
-      name: template.name,
-      description: template.description,
-      repository: template.repository,
-      category: template.category,
-      url: (id: string) => `/app/services/vm/pre-configured/${id}?from=/app/services/vm/pre-configured`,
-      config: {
-        appPort: "22", // Default SSH port for VMs
-        deploymentDuration: "1h",
-        memorySize: "2Gi",
-        cpuUnits: "1",
-        storageSize: "10Gi",
-      },
-    }));
-};
-
-// VM Templates organized by category
-export const vmTemplates = transformVMTemplates();
-
-// Group templates by category
-export const templates: Record<string, VMTemplate[]> = vmTemplates.reduce((acc, template) => {
-  if (!acc[template.category]) {
-    acc[template.category] = [];
-  }
-  acc[template.category].push(template);
-  return acc;
-}, {} as Record<string, VMTemplate[]>);
-
-// Template categories for filtering
-export const templateCategories = [
-  "All",
-  ...Array.from(new Set(vmTemplatesData.map(template => template.category)))
-];
 
 // config: {
 //   deploymentDuration: "1h",

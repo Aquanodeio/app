@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Example, examples } from "@/lib/catalog";
-import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
+import { useLaunchablesDeploy } from "@/components/LaunchablesDeployHandler";
 import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
 
 const ExamplesDetailsPage = () => {

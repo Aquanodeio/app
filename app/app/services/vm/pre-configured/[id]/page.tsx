@@ -1,50 +1,52 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams, useParams } from "next/navigation";
+import React, { use } from "react";
+import Link from "next/link";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { VMTemplate, templates } from "@/lib/catalog";
-import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
-import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
+import vmTemplatesData from "@/lib/launchables/vms.json";
+import { useLaunchablesDeploy } from "@/components/LaunchablesDeployHandler";
+import {
+  Container,
+  Heading,
+  Text,
+  Card,
+  Grid,
+} from "@/components/ui/design-system";
 
-const TemplateDetailsPage = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const params = useParams();
-  const from = searchParams.get("from") || "/app/services/vm/pre-configured";
+// Define the VM template type based on the JSON structure
+type VMTemplate = {
+  name: string;
+  description: string;
+  category: string;
+  slug: string;
+  repository?: string;
+  model_docker_image?: string;
+  [key: string]: any;
+};
+
+type TemplateDetailPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
+  const { id } = use(params);
   const { user, isLoading } = useAuth();
-  const [template, setTemplate] = useState<VMTemplate | null>(null);
 
-  useEffect(() => {
-    if (params.id) {
-      const templateId = Array.isArray(params.id) ? params.id[0] : params.id;
-      
-      // Search through all categories to find the template
-      let foundTemplate: VMTemplate | null = null;
-      for (const categoryTemplates of Object.values(templates)) {
-        const template = categoryTemplates.find((t: VMTemplate) => t.id === templateId);
-        if (template) {
-          foundTemplate = template;
-          break;
-        }
-      }
-      
-      setTemplate(foundTemplate);
-    }
-  }, [params.id]);
+  // Cast the imported JSON data to our VMTemplate type
+  const templates = vmTemplatesData as VMTemplate[];
 
-  const handleBack = () => {
-    router.push(from);
-  };
+  // Find the template by slug
+  const template = templates.find((template) => template.slug === id);
+  console.log("template", template);
 
-  // Use the launchables deploy logic instead of VM template deploy
-  const deploymentRepository = template?.repository;
-  if (template && !deploymentRepository) throw new Error("Deployment repository not found");
-  
+  if (!template?.repository) throw new Error("Deployment repository not found");
   const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
-    repository: deploymentRepository || '',
+    repository: template?.repository,
+    ...(template?.model_docker_image && {
+      model_docker_image: template.model_docker_image,
+    }),
     user,
     isAuthLoading: isLoading,
   });
@@ -53,15 +55,13 @@ const TemplateDetailsPage = () => {
   if (!template) {
     return (
       <Container variant="wide" className="space-dashboard">
-        <Button
-          variant="outline"
-          onClick={handleBack}
-          className="interactive-hover flex items-center gap-2"
-          size="sm"
+        <Link
+          href="/app/services/vm/pre-configured"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
-          <ArrowLeft size={16} />
-          Back
-        </Button>
+          <ArrowLeft className="h-4 w-4" />
+          Back to Pre-Configured VMs
+        </Link>
         <Card variant="elevated" className="text-center space-component">
           <Heading level={2} className="space-tight">
             Template not found
@@ -76,25 +76,23 @@ const TemplateDetailsPage = () => {
 
   // Create display details for the UI
   const displayDetails = {
-    "Name": template.name,
-    "Repository": template.repository,
-    "Category": template.category,
+    Name: template.name,
+    Repository: template.repository,
+    Category: template.category,
   };
 
   return (
     <Container variant="wide" className="space-dashboard">
-      <div className="flex items-center space-element">
-        <Button
-          variant="outline"
-          onClick={handleBack}
-          className="interactive-hover flex items-center gap-2"
-          size="sm"
-        >
-          <ArrowLeft size={16} />
-          Back
-        </Button>
-      </div>
+      {/* Back Navigation */}
+      <Link
+        href="/app/services/vm/pre-configured"
+        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to Pre-Configured VMs
+      </Link>
 
+      {/* App Header */}
       <div className="space-element">
         <Heading level={1} className="space-tight">
           {template.name}
@@ -117,7 +115,10 @@ const TemplateDetailsPage = () => {
                 <Text variant="caption" muted className="space-tight">
                   {key}
                 </Text>
-                <Text variant="small" className="font-medium font-mono break-all">
+                <Text
+                  variant="small"
+                  className="font-medium font-mono break-all"
+                >
                   {value}
                 </Text>
               </Card>
