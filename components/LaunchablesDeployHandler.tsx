@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { ProviderType, ServiceType } from "@/lib/types";
+import { ProviderType } from "@/lib/types";
 import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -37,13 +37,10 @@ export function useLaunchablesDeploy({
 
   const handleResolveImage = async () => {
     try {
-      console.log("repository", repository);
-      console.log("meow meow");
       const { resolvedImage, isImage } = await resolveImageAsync({
         repository,
         model_docker_image,
       });
-      console.log("resolvedImage", resolvedImage);
       setResolvedImage(resolvedImage);
       setIsImage(isImage);
     } catch (err) {
@@ -129,7 +126,6 @@ export async function resolveImageAsync({
   }
 
   if (repo.includes("hub.docker.com")) {
-    console.log("meow meow 2")
     let namespace: string | undefined;
     let image: string | undefined;
 

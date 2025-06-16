@@ -50,7 +50,6 @@ const AppDetailPage = ({ params }: AppDetailPageProps) => {
 
   // Find the app by slug
   const app = apps.find((app) => app.slug === id);
-  // console.log(app);
 
   if (!app?.repository) throw new Error("Deployment repository not found");
   const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({

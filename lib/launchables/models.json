@@ -1,23 +1,32 @@
 [
   {
-    "slug": "sglang-deepseek",
-    "name": "SGLang DeepSeek-R1",
-    "description": "DeepSeek-R1 Distill LLaMA 70B model with SGLang for high-performance language model inference and reasoning.",
+    "slug": "falcon-7b",
+    "name": "Falcon 7B",
+    "description": "Falcon 7B is a 7B parameter model that is designed to be fast and efficient.",
+    "repository": "https://hub.docker.com/r/andrey01/falcon7b",
+    "model_docker_image": "andrey01/falcon7b:0.4",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 100,
+      "appStorageSize": 200,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "deepseek-r1",
+    "name": "DeepSeek-R1",
+    "description": "DeepSeek's first-generation reasoning models.",
     "repository": "https://hub.docker.com/r/lmsysorg/sglang",
-    "category": "AI Models"
-  },
-  {
-    "slug": "bert-sentiment-analysis",
-    "name": "BERT Sentiment Analysis",
-    "description": "Pre-trained BERT model for sentiment analysis with 69M downloads. Ready-to-use for text classification tasks.",
-    "repository": "https://hub.docker.com/r/clydedevv/bert-sentiment-analysis",
-    "category": "AI Models"
-  },
-  {
-    "slug": "stable-diffusion-ui",
-    "name": "Stable Diffusion UI",
-    "description": "User-friendly web interface for Stable Diffusion image generation with advanced features and customization options.",
-    "repository": "https://hub.docker.com/r/s20081428/stable-diffusion-ui",
-    "category": "AI Models"
+    "model_docker_image": "lmsysorg/sglang:v0.4.1.post4-cu124-srt",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 32,
+      "appMemorySize": 128,
+      "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["a100", "h100", "rtx4090"]
+    }
   }
 ]

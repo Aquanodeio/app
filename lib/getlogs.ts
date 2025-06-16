@@ -2,7 +2,6 @@ import { SpheronSDK } from "@spheron/protocol-sdk";
 
 export async function getSpheronDeploymentLogs(leaseId: string) {
   try {
-    console.log("leaseId", leaseId);
 
     const sdk = new SpheronSDK({
       networkType: "mainnet",
@@ -17,7 +16,6 @@ export async function getSpheronDeploymentLogs(leaseId: string) {
       leaseId!,
       process.env.NEXT_PUBLIC_SPHERON_PROXY!
     );
-    console.log("logs", logs);
 
     if (Array.isArray(logs)) {
       const formattedLogs = logs
@@ -45,7 +43,6 @@ export async function getSpheronDeploymentLogs(leaseId: string) {
 
 export async function getAkashDeploymentLogs(leaseId: string) {
   try {
-    console.log("leaseId", leaseId);
     const logs = "logs";
     return logs;
   } catch (error) {
