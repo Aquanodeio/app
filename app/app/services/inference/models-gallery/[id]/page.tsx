@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import modelsData from "@/lib/launchables/models.json";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { useAuth } from "@/hooks/auth/useAuthContext";
-import { useLaunchablesDeploy } from "@/lib/launchables/launchablesDeployLogic";
+import { useLaunchablesDeploy } from "@/components/LaunchablesDeployHandler";
 
 // Define the model type based on the JSON structure
 type Model = {

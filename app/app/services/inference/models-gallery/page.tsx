@@ -50,12 +50,12 @@ const Templates = () => {
                 Models Gallery
               </Heading>
               <Text variant="base" muted className="max-w-3xl">
-                Browse ready-to-use AI models and launch in seconds, no setup needed.
+                Choose from a range of ready-to-use AI models and launch in seconds, no setup needed.
               </Text>
             </div>
             
             {/* Category Filter */}
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Text variant="small" muted>
                 Filter by:
               </Text>
@@ -70,14 +70,14 @@ const Templates = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
         
-        <Grid variant="responsive-3" className="space-component">
+        <div className="space-component flex flex-col gap-4">
           {filteredModels.map((model, index) => (
-            <Link href={generateModelUrl(model.slug)} className="block group" key={model.slug || index}>
-              <Card variant="compact" interactive className="h-full">
+            <Link href={generateModelUrl(model.slug)} className="block group w-full" key={model.slug || index}>
+              <Card variant="compact" interactive className="w-full px-4">
                 <div className="flex flex-col h-full">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <Heading level={5} className="space-tight transition-colors duration-300 flex-1">
@@ -103,7 +103,7 @@ const Templates = () => {
               </Card>
             </Link>
           ))}
-        </Grid>
+        </div>
 
         {filteredModels.length === 0 && (
           <div className="text-center py-12">
