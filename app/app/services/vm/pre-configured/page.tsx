@@ -2,7 +2,13 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { Container, Heading, Text, Card, Grid } from "@/components/ui/design-system";
+import {
+  Container,
+  Heading,
+  Text,
+  Card,
+  Grid,
+} from "@/components/ui/design-system";
 import appsData from "@/lib/launchables/vms.json";
 
 // Define the app type based on the JSON structure
@@ -29,7 +35,7 @@ const Templates = () => {
 
   // Generate unique categories from the apps array
   const categories = useMemo(() => {
-    const uniqueCategories = new Set(apps.map(app => app.category));
+    const uniqueCategories = new Set(apps.map((app) => app.category));
     return ["All", ...Array.from(uniqueCategories).sort()];
   }, [apps]);
 
@@ -43,7 +49,7 @@ const Templates = () => {
     if (selectedCategory === "All") {
       return apps;
     }
-    return apps.filter(app => app.category === selectedCategory);
+    return apps.filter((app) => app.category === selectedCategory);
   }, [apps, selectedCategory]);
 
   return (
@@ -53,17 +59,17 @@ const Templates = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <Heading level={1} className="space-tight">
-                One-Click Apps
+                Pre-configured VMs
               </Heading>
               <Text variant="base" muted className="max-w-3xl">
-                Browse ready-to-use templates and launch in seconds, no setup needed.
+                Launch a pre-configured VM in seconds, no setup needed.
               </Text>
             </div>
-            
+
             {/* Category Filter */}
             <div className="flex items-center gap-2">
               <Text variant="small" muted>
-                Filter by:
+                Category:
               </Text>
               <select
                 value={selectedCategory}
@@ -79,14 +85,21 @@ const Templates = () => {
             </div>
           </div>
         </div>
-        
+
         <Grid variant="responsive-3" className="space-component">
           {filteredApps.map((app, index) => (
-            <Link href={generateAppUrl(app.slug)} className="block group" key={app.slug || index}>
+            <Link
+              href={generateAppUrl(app.slug)}
+              className="block group"
+              key={app.slug || index}
+            >
               <Card variant="compact" interactive className="h-full">
                 <div className="flex flex-col h-full">
                   <div className="flex items-start justify-between gap-3 mb-2">
-                    <Heading level={5} className="space-tight transition-colors duration-300 flex-1">
+                    <Heading
+                      level={5}
+                      className="space-tight transition-colors duration-300 flex-1"
+                    >
                       {app.name}
                     </Heading>
                     <span className="px-2 py-1 text-xs bg-muted/20 text-muted-foreground rounded-md whitespace-nowrap shrink-0 border border-border/50">
@@ -97,9 +110,9 @@ const Templates = () => {
                     {app.description}
                   </Text>
                   <div className="mt-3 text-right">
-                    <Text 
-                      as="span" 
-                      variant="small" 
+                    <Text
+                      as="span"
+                      variant="small"
                       className="text-white font-medium group-hover:translate-x-1 inline-flex transition-transform duration-300"
                     >
                       Use template →

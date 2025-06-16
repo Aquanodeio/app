@@ -106,6 +106,7 @@ export interface DeploymentConfig {
   spheronDeploymentMode?: SpheronDeploymentMode;
   allowAutoscale: boolean;
   disablePull: boolean;
+  slug?: string;
 }
 export interface EnvironmentVars {
   [key: string]: string;
@@ -122,7 +123,7 @@ export enum ServiceType {
   JUPYTER = "JUPYTER",
   BACKEND = "BACKEND",
   AI_MODEL = "AI_MODEL",
-  CONTAINER_VM = "CONTAINER_VM",
+  CONTAINER_VM = "VMS",
 }
 
 export interface Deployment {

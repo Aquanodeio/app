@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const CreateDeploymentSchema = z.object({
-  service: z.enum(["JUPYTER", "BACKEND"]),
+  service: z.enum(["JUPYTER", "BACKEND", "VMS"]),
   tier: z.enum(["DEFAULT", "CUSTOM"]),
   provider: z.enum(["spheron", "akash", "auto"]),
   config: z

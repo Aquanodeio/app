@@ -1,19 +1,29 @@
 "use client";
 
-import React, { use } from "react";
+import { use } from "react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/auth/useAuthContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import vmTemplatesData from "@/lib/launchables/vms.json";
-import { useLaunchablesDeploy } from "@/components/LaunchablesDeployHandler";
 import {
   Container,
   Heading,
   Text,
-  Card,
-  Grid,
+  Card
 } from "@/components/ui/design-system";
+import { useState } from "react";
+import { DeploymentConfig, ProviderType, ServiceType } from "@/lib/types";
+import {
+  CPU_CONSTRAINTS,
+  MEMORY_CONSTRAINTS,
+  DURATION_CONSTRAINTS
+} from "@/constants/constrains";
+import { ResourceValueOptions } from "@/components/services/common/interfaces";
+import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
+import { useCreateDeployment } from "@/hooks/deployments/useCreateDeployment";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Define the VM template type based on the JSON structure
 type VMTemplate = {
@@ -34,6 +44,20 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
   const { id } = use(params);
   const { user, isLoading } = useAuth();
 
+  const [values, setValues] = useState<ResourceValueOptions>({
+    appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
+    memoryUnit: "Mi",
+    appStorageSize: 1,
+    storageUnit: "Gi",
+    deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: "",
+    allowAutoscale: false,
+    disablePull: false,
+  });
+
+  const [publicKey, setPublicKey] = useState<string>("");
+
   // Cast the imported JSON data to our VMTemplate type
   const templates = vmTemplatesData as VMTemplate[];
 
@@ -42,14 +66,45 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
   console.log("template", template);
 
   if (!template?.repository) throw new Error("Deployment repository not found");
-  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
-    repository: template?.repository,
-    ...(template?.model_docker_image && {
-      model_docker_image: template.model_docker_image,
-    }),
-    user,
-    isAuthLoading: isLoading,
-  });
+
+  const { mutate: createDeployment, isPending } = useCreateDeployment(
+    "/app/deployments"
+  );
+
+  const createConfigObject = (customValues?: ResourceValueOptions) => {
+    const vals = customValues || values;
+
+    // Create a config object with all required properties
+    return {
+      deploymentDuration: `${vals.deploymentDuration}h`,
+      appCpuUnits: Number(vals.appCpuUnits),
+      appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
+      appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
+      allowAutoscale: vals.allowAutoscale ?? false,
+      disablePull: vals.disablePull ?? false,
+    };
+  };
+
+  const handleDeploy = () => {
+    const configToPass: DeploymentConfig = {
+      serviceType: ServiceType.CONTAINER_VM,
+      ...createConfigObject(),
+      env: {
+        SSH_PUBKEY: publicKey,
+      },
+      slug: id,
+
+    };
+
+    createDeployment({
+      service: "VMS",
+      tier: "CUSTOM",
+      provider: ProviderType.SPHERON,
+      config: configToPass,
+    });
+
+    console.log(configToPass);
+     };
 
   // If template is not found, show not found message
   if (!template) {
@@ -102,36 +157,36 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
         </Text>
       </div>
 
+      <div></div>
       <Card variant="primary" className="space-component">
         <div className="space-y-4 sm:space-y-6">
           <Heading level={2}>Configuration</Heading>
-          <Grid variant="responsive-2">
-            {Object.entries(displayDetails).map(([key, value]) => (
-              <Card
-                key={key}
-                variant="dense"
-                className="bg-secondary/5 border-border/30"
-              >
-                <Text variant="caption" muted className="space-tight">
-                  {key}
-                </Text>
-                <Text
-                  variant="small"
-                  className="font-medium font-mono break-all"
-                >
-                  {value}
-                </Text>
-              </Card>
-            ))}
-          </Grid>
+
+          <div className="dashboard-card mb-8">
+            <h3 className="text-lg font-medium mb-4">SSH Key</h3>
+            <div className="grid gap-3">
+              <Label htmlFor="public-key">Your Public Key</Label>
+              <Input
+                id="public-key"
+                name="public-key"
+                placeholder="ssh-ed25519 AAA..."
+                value={publicKey}
+                onChange={(e) => setPublicKey(e.target.value)}
+                className="w-full h-10 text-sm bg-secondary/10 border-border/30"
+              />
+            </div>
+          </div>
+
+          <ResourceSettingSection values={values} setValues={setValues} />
+
           <div className="flex justify-end mt-4">
             <Button
               size="default"
               className="interactive-hover shadow-lg shadow-primary/10 w-full sm:w-auto"
               onClick={handleDeploy}
-              disabled={isButtonDisabled}
+              disabled={isPending}
             >
-              {isDeploying ? (
+              {isPending ? (
                 <span className="animate-pulse">Deploying...</span>
               ) : (
                 <>
