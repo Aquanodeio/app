@@ -92,7 +92,7 @@ export interface DeployCustomBackendRequest {
 }
 
 export interface DeploymentConfig {
-  serviceType: ServiceType;
+  serviceType?: ServiceType;
   appCpuUnits?: number;
   appMemorySize?: string;
   appPort?: number;
@@ -101,11 +101,12 @@ export interface DeploymentConfig {
   image?: string;
   repoUrl?: string | undefined;
   branchName?: string;
-  env?: Record<string, string>;
+  envVars?: Record<string, string>;
   runCommands?: string;
   spheronDeploymentMode?: SpheronDeploymentMode;
   allowAutoscale: boolean;
   disablePull: boolean;
+  slug?: string;
 }
 export interface EnvironmentVars {
   [key: string]: string;
@@ -122,7 +123,7 @@ export enum ServiceType {
   JUPYTER = "JUPYTER",
   BACKEND = "BACKEND",
   AI_MODEL = "AI_MODEL",
-  CONTAINER_VM = "CONTAINER_VM",
+  CONTAINER_VM = "VMS",
 }
 
 export interface Deployment {

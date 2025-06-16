@@ -21,7 +21,7 @@ export default function CustomPage() {
     isLoading,
     error: queryError,
     refetch: fetchDeployments,
-  } = useDeployments(user?.id || "", ServiceType.BACKEND, envProvider);
+  } = useDeployments(user?.id || "", ServiceType.CONTAINER_VM, envProvider);
 
   // mutation for deleting deployments
   const { mutate: closeDeploymentMutation } = useCloseDeployment();
@@ -89,7 +89,7 @@ export default function CustomPage() {
     <ServicePage
       title="VM Instances"
       description="Deploy and manage your custom backend instances"
-      deployPath="/app/services/vm/deploy"
+      deployPath="/app/services/vm/pre-configured"
       user={user}
       isLoading={isLoading}
       authLoading={authLoading}
