@@ -31,6 +31,7 @@ export default function BuildSettings({
 }: BuildSettingsProps) {
   return (
     <div className="dashboard-card mb-8">
+      <h3 className="text-lg font-medium mb-4">Build Settings</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         <div>
           <Label htmlFor="language" className="text-sm font-medium mb-2 block">

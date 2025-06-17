@@ -189,54 +189,63 @@ const ServicesPage = () => {
         {/* Features Section */}
         <div className="space-component mt-12">
           <Heading level={2} className="space-element text-foreground/90 mb-8">
-            Check these out
+          Ready-to-Use Assets
           </Heading>
           <Grid variant="responsive-3">
-            <Card
-              variant="compact"
-              className="border-border/60 hover:border-border/80 transition-all duration-300"
-            >
-              <Heading
-                level={5}
-                className="space-tight text-foreground/95 mb-3"
+            <Link href="/app/services/inference/models-gallery" className="block group">
+              <Card
+                variant="compact"
+                interactive
+                className="border-border/60 hover:border-border/80 transition-all duration-300 h-full"
               >
-                Model Gallery
-              </Heading>
-              <Text variant="small" muted className="leading-relaxed">
-                Browse our collection of pre-trained models and deploy them with
-                a single click.
-              </Text>
-            </Card>
-            <Card
-              variant="compact"
-              className="border-border/60 hover:border-border/80 transition-all duration-300"
-            >
-              <Heading
-                level={5}
-                className="space-tight text-foreground/95 mb-3"
+                <Heading
+                  level={5}
+                  className="space-tight text-foreground/95 mb-3 group-hover:text-accent transition-colors"
+                >
+                  Model Gallery
+                </Heading>
+                <Text variant="small" muted className="leading-relaxed">
+                  Browse our collection of pre-trained models and deploy them with
+                  a single click.
+                </Text>
+              </Card>
+            </Link>
+            <Link href="/app/services/backend/one-click-apps" className="block group">
+              <Card
+                variant="compact"
+                interactive
+                className="border-border/60 hover:border-border/80 transition-all duration-300 h-full"
               >
-                One-Click Apps
-              </Heading>
-              <Text variant="small" muted className="leading-relaxed">
-                Deploy backend services, runtimes, tools, and more with a single
-                click.
-              </Text>
-            </Card>
-            <Card
-              variant="compact"
-              className="border-border/60 hover:border-border/80 transition-all duration-300"
-            >
-              <Heading
-                level={5}
-                className="space-tight text-foreground/95 mb-3"
+                <Heading
+                  level={5}
+                  className="space-tight text-foreground/95 mb-3 group-hover:text-accent transition-colors"
+                >
+                  One-Click Apps
+                </Heading>
+                <Text variant="small" muted className="leading-relaxed">
+                  Deploy backend services, runtimes, tools, and more with a single
+                  click.
+                </Text>
+              </Card>
+            </Link>
+            <Link href="/app/services/vm/pre-configured" className="block group">
+              <Card
+                variant="compact"
+                interactive
+                className="border-border/60 hover:border-border/80 transition-all duration-300 h-full"
               >
-                Pre-Configured Templates
-              </Heading>
-              <Text variant="small" muted className="leading-relaxed">
-                Browse our collection of pre-configured templates and deploy
-                them with a single click.
-              </Text>
-            </Card>
+                <Heading
+                  level={5}
+                  className="space-tight text-foreground/95 mb-3 group-hover:text-accent transition-colors"
+                >
+                  Pre-Configured Templates
+                </Heading>
+                <Text variant="small" muted className="leading-relaxed">
+                  Browse our collection of pre-configured templates and deploy
+                  them with a single click.
+                </Text>
+              </Card>
+            </Link>
           </Grid>
         </div>
       </Container>
