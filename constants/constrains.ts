@@ -9,10 +9,10 @@ export const CPU_CONSTRAINTS = {
 export const MEMORY_CONSTRAINTS = {
   MIN_MI: 128,
   MIN_GI: 0.5,
-  MAX_GI: 6,
-  MAX_MI: 6144,
+  MAX_GI: 20,
+  MAX_MI: 20 * 1024,
   DEFAULT_MI: 1024,
-  DEFAULT_GI: 0.5,
+  DEFAULT_GI: 1,
 };
 
 export const DURATION_CONSTRAINTS = {

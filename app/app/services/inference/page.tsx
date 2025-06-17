@@ -21,7 +21,7 @@ export default function CustomPage() {
     isLoading,
     error: queryError,
     refetch: fetchDeployments,
-  } = useDeployments(user?.id || "", ServiceType.BACKEND, envProvider);
+  } = useDeployments(user?.id || "", ServiceType.AI_MODEL, envProvider);
 
   // mutation for deleting deployments
   const { mutate: closeDeploymentMutation } = useCloseDeployment();

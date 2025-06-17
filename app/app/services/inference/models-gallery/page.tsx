@@ -74,7 +74,7 @@ const Templates = () => {
           </div>
         </div>
         
-        <div className="space-component flex flex-col gap-4">
+        <div className="space-component flex flex-col gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredModels.map((model, index) => (
             <Link href={generateModelUrl(model.slug)} className="block group w-full" key={model.slug || index}>
               <Card variant="compact" interactive className="w-full px-4">

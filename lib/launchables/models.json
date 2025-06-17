@@ -1,30 +1,255 @@
 [
   {
-    "slug": "falcon-7b",
-    "name": "Falcon 7B",
-    "description": "Falcon 7B is a 7B parameter model that is designed to be fast and efficient.",
-    "repository": "https://hub.docker.com/r/andrey01/falcon7b",
-    "model_docker_image": "andrey01/falcon7b:0.4",
+    "slug": "deepseek-r1",
+    "name": "DeepSeek-R1",
+    "description": "DeepSeek's reasoning model with full capabilities.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
     "category": "Text Model",
     "config": {
-      "appCpuUnits": 8,
-      "appMemorySize": 100,
-      "appStorageSize": 200,
+      "appCpuUnits": 16,
+      "appMemorySize": 64,
+      "appStorageSize": 100,
+      "appGpuUnits": 1,
+      "gpuType": ["a100", "h100", "rtx4090"]
+    }
+  },
+  {
+    "slug": "deepseek-r1-1.5b",
+    "name": "DeepSeek-R1 1.5B",
+    "description": "DeepSeek's reasoning model - 1.5B parameter version.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 16,
+      "appStorageSize": 50,
       "appGpuUnits": 1,
       "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
     }
   },
   {
-    "slug": "deepseek-r1",
-    "name": "DeepSeek-R1",
-    "description": "DeepSeek's first-generation reasoning models.",
-    "repository": "https://hub.docker.com/r/lmsysorg/sglang",
-    "model_docker_image": "lmsysorg/sglang:v0.4.1.post4-cu124-srt",
+    "slug": "deepseek-r1-14b",
+    "name": "DeepSeek-R1 14B",
+    "description": "DeepSeek's reasoning model - 14B parameter version.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 32,
+      "appStorageSize": 75,
+      "appGpuUnits": 1,
+      "gpuType": ["a100", "h100", "rtx4090"]
+    }
+  },
+  {
+    "slug": "deepseek-r1-32b",
+    "name": "DeepSeek-R1 32B",
+    "description": "DeepSeek's reasoning model - 32B parameter version.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 16,
+      "appMemorySize": 64,
+      "appStorageSize": 100,
+      "appGpuUnits": 1,
+      "gpuType": ["a100", "h100", "rtx4090"]
+    }
+  },
+  {
+    "slug": "deepseek-r1-70b",
+    "name": "DeepSeek-R1 70B",
+    "description": "DeepSeek's reasoning model - 70B parameter version.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
     "category": "Text Model",
     "config": {
       "appCpuUnits": 32,
       "appMemorySize": 128,
+      "appStorageSize": 200,
+      "appGpuUnits": 2,
+      "gpuType": ["a100", "h100"]
+    }
+  },
+  {
+    "slug": "deepseek-r1-8b",
+    "name": "DeepSeek-R1 8B",
+    "description": "DeepSeek's reasoning model - 8B parameter version.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:latest",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 24,
       "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-gemma",
+    "name": "Gemma",
+    "description": "Google's Gemma language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 16,
+      "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-gemma2",
+    "name": "Gemma 2",
+    "description": "Google's Gemma 2 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 16,
+      "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-llama3.1",
+    "name": "Llama 3.1",
+    "description": "Meta's Llama 3.1 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 32,
+      "appStorageSize": 75,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-llama3.2",
+    "name": "Llama 3.2",
+    "description": "Meta's Llama 3.2 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 32,
+      "appStorageSize": 75,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-llama3.3",
+    "name": "Llama 3.3",
+    "description": "Meta's Llama 3.3 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 32,
+      "appStorageSize": 75,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-phi",
+    "name": "Phi",
+    "description": "Microsoft's Phi language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 8,
+      "appStorageSize": 25,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-phi3",
+    "name": "Phi 3",
+    "description": "Microsoft's Phi 3 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 8,
+      "appStorageSize": 25,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-phi3.5",
+    "name": "Phi 3.5",
+    "description": "Microsoft's Phi 3.5 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 4,
+      "appMemorySize": 8,
+      "appStorageSize": 25,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-qwen2.5",
+    "name": "Qwen 2.5",
+    "description": "Alibaba's Qwen 2.5 language model via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 24,
+      "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "Ollama-qwen2.5-coder",
+    "name": "Qwen 2.5 Coder",
+    "description": "Alibaba's Qwen 2.5 Coder specialized for coding tasks via Ollama.",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
+    "model_docker_image": "ollama/ollama:0.3.12",
+    "category": "Text Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 24,
+      "appStorageSize": 50,
+      "appGpuUnits": 1,
+      "gpuType": ["v100", "a100", "h100", "t4", "rtx3090", "rtx4090"]
+    }
+  },
+  {
+    "slug": "vLLM-qwen-2.5-vl",
+    "name": "Qwen 2.5 VL",
+    "description": "Alibaba's Qwen 2.5 Vision-Language model via vLLM.",
+    "repository": "https://hub.docker.com/r/vllm/vllm-openai",
+    "model_docker_image": "vllm/vllm-openai:latest",
+    "category": "Vision Model",
+    "config": {
+      "appCpuUnits": 8,
+      "appMemorySize": 32,
+      "appStorageSize": 75,
       "appGpuUnits": 1,
       "gpuType": ["a100", "h100", "rtx4090"]
     }

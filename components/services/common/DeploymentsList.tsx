@@ -38,6 +38,8 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   const router = useRouter();
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
+  console.log("deployments", serviceName)
+
   const renderSkeletonDeployments = () => (
     <div className="grid gap-3">
       {[1, 2, 3].map((i) => (
@@ -91,9 +93,17 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
 
         const appUrl = deployment.appUrl;
 
-        const Url = new URL(appUrl || "")
-        const port = Url.port;
-        const hostname = Url.hostname;
+        let Url;
+        if (appUrl) {
+          Url = new URL(appUrl)
+        } 
+
+        const port = Url?.port;
+        const hostname = Url?.hostname;
+
+        if (deploymentActive) {
+          console.log("deploymentActive", deployment)
+        }
 
         const sshCommand = `ssh -i <private-key> root@${hostname} -p ${port}`;
 
@@ -215,6 +225,116 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                             <li>Ensure your private key has correct permissions: <code className="bg-muted px-1 rounded text-xs">chmod 600 your-key.pem</code></li>
                             <li>Run the command in your terminal</li>
                           </ol>
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button className="btn-secondary btn-sm">Close</Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                ) : serviceName === "INFERENCE" ? (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="btn-primary btn-sm w-full sm:w-auto"
+                      >
+                        Connect to Model
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px]">
+                      <DialogHeader>
+                        <DialogTitle>Model API Access</DialogTitle>
+                        <DialogDescription>
+                          Connect to your Ollama model using the API endpoint below
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="body-small text-muted-foreground">API Endpoint</Label>
+                          <div className="relative mt-2">
+                            <Input
+                              readOnly
+                              value={deployment.appUrl || ''}
+                              className="font-mono text-sm pr-20"
+                            />
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
+                              onClick={async () => {
+                                await navigator.clipboard.writeText(deployment.appUrl || '');
+                                setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_url`]: true }));
+                                setTimeout(() => {
+                                  setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_url`]: false }));
+                                }, 2000);
+                              }}
+                            >
+                              {copiedStates[`${deployment.deploymentId}_url`] ? (
+                                <>
+                                  <Check className="h-3 w-3 mr-1" />
+                                  Copied
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-3 w-3 mr-1" />
+                                  Copy
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label className="body-small text-muted-foreground">cURL Example</Label>
+                          <div className="relative mt-2">
+                            <Input
+                              readOnly
+                              value={`curl -X POST ${deployment.appUrl}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`}
+                              className="font-mono text-xs pr-20"
+                            />
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
+                              onClick={async () => {
+                                const curlCommand = `curl -X POST ${deployment.appUrl}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`;
+                                await navigator.clipboard.writeText(curlCommand);
+                                setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_curl`]: true }));
+                                setTimeout(() => {
+                                  setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_curl`]: false }));
+                                }, 2000);
+                              }}
+                            >
+                              {copiedStates[`${deployment.deploymentId}_curl`] ? (
+                                <>
+                                  <Check className="h-3 w-3 mr-1" />
+                                  Copied
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-3 w-3 mr-1" />
+                                  Copy
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="card-glass p-4 space-y-3">
+                          <p className="body-small font-medium text-foreground">Usage Instructions:</p>
+                          <div className="space-y-3">
+                            <div>
+                              <p className="body-small font-medium text-muted-foreground mb-1">1. API Integration</p>
+                              <p className="body-small text-muted-foreground/90">Use the endpoint above to connect your applications to the model</p>
+                            </div>
+                            <div>
+                              <p className="body-small font-medium text-muted-foreground mb-1">2. API Documentation</p>
+                              <p className="body-small text-muted-foreground/90">Check <code className="bg-muted px-1 rounded text-xs">{deployment.appUrl}/api/tags</code> for available models</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <DialogFooter>
