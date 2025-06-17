@@ -91,9 +91,17 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
 
         const appUrl = deployment.appUrl;
 
-        const Url = new URL(appUrl || "")
-        const port = Url.port;
-        const hostname = Url.hostname;
+        let Url;
+        if (appUrl) {
+          Url = new URL(appUrl)
+        } 
+
+        const port = Url?.port;
+        const hostname = Url?.hostname;
+
+        if (deploymentActive) {
+          console.log("deploymentActive", deployment)
+        }
 
         const sshCommand = `ssh -i <private-key> root@${hostname} -p ${port}`;
 
