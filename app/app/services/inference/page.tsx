@@ -89,7 +89,7 @@ export default function CustomPage() {
     <ServicePage
       title="Inference Instances"
       description="Deploy and manage your custom backend instances"
-      deployPath="/app/services/inference/deploy"
+      deployPath="/app/services/inference/models-gallery"
       user={user}
       isLoading={isLoading}
       authLoading={authLoading}
