@@ -18,7 +18,7 @@ const serviceCategories = [
         name: "Inference API",
         description:
           "Deploy state-of-the-art ML models like LLaMA or Whisper with a single click.",
-        url: "https://forms.gle/CAovZoBDG7rgMUuK6",
+        url: "/app/services/inference",
         comingSoon: false,
         buttonText: "Launch →",
         icon: <Cpu className="w-6 h-6 text-foreground/70" />,
@@ -40,7 +40,7 @@ const serviceCategories = [
       {
         name: "Container VMs",
         description: "Book an orchestrated VM with GPU for advanced compute.",
-        url: "https://forms.gle/CAovZoBDG7rgMUuK6",
+        url: "/app/services/vm",
         comingSoon: false,
         buttonText: "Launch →",
         icon: <Database className="w-6 h-6 text-foreground/70" />,
