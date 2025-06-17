@@ -189,6 +189,12 @@ export default function CreditsPage() {
     setCredits(packageCredits);
   };
 
+  useEffect(() => {
+    if (currencies && currencies.length > 0) {
+      setSelectedCurrency(currencies[0].currency);
+    }
+  }, [currencies]);
+
   const handlePurchase = () => {
     if (credits <= 0) {
       toast.error('Please enter a valid credit amount');
@@ -199,13 +205,13 @@ export default function CreditsPage() {
       {
         amount: cost,
         creditAmount: credits,
-        currency: selectedCurrency
+        currency: "SOL"
       },
       {
         onSuccess: (data) => {
           if (data?.data?.invoice_url) {
             window.open(data.data.invoice_url, '_blank');
-            toast.success('Payment invoice created! Complete your payment to receive credits.');
+            toast.success('Redirecting to invoice! Complete your payment to receive credits.');
             // Refresh credit details after purchase initiation
             setTimeout(() => {
               fetchCreditDetails();
@@ -220,6 +226,7 @@ export default function CreditsPage() {
       }
     );
   };
+
 
   const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('en-US', {
