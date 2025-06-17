@@ -5,7 +5,7 @@ import { LayoutGrid, Plus, CreditCard } from "lucide-react";
 import { useAquaCredits } from "@/hooks/api";
 import { Button } from "@/components/ui/button";
 import PurchaseCredits from "./PurchaseCredits";
-
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -76,10 +76,16 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
         )}
       </div>
 
-      <Dialog open={isPurchaseModalOpen} onOpenChange={setIsPurchaseModalOpen}>
+      <Link href="/app/payments">
+        <Button variant="outline" size="sm" className="w-full text-xs h-8">
+          {/* <Plus size={12} className="mr-1" /> */}
+          Recharge
+        </Button>
+      </Link>
+
+      {/* <Dialog open={isPurchaseModalOpen} onOpenChange={setIsPurchaseModalOpen}>
         <DialogTrigger asChild>
           <Button variant="outline" size="sm" className="w-full text-xs h-8">
-            {/* <Plus size={12} className="mr-1" /> */}
             Recharge
           </Button>
         </DialogTrigger>
@@ -89,7 +95,7 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
           </DialogHeader>
           <PurchaseCredits onSuccess={() => setIsPurchaseModalOpen(false)} />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </Card>
   );
 };

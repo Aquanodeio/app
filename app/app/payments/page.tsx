@@ -189,6 +189,12 @@ export default function CreditsPage() {
     setCredits(packageCredits);
   };
 
+  useEffect(() => {
+    if (currencies && currencies.length > 0) {
+      setSelectedCurrency(currencies[0].currency);
+    }
+  }, [currencies]);
+
   const handlePurchase = () => {
     if (credits <= 0) {
       toast.error('Please enter a valid credit amount');
@@ -199,7 +205,7 @@ export default function CreditsPage() {
       {
         amount: cost,
         creditAmount: credits,
-        currency: selectedCurrency
+        currency: "SOL"
       },
       {
         onSuccess: (data) => {
@@ -220,6 +226,7 @@ export default function CreditsPage() {
       }
     );
   };
+
 
   const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('en-US', {
