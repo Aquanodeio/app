@@ -122,7 +122,7 @@ export interface DeploymentResponse {
 export enum ServiceType {
   JUPYTER = "JUPYTER",
   BACKEND = "BACKEND",
-  AI_MODEL = "AI_MODEL",
+  AI_MODEL = "MODELS",
   CONTAINER_VM = "VMS",
 }
 

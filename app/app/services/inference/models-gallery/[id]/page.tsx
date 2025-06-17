@@ -1,13 +1,24 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import Link from "next/link";
 import { Container, Heading, Text, Card } from "@/components/ui/design-system";
 import { Badge } from "@/components/ui/badge";
 import modelsData from "@/lib/launchables/models.json";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
-import { useAuth } from "@/hooks/auth/useAuthContext";
-import { useLaunchablesDeploy } from "@/components/LaunchablesDeployHandler";
+import { ExternalLink } from "lucide-react";
+import { DeploymentConfig, ProviderType } from "@/lib/types";
+import { ResourceValueOptions } from "@/components/services/common/interfaces";
+import {
+  CPU_CONSTRAINTS,
+  MEMORY_CONSTRAINTS,
+  DURATION_CONSTRAINTS,
+} from "@/constants/constrains";
+import { useCreateDeployment } from "@/hooks";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import ResourceSettingSection from "@/components/services/common/ResourceSettingSection";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Define the model type based on the JSON structure
 type Model = {
@@ -25,23 +36,55 @@ type ModelDetailPageProps = {
 
 const ModelDetailPage = ({ params }: ModelDetailPageProps) => {
   const { id } = use(params);
-  const { user, isLoading } = useAuth();
 
-  // Cast the imported JSON data to our Model type
   const models = modelsData as Model[];
 
-  // Find the model by slug
+  const { mutate: createDeployment, isPending } = useCreateDeployment(
+    "/app/services/inference"
+  );
+
   const model = models.find((model) => model.slug === id);
 
-  // Use the deployment hook
-  const deploymentRepository = model?.repository;
-  if (model && !deploymentRepository) throw new Error("Deployment repository not found");
-  
-  const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
-    repository: deploymentRepository || '',
-    user,
-    isAuthLoading: isLoading,
+  const [values, setValues] = useState<ResourceValueOptions>({
+    appCpuUnits: String(CPU_CONSTRAINTS.DEFAULT),
+    appMemorySize: MEMORY_CONSTRAINTS.DEFAULT_MI,
+    memoryUnit: "Mi",
+    appStorageSize: 1,
+    storageUnit: "Gi",
+    deploymentDuration: DURATION_CONSTRAINTS.DEFAULT_HOURS,
+    runCommands: "",
+    allowAutoscale: false,
+    disablePull: false,
   });
+
+  const createConfigObject = (customValues?: ResourceValueOptions) => {
+    const vals = customValues || values;
+
+    return {
+      deploymentDuration: `${vals.deploymentDuration}h`,
+      appCpuUnits: Number(vals.appCpuUnits),
+      appMemorySize: `${vals.appMemorySize}${vals.memoryUnit}`,
+      appStorageSize: `${vals.appStorageSize}${vals.storageUnit}`,
+      allowAutoscale: vals.allowAutoscale ?? false,
+      disablePull: vals.disablePull ?? false,
+    };
+  };
+
+  const handleDeploy = () => {
+    const configToPass: DeploymentConfig = {
+      ...createConfigObject(),
+      slug: id,
+    };
+
+    createDeployment({
+      service: "MODELS",
+      tier: "CUSTOM",
+      provider: ProviderType.SPHERON,
+      config: configToPass,
+    });
+
+    console.log(configToPass);
+  };
 
   if (!model) {
     return (
@@ -102,38 +145,37 @@ const ModelDetailPage = ({ params }: ModelDetailPageProps) => {
                 {model.description}
               </Text>
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3">
-                <button 
-                  className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              {/* <Card variant="primary" className="space-component">
+                <div className="space-y-4 sm:space-y-6">
+                  <Heading level={2}>Configuration</Heading> */}
+
+              <ResourceSettingSection values={values} setValues={setValues} />
+
+              <div className="flex justify-end mt-4">
+                <Button
+                  size="default"
+                  className="interactive-hover shadow-lg shadow-primary/10 w-full sm:w-auto"
                   onClick={handleDeploy}
-                  disabled={isButtonDisabled}
+                  disabled={isPending}
                 >
-                  {isDeploying ? (
+                  {isPending ? (
                     <span className="animate-pulse">Deploying...</span>
                   ) : (
-                    "Deploy Now"
+                    <>
+                      Deploy Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
                   )}
-                </button>
-
-                {model.repository && (
-                  <Link
-                    href={model.repository}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-card border border-border px-4 py-2.5 rounded-lg font-medium hover:bg-card/80 transition-colors text-sm"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Repository
-                  </Link>
-                )}
+                </Button>
               </div>
+              {/* </div>
+              </Card> */}
             </div>
           </div>
-
         </div>
       </Container>
     </section>
   );
 };
 
-export default ModelDetailPage; 
+export default ModelDetailPage;

@@ -145,7 +145,7 @@ const TemplateDetailsPage = ({ params }: TemplateDetailPageProps) => {
         </Text>
       </div>
 
-      <div></div>
+
       <Card variant="primary" className="space-component">
         <div className="space-y-4 sm:space-y-6">
           <Heading level={2}>Configuration</Heading>
