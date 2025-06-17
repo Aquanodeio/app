@@ -146,13 +146,11 @@ export default function ServiceDeployPage({
               ))}
             </div>
 
-            <Card variant="primary" className="space-element">
-              {/* Provider Selection (Common for both default and custom) */}
+            <Card variant="primary" className="space-element space-y-4 sm:space-y-6">
+            <Heading level={2}>Configuration</Heading>
               <div className="space-tight">
-                <Text variant="small" className="font-medium">
-                  Deployment Provider
-                </Text>
                 <div className="w-full sm:w-1/3">
+                <h3 className="text-lg font-medium mb-4">Deployment Provider</h3>
                   <Select
                     value={selectedProvider}
                     onValueChange={(value) => setSelectedProvider(value as ProviderType)}
@@ -240,7 +238,7 @@ export default function ServiceDeployPage({
                   <div className="space-y-4 sm:space-y-6">
                     <div>
                       <Heading level={3} className="space-tight">
-                        Resource Settings
+                        {/* Resource Settings */}
                       </Heading>
                       {resourceSettingSection}
                     </div>
@@ -248,7 +246,7 @@ export default function ServiceDeployPage({
                     {sourceControlSection && (
                       <div>
                         <Heading level={3} className="space-tight">
-                          Source Control
+                          {/* Source Control */}
                         </Heading>
                         {sourceControlSection}
                       </div>
@@ -257,7 +255,7 @@ export default function ServiceDeployPage({
                     {buildSettingsSection && (
                       <div>
                         <Heading level={3} className="space-tight">
-                          Build Settings
+                          {/* Build Settings */}
                         </Heading>
                         {buildSettingsSection}
                       </div>

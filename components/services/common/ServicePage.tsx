@@ -112,9 +112,9 @@ const ServicePage: React.FC<ServicePageProps> = ({
               {/* Deployments List */}
               <div className="md:col-span-3 w-full overflow-x-auto">
                 <Card variant="primary" className="space-element">
-                  <Heading level={2} className="space-tight">
+                  {/* <Heading level={2} className="space-tight">
                     Your Deployments
-                  </Heading>
+                  </Heading> */}
 
                   <Card
                     variant="dense"
