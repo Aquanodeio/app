@@ -205,7 +205,7 @@ export default function CreditsPage() {
         onSuccess: (data) => {
           if (data?.data?.invoice_url) {
             window.open(data.data.invoice_url, '_blank');
-            toast.success('Payment invoice created! Complete your payment to receive credits.');
+            toast.success('Redirecting to invoice! Complete your payment to receive credits.');
             // Refresh credit details after purchase initiation
             setTimeout(() => {
               fetchCreditDetails();

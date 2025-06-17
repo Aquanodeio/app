@@ -86,7 +86,7 @@ const PurchaseCredits: React.FC<PurchaseCreditsProps> = ({ onSuccess }) => {
           console.log("data", data, data.data?.invoice_url);
           if (data?.data?.invoice_url) {
             window.open(data.data.invoice_url, '_blank');
-            toast.success('Payment invoice created! Complete your payment to receive credits.');
+            toast.success('Redirecting to invoice! Complete your payment to receive credits.');
             if (onSuccess) onSuccess();
           } else {
             toast.error('Failed to create payment invoice');
