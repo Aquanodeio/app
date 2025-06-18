@@ -2,14 +2,14 @@
   {
     "slug": "ubuntu-24-vm",
     "name": "Ubuntu VM",
-    "description": "Lightweight Ubuntu VM with full SSH access, slugeal for configuring your own stack from scratch.",
+    "description": "Lightweight Ubuntu VM with full SSH access, ideal for configuring your own stack from scratch.",
     "repository": "https://hub.docker.com/_/ubuntu",
     "category": "OS VMs"
   },
   {
     "slug": "alpine",
     "name": "Alpine VM",
-    "description": "Lightweight Alpine Linux VM with full SSH access, slugeal for minimal resource usage and custom configurations.",
+    "description": "Lightweight Alpine Linux VM with full SSH access, ideal for minimal resource usage and custom configurations.",
     "repository": "https://hub.docker.com/_/alpine",
     "category": "OS VMs"
   },
@@ -28,17 +28,17 @@
     "category": "VMs"
   },
   {
-    "slug": "nvslugia-cuda",
-    "name": "NVslugIA CUDA",
-    "description": "NVslugIA CUDA toolkit environment for GPU computing, parallel processing, and high-performance computing applications.",
-    "repository": "https://hub.docker.com/r/nvslugia/cuda",
+    "slug": "nvidia-cuda",
+    "name": "NVIDIA CUDA",
+    "description": "NVIDIA CUDA toolkit environment for GPU computing, parallel processing, and high-performance computing applications.",
+    "repository": "https://hub.docker.com/r/nvidia/cuda",
     "category": "VMs"
   },
   {
-    "slug": "nvslugia-tensorrt-llm",
-    "name": "NVslugIA TensorRT-LLM",
-    "description": "Optimized environment for large language model inference with NVslugIA TensorRT-LLM for high-performance AI serving.",
-    "repository": "https://hub.docker.com/r/nvslugia/tensorrt-llm",
+    "slug": "nvidia-tensorrt-llm",
+    "name": "NVIDIA TensorRT-LLM",
+    "description": "Optimized environment for large language model inference with NVIDIA TensorRT-LLM for high-performance AI serving.",
+    "repository": "https://hub.docker.com/r/nvidia/tensorrt-llm",
     "category": "VMs"
   },
   {
