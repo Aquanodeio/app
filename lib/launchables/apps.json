@@ -1,21 +1,5 @@
 [
   {
-    "name": "Aim",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/aim.svg"
-    ],
-    "description": "Deploy Aim to track AI metadata, helping you compare prompts and develop experiments iteratively",
-    "project_site": "https://aimstack.io/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-aim",
-    "technologies": [
-      "Aim",
-      "Python"
-    ],
-    "slug": "aim"
-  },
-  {
     "name": "Argilla",
     "logos": [
       "https://www.koyeb.com/images/one-click-apps/argilla.svg"
@@ -29,7 +13,8 @@
       "Argilla",
       "Docker"
     ],
-    "slug": "argilla"
+    "slug": "argilla",
+    "port": 6900
   },
   {
     "name": "Astro",
@@ -692,24 +677,6 @@
     "slug": "php"
   },
   {
-    "name": "PyTorch Jupyter Notebook",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/pytorch.svg",
-      "https://www.koyeb.com/images/one-click-apps/jupyter.svg"
-    ],
-    "description": "Deploy a Jupyter Notebook configured with PyTorch to develop and run machine learning applications interactively.",
-    "project_site": null,
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://jupyter.org/",
-    "technologies": [
-      "PyTorch",
-      "Jupyter Notebooks",
-      "Docker"
-    ],
-    "slug": "pytorch-jupyter"
-  },
-  {
     "name": "Quickwit",
     "logos": [
       "https://www.koyeb.com/images/one-click-apps/quickwit.svg"
@@ -887,22 +854,6 @@
     "slug": "tailscale"
   },
   {
-    "name": "Text Generation Inference (TGI)",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/tgi.svg"
-    ],
-    "description": "Deploy TGI for high-performance text generation using the most popular open-source LLMs",
-    "project_site": "https://huggingface.co/docs/text-generation-inference/index",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://github.com/huggingface/text-generation-inference",
-    "technologies": [
-      "TGI",
-      "Docker"
-    ],
-    "slug": "tgi"
-  },
-  {
     "name": "Uptime Kuma",
     "logos": [
       "https://www.koyeb.com/images/one-click-apps/uptime-kuma.svg"
@@ -929,7 +880,7 @@
     "project_site": "https://github.com/vllm-project/vllm",
     "category": "AI",
     "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/vllm/vllm-openai/tags",
+    "repository": "https://hub.docker.com/r/vllm/vllm-openai",
     "technologies": [
       "vLLM",
       "Docker"

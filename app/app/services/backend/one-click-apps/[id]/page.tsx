@@ -31,6 +31,7 @@ type App = {
     name: string;
     value: string;
   }>;
+  port?: number;
   model_size?: string;
   model_min_vram_gb?: number;
   model_docker_image?: string;
@@ -54,9 +55,9 @@ const AppDetailPage = ({ params }: AppDetailPageProps) => {
   if (!app?.repository) throw new Error("Deployment repository not found");
   const { isDeploying, handleDeploy, isButtonDisabled } = useLaunchablesDeploy({
     repository: app?.repository,
-    ...(app?.model_docker_image && { model_docker_image: app.model_docker_image }),
     user,
     isAuthLoading: isLoading,
+    port: app?.port,
   });
 
   if (!app) {
