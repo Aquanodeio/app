@@ -79,7 +79,7 @@ const ModelDetailPage = ({ params }: ModelDetailPageProps) => {
     createDeployment({
       service: "MODELS",
       tier: "CUSTOM",
-      provider: ProviderType.AKASH,
+      provider: ProviderType.SPHERON,
       config: configToPass,
     });
 

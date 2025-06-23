@@ -20,7 +20,8 @@ import {
   AuthResponse,
 } from "./auth/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080";
+const VERSION = "/api/v1";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080") + VERSION;
 
 // User response interface
 interface UserResponse {
@@ -105,7 +106,7 @@ export async function request<T>(
 
 // User Management
 export async function createUser(address: string): Promise<UserResponse> {
-  return request<UserResponse>("/api/user/register", {
+  return request<UserResponse>("/user/register", {
     method: "POST",
     body: JSON.stringify({ address }),
   });
@@ -114,7 +115,7 @@ export async function createUser(address: string): Promise<UserResponse> {
 export async function createDeploymentNew(
   data: CreateDeploymentSchemaType
 ): Promise<DeploymentResult> {
-  return request<DeploymentResult>("/api/deployments/deploy", {
+  return request<DeploymentResult>("/deployments/deploy", {
     method: "POST",
     body: JSON.stringify(data),
   });
@@ -126,7 +127,7 @@ export async function getUserDeployments(
   type?: ServiceType,
   provider?: ProviderType
 ): Promise<Deployment[]> {
-  return request<GetDeploymentsResponse>("/api/deployments/user", {
+  return request<GetDeploymentsResponse>("/deployments/user", {
     method: "POST",
     body: JSON.stringify({
       user,
@@ -142,20 +143,12 @@ export async function getUserDeployments(
 export async function getDeploymentById(
   deploymentId: number
 ): Promise<Deployment> {
-  return request<Deployment>(`/api/deployments/${deploymentId}`);
-}
-
-// Get service instances by type
-export async function getServiceInstances(type: string): Promise<any[]> {
-  return request<any[]>("/api/deployments/service-instances", {
-    method: "POST",
-    body: JSON.stringify({ type }),
-  });
+  return request<Deployment>(`/deployments/${deploymentId}`);
 }
 
 // Close a deployment
 export async function closeDeployment(deploymentId: number): Promise<void> {
-  return request<void>("/api/deployments/close", {
+  return request<void>("/deployments/close", {
     method: "POST",
     body: JSON.stringify({ deploymentId }),
   });
@@ -167,7 +160,7 @@ export async function getUserDeploymentsByType(
   type: string,
   provider?: ProviderType
 ): Promise<Deployment[]> {
-  return request<Deployment[]>("/api/deployments/user", {
+  return request<Deployment[]>("/deployments/user", {
     method: "POST",
     body: JSON.stringify({
       userId,
@@ -175,107 +168,6 @@ export async function getUserDeploymentsByType(
       provider: provider || null,
     }),
   });
-}
-
-// AI Chat Services
-export async function sendChatMessage(
-  chatRequest: ChatRequest,
-  onStream?: (text: string) => void
-): Promise<ChatResponse> {
-  if (onStream) {
-    const token = authService.getAccessToken();
-    // Streaming request
-    const response = await fetch(`${API_BASE_URL}/api/agent/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify({
-        ...chatRequest,
-        stream: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: "An unknown error occurred" }));
-      throw new Error(error.message || "An error occurred");
-    }
-
-    if (!response.body) {
-      throw new Error("Response body is null");
-    }
-
-    // Process the stream using the ReadableStream API
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    let accumulatedText = "";
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        // Decode the chunk and add to buffer
-        buffer += decoder.decode(value, { stream: true });
-
-        // Process complete lines in the buffer
-        const lines = buffer.split("\n");
-        // Keep the last potentially incomplete line in the buffer
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.substring(6).trim();
-
-            if (data === "[DONE]") {
-              return { text: accumulatedText };
-            }
-
-            // Skip empty data
-            if (!data) {
-              continue;
-            }
-
-            try {
-              // Ensure we're parsing valid JSON
-              const parsed = JSON.parse(data);
-              if (parsed.choices && parsed.choices[0]) {
-                const deltaContent = parsed.choices[0]?.delta?.content || "";
-                if (deltaContent) {
-                  accumulatedText += deltaContent;
-                  onStream(deltaContent);
-                }
-              }
-            } catch (e) {
-              console.error("Error parsing SSE data:", e, data);
-              // Continue processing other chunks instead of breaking
-              continue;
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Stream reading error:", error);
-      throw error;
-    } finally {
-      reader.releaseLock();
-    }
-
-    return { text: accumulatedText };
-  } else {
-    // Non-streaming request
-    return request<ChatResponse>("/api/agent/chat/completions", {
-      method: "POST",
-      body: JSON.stringify({
-        ...chatRequest,
-        stream: false,
-      }),
-    });
-  }
 }
 
 export async function getChatHistory(): Promise<ChatMessage[]> {
@@ -291,12 +183,12 @@ export async function clearChatHistory(): Promise<void> {
 }
 
 export async function getAquaCredits(): Promise<{ credits: number }> {
-  return request<{ credits: number }>("/api/credits");
+  return request<{ credits: number }>("/credits");
 }
 
 // Purchase Aqua Credits with cryptocurrency
 export async function purchaseCredits(amount: number, creditAmount: number, currency: string = 'BTC'): Promise<any> {
-  return request<any>("/api/credits/purchase", {
+  return request<any>("/credits/purchase", {
     method: "POST",
     body: JSON.stringify({ amount, creditAmount, currency }),
   });
@@ -304,7 +196,7 @@ export async function purchaseCredits(amount: number, creditAmount: number, curr
 
 // Get supported cryptocurrencies for payment
 export async function getSupportedCryptocurrencies(): Promise<SupportedCryptoCurrency[]> {
-  return request<SupportedCryptoCurrency[]>("/api/payment/currencies");
+  return request<SupportedCryptoCurrency[]>("/payment/currencies");
 }
 
 // Get paginated deployments
@@ -314,7 +206,7 @@ export async function getPaginatedDeployments(
   limit = 10
 ): Promise<PaginatedResponse<Deployment>> {
   return request<PaginatedResponse<Deployment>>(
-    `/api/deployments/paginated?userId=${userId}&page=${page}&limit=${limit}`
+    `/deployments/paginated?userId=${userId}&page=${page}&limit=${limit}`
   );
 }
 
@@ -329,14 +221,14 @@ export interface UserProfile {
 }
 
 export async function getProfile(): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/profile");
+  return request<UserProfile>("/user/profile");
 }
 
 // Update user profile
 export async function updateProfile(
   profileData: Partial<UserProfile>
 ): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/profile", {
+  return request<UserProfile>("/user/profile", {
     method: "PUT",
     body: JSON.stringify(profileData),
   });
@@ -347,7 +239,7 @@ export async function syncUser(
   supabaseUserId: string,
   email: string
 ): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/sync", {
+  return request<UserProfile>("/user/sync", {
     method: "POST",
     body: JSON.stringify({ supabaseUserId, email }),
   });
