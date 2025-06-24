@@ -11,8 +11,7 @@ export function useCreateDeployment(redirectPath?: string) {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (data: CreateDeploymentSchemaType) =>
-      createDeploymentNew(data),
+    mutationFn: (data: CreateDeploymentSchemaType) => createDeploymentNew(data),
     onSuccess: (response) => {
       toast.success("Deployment created successfully", {
         description: `Your deployment has been created successfully. ${response.appUrl ? `App URL: ${response.appUrl}` : ""} ${response.leaseId ? `Lease ID: ${response.leaseId}` : ""}`,

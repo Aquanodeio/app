@@ -6,7 +6,7 @@ import { ToolResultRenderer } from "./ToolResultRenderer";
 interface ChatMessageProps {
   message: {
     id: string;
-    role: 'user' | 'assistant' | 'system' | 'data';
+    role: "user" | "assistant" | "system" | "data";
     content: string;
     createdAt?: Date;
     toolInvocations?: any[];
@@ -45,11 +45,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => (
         />
       ))}
 
-      <Text
-        variant="caption"
-        className="opacity-60 space-tight mt-2"
-        as="div"
-      >
+      <Text variant="caption" className="opacity-60 space-tight mt-2" as="div">
         {new Date(message.createdAt || new Date()).toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -63,4 +59,4 @@ export const ChatMessage = ({ message }: ChatMessageProps) => (
       </div>
     )}
   </div>
-); 
+);

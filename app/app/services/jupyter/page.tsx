@@ -53,7 +53,8 @@ export default function JupyterPage() {
   // Calculate stats for active deployments only
   const activeDeployments = Array.isArray(deployments)
     ? deployments.filter(
-        (d) => d.appUrl !== null && isDeploymentActive(d.createdAt, d.duration)
+        (d) =>
+          d.app_url !== null && isDeploymentActive(d.created_at, d.duration)
       )
     : [];
   const activeInstances = activeDeployments.length;

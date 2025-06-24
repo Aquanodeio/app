@@ -21,7 +21,8 @@ import {
 } from "./auth/types";
 
 const VERSION = "/api/v1";
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080") + VERSION;
+const API_BASE_URL =
+  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080") + VERSION;
 
 // User response interface
 interface UserResponse {
@@ -49,7 +50,9 @@ class AuthService {
   }
 
   private async initializeFromSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (session?.access_token) {
       this._accessToken = session.access_token;
     }
@@ -127,16 +130,15 @@ export async function getUserDeployments(
   type?: ServiceType,
   provider?: ProviderType
 ): Promise<Deployment[]> {
-  return request<GetDeploymentsResponse>("/deployments/user", {
-    method: "POST",
-    body: JSON.stringify({
-      user,
-      type: type || null,
-      provider: provider || null,
-    } as GetDeploymentsRequest),
-  }).then((response) => {
-    return response.deployments;
-  });
+  const query = new URLSearchParams();
+  if (type) query.set("type", type);
+
+  return request<Deployment[]>(
+    "/deployments" + (query.toString() ? `?${query.toString()}` : ""),
+    {
+      method: "GET",
+    }
+  );
 }
 
 // Get deployment by ID
@@ -187,7 +189,11 @@ export async function getAquaCredits(): Promise<{ credits: number }> {
 }
 
 // Purchase Aqua Credits with cryptocurrency
-export async function purchaseCredits(amount: number, creditAmount: number, currency: string = 'BTC'): Promise<any> {
+export async function purchaseCredits(
+  amount: number,
+  creditAmount: number,
+  currency: string = "BTC"
+): Promise<any> {
   return request<any>("/credits/purchase", {
     method: "POST",
     body: JSON.stringify({ amount, creditAmount, currency }),
@@ -195,7 +201,9 @@ export async function purchaseCredits(amount: number, creditAmount: number, curr
 }
 
 // Get supported cryptocurrencies for payment
-export async function getSupportedCryptocurrencies(): Promise<SupportedCryptoCurrency[]> {
+export async function getSupportedCryptocurrencies(): Promise<
+  SupportedCryptoCurrency[]
+> {
   return request<SupportedCryptoCurrency[]>("/payment/currencies");
 }
 
@@ -309,10 +317,10 @@ export async function signOut(): Promise<{ error: Error | null }> {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
-    
+
     // Clear the access token after sign out
     authService.setAccessToken(null);
-    
+
     return { error: null };
   } catch (error) {
     console.error("Sign out error:", error);

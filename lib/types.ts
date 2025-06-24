@@ -24,23 +24,23 @@ export interface DeploymentResult {
 }
 
 export interface SupportedCryptoCurrency {
-  name:                          string;
-  cid:                           string;
-  currency:                      string;
-  icon:                          string;
-  rate_usd:                      string;
-  price_usd:                     string;
-  precision:                     number;
-  output_precision:              number;
-  fiat:                          string;
-  fiat_rate:                     string;
-  min_sum_in:                    number | string;
+  name: string;
+  cid: string;
+  currency: string;
+  icon: string;
+  rate_usd: string;
+  price_usd: string;
+  precision: number;
+  output_precision: number;
+  fiat: string;
+  fiat_rate: string;
+  min_sum_in: number | string;
   invoice_commission_percentage: string;
-  hidden:                        number;
-  maintenance:                   boolean;
-  contractOf:                    null | string;
-  contractStandard:              string;
-  allowMemo:                     boolean;
+  hidden: number;
+  maintenance: boolean;
+  contractOf: null | string;
+  contractStandard: string;
+  allowMemo: boolean;
 }
 
 export interface DeploymentInfo {
@@ -49,7 +49,6 @@ export interface DeploymentInfo {
   timestamp: string;
   details?: Record<string, any>;
 }
-
 
 // Jupyter Service Types
 export interface DeployDefaultJupyterRequest {
@@ -118,7 +117,6 @@ export interface DeploymentResponse {
   url?: string;
 }
 
-
 export enum ServiceType {
   JUPYTER = "JUPYTER",
   BACKEND = "BACKEND",
@@ -127,17 +125,22 @@ export enum ServiceType {
 }
 
 export interface Deployment {
-  deploymentId: string;
-  appUrl: string | null;
-  createdAt: string;
+  id: string;
+  created_at: string;
+  api_key: null;
+  app_url: null | string;
+  monitor_url: null;
+  lease_id: string;
   provider: string;
   deployment_type: string;
-  image: string;
   cpu: number;
   memory: string;
   storage: string;
   duration: string;
-  leaseId: string;
+  image: string;
+  user: string;
+  monitoring_id: string;
+  name: null;
 }
 
 export interface GetDeploymentsResponse {
@@ -152,7 +155,7 @@ export interface GetDeploymentsRequest {
 }
 
 export interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
+  role: "user" | "assistant" | "system";
   content: string;
   timestamp?: string;
 }

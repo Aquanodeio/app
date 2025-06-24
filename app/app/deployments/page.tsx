@@ -2,7 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
-import { useDeployments, useCloseDeployment } from "@/hooks/deployments/useDeployments";
+import {
+  useDeployments,
+  useCloseDeployment,
+} from "@/hooks/deployments/useDeployments";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useAuth } from "@/hooks/auth/useAuthContext";
@@ -22,10 +25,10 @@ function DeploymentTable({ userId }: DeploymentTableProps) {
   const envProvider = getProviderFromEnv();
 
   // Use the deployment hook instead of directly calling the API
-  const { 
-    data: deployments = [], 
-    isLoading: loading, 
-    error 
+  const {
+    data: deployments = [],
+    isLoading: loading,
+    error,
   } = useDeployments(userId, undefined, envProvider);
 
   // Hook for closing deployments
@@ -56,7 +59,7 @@ function DeploymentTable({ userId }: DeploymentTableProps) {
           </Text>
         </div>
       </Card>
-      
+
       {!loading && deployments.length === 0 ? (
         <Card variant="elevated" className="text-center space-element">
           <Text variant="large" muted>

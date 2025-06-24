@@ -4,7 +4,16 @@ import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Copy, ExternalLink, Clock, Server, Cpu, HardDrive, Database, Timer } from "lucide-react";
+import {
+  Copy,
+  ExternalLink,
+  Clock,
+  Server,
+  Cpu,
+  HardDrive,
+  Database,
+  Timer,
+} from "lucide-react";
 import {
   useDeployment,
   useCloseDeployment,
@@ -13,7 +22,14 @@ import { isDeploymentActive } from "@/lib/deployment";
 import { LiveMetricsSection } from "@/components/deployments/sections/LiveMetricsSection";
 import { ServiceSectionRenderer } from "@/components/deployments/ServiceSectionRenderer";
 import { getServiceConfig, isBasicSectionEnabled } from "@/lib/serviceConfig";
-import { Container, Heading, Text, Card, Grid, StatsCard } from "@/components/ui/design-system";
+import {
+  Container,
+  Heading,
+  Text,
+  Card,
+  Grid,
+  StatsCard,
+} from "@/components/ui/design-system";
 
 export default function DeploymentDetailsPage() {
   const params = useParams();
@@ -45,7 +61,7 @@ export default function DeploymentDetailsPage() {
   const handleClose = () => {
     if (!deployment) return;
 
-    closeDeploymentMutation(Number(deployment.deploymentId));
+    closeDeploymentMutation(Number(deployment.id));
   };
 
   const copyToClipboard = async (text: string, label: string) => {
@@ -79,20 +95,33 @@ export default function DeploymentDetailsPage() {
   if (!deployment) {
     return (
       <Container variant="wide" className="space-dashboard">
-        <Heading level={1}>
-          Deployment Not Found
-        </Heading>
+        <Heading level={1}>Deployment Not Found</Heading>
       </Container>
     );
   }
 
   // Get service configuration and section visibility
   const serviceConfig = getServiceConfig(deployment.deployment_type);
-  const showStatus = isBasicSectionEnabled(deployment.deployment_type, 'status');
-  const showTimestamps = isBasicSectionEnabled(deployment.deployment_type, 'timestamps');
-  const showAppUrl = isBasicSectionEnabled(deployment.deployment_type, 'appUrl');
-  const showConfiguration = isBasicSectionEnabled(deployment.deployment_type, 'configuration');
-  const showLiveMetrics = isBasicSectionEnabled(deployment.deployment_type, 'liveMetrics');
+  const showStatus = isBasicSectionEnabled(
+    deployment.deployment_type,
+    "status"
+  );
+  const showTimestamps = isBasicSectionEnabled(
+    deployment.deployment_type,
+    "timestamps"
+  );
+  const showAppUrl = isBasicSectionEnabled(
+    deployment.deployment_type,
+    "appUrl"
+  );
+  const showConfiguration = isBasicSectionEnabled(
+    deployment.deployment_type,
+    "configuration"
+  );
+  const showLiveMetrics = isBasicSectionEnabled(
+    deployment.deployment_type,
+    "liveMetrics"
+  );
 
   return (
     <Container variant="wide" className="space-dashboard">
@@ -101,7 +130,7 @@ export default function DeploymentDetailsPage() {
         <div className="space-y-2">
           <Heading level={1}>Deployment Details</Heading>
           <Text variant="base" muted>
-            {serviceConfig.name} • ID: {deployment.deploymentId}
+            {serviceConfig.name} • ID: {deployment.id}
           </Text>
         </div>
         <Button
@@ -122,10 +151,14 @@ export default function DeploymentDetailsPage() {
             {showStatus && (
               <StatsCard
                 title="Status"
-                value={isDeploymentActive(deployment.createdAt, deployment.duration) ? "Active" : "Expired"}
+                value={
+                  isDeploymentActive(deployment.created_at, deployment.duration)
+                    ? "Active"
+                    : "Expired"
+                }
               />
             )}
-            
+
             {/* Timestamps Card */}
             {showTimestamps && (
               <Card variant="compact" className="flex-1">
@@ -136,36 +169,41 @@ export default function DeploymentDetailsPage() {
                   </Text>
                 </div>
                 <Text variant="small" className="font-medium">
-                  {new Date(deployment.createdAt).toLocaleString()}
+                  {new Date(deployment.created_at).toLocaleString()}
                 </Text>
               </Card>
             )}
 
             {/* App URL Card */}
-            {showAppUrl && deployment.appUrl && (
+            {showAppUrl && deployment.app_url && (
               <Card variant="compact" interactive>
                 <div className="flex justify-between items-start">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <ExternalLink size={16} className="text-muted-foreground flex-shrink-0" />
+                      <ExternalLink
+                        size={16}
+                        className="text-muted-foreground flex-shrink-0"
+                      />
                       <Text variant="caption" muted>
                         App URL
                       </Text>
                     </div>
                     <a
-                      href={deployment.appUrl}
+                      href={deployment.app_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary hover:text-primary/80 transition-colors font-mono text-sm truncate block"
-                      title={deployment.appUrl}
+                      title={deployment.app_url}
                     >
-                      {deployment.appUrl.replace(/^https?:\/\//, '')}
+                      {deployment.app_url.replace(/^https?:\/\//, "")}
                     </a>
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => copyToClipboard(deployment.appUrl!, "App URL")}
+                    onClick={() =>
+                      copyToClipboard(deployment.app_url!, "App URL")
+                    }
                     className="hover:bg-secondary/30 flex-shrink-0 ml-2"
                   >
                     <Copy size={16} />
@@ -175,7 +213,7 @@ export default function DeploymentDetailsPage() {
             )}
           </Grid>
         )}
-        
+
         {/* Configuration Section */}
         {showConfiguration && (
           <Card variant="primary">
@@ -190,13 +228,17 @@ export default function DeploymentDetailsPage() {
                 </div>
                 <div className="space-y-3">
                   <div>
-                    <Text variant="caption" muted>Service Type</Text>
+                    <Text variant="caption" muted>
+                      Service Type
+                    </Text>
                     <Text variant="small" className="font-medium capitalize">
                       {serviceConfig.name}
                     </Text>
                   </div>
                   <div>
-                    <Text variant="caption" muted>Provider</Text>
+                    <Text variant="caption" muted>
+                      Provider
+                    </Text>
                     <Text variant="small" className="font-medium capitalize">
                       {deployment.provider}
                     </Text>
@@ -214,13 +256,17 @@ export default function DeploymentDetailsPage() {
                 </div>
                 <div className="space-y-3">
                   <div>
-                    <Text variant="caption" muted>CPU</Text>
+                    <Text variant="caption" muted>
+                      CPU
+                    </Text>
                     <Text variant="small" className="font-medium">
                       {deployment.cpu} units
                     </Text>
                   </div>
                   <div>
-                    <Text variant="caption" muted>Memory</Text>
+                    <Text variant="caption" muted>
+                      Memory
+                    </Text>
                     <Text variant="small" className="font-medium">
                       {deployment.memory}
                     </Text>
@@ -238,13 +284,17 @@ export default function DeploymentDetailsPage() {
                 </div>
                 <div className="space-y-3">
                   <div>
-                    <Text variant="caption" muted>Storage</Text>
+                    <Text variant="caption" muted>
+                      Storage
+                    </Text>
                     <Text variant="small" className="font-medium">
                       {deployment.storage}
                     </Text>
                   </div>
                   <div>
-                    <Text variant="caption" muted>Duration</Text>
+                    <Text variant="caption" muted>
+                      Duration
+                    </Text>
                     <Text variant="small" className="font-medium">
                       {deployment.duration}
                     </Text>
