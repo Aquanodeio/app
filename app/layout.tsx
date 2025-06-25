@@ -1,14 +1,14 @@
 "use client";
 
-import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
 import "./globals.css";
-import Layout from "@/components/Layout";
-import { useState } from "react";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
-import AppNavbar from "@/components/AppNavbar";
-import Providers from "@/components/providers/TanstackQueryProvider";
-import { paths } from "@/config/paths";
+import AppNavbar from "@/features/navigation/components/AppNavbar";
+import Providers from "@/components/providers/providers";
+import { AppSidebar } from "@/features/navigation/components/AppSidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -16,56 +16,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const hideSidebarRoutes = ["/login", "/auth/callback"];
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Check if current route is auth-related
-  //    const isAuthRoute = pathname.startsWith("/login");
-
-  // Check if current route is landing page
-  const isLandingPage = pathname === "/";
-
-  // Determine which navbar to show based on route
-
-  const hideNavbarRoutes: string[] = [paths.login.path];
-  const showNavbar = !hideNavbarRoutes.includes(pathname);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const isSidebarHidden = hideSidebarRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
 
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.className} min-h-screen bg-background coal-texture text-[97%]`}
+        className={`${inter.className} min-h-screen bg-background coal-texture`}
       >
         <Providers>
-          <div className="flex flex-col min-h-screen">
-            {showNavbar && (
-              <>
-                {isLandingPage ? (
-                  <></>
-                ) : (
-                  (pathname.startsWith("/app") ||
-                    pathname.startsWith("/pricing")) && (
-                    <AppNavbar onMobileMenuToggle={toggleMobileMenu} />
-                  )
-                )}
-              </>
-            )}
-            <main className="flex-1">
-              {pathname.startsWith("/app") ? (
-                <Layout
-                  mobileMenuOpen={mobileMenuOpen}
-                  onMobileMenuToggle={toggleMobileMenu}
-                >
-                  {children}
-                </Layout>
-              ) : (
-                <div className="mx-auto">{children}</div>
-              )}
-            </main>
-          </div>
+          {!isSidebarHidden && <AppSidebar />}
+          <SidebarInset>
+            {!isSidebarHidden && <AppNavbar />}
+            {children}
+          </SidebarInset>
           <Toaster />
         </Providers>
       </body>

@@ -2,6 +2,7 @@
 import { CreditCard, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAquaCredits } from "@/hooks/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface AquaCreditsProps {
   credits?: number;
@@ -16,14 +17,12 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
   const isLowCredits = credits < 100;
 
   const handleClick = () => {
-    router.push("/payments");
+    router.push("/app/payments");
   };
 
   return (
-    <div className={`mb-4 ${className}`}>
-      {isLoading ? (
-        <div className="h-20 bg-muted/20 animate-pulse rounded-lg" />
-      ) : error ? (
+    <div className={`${className}`}>
+      {error ? (
         <div
           onClick={handleClick}
           className="p-4 rounded-lg bg-muted/20 border border-border/40 cursor-pointer hover:bg-muted/30 transition-colors"
@@ -64,14 +63,18 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
 
           <div className="space-y-2">
             <div className="flex items-baseline gap-2">
-              <span
-                className={`text-xl font-bold ${
-                  isLowCredits ? "text-warning" : "text-violet-400"
-                }`}
-              >
-                {credits.toFixed(2)}
-              </span>
-              {isLowCredits && (
+              {isLoading ? (
+                <Skeleton className="h-7 w-20 bg-muted" />
+              ) : (
+                <span
+                  className={`text-xl font-bold ${
+                    isLowCredits ? "text-warning" : "text-violet-400"
+                  }`}
+                >
+                  {credits.toFixed(2)}
+                </span>
+              )}
+              {isLowCredits && !isLoading && (
                 <span className="text-xs bg-warning/10 text-warning px-2 py-0.5 rounded-full border border-warning/20">
                   Low
                 </span>

@@ -2,7 +2,7 @@ import { publicEnv } from "@/config/public-env";
 import { supabase } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
-const redirectTo = `${publicEnv.FRONTEND_URL}/app/deployments`;
+const redirectTo = `${publicEnv.FRONTEND_URL}/auth/callback`;
 
 // Sign in with Google
 export async function signInWithGoogle(): Promise<{ error: Error | null }> {

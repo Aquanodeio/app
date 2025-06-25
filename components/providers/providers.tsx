@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/hooks/auth/useAuthContext";
+import { SidebarProvider } from "../ui/sidebar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +19,9 @@ export default function TanstackQueryProvider({
 }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <SidebarProvider>{children}</SidebarProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
