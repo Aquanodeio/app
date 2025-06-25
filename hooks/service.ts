@@ -11,7 +11,7 @@ import {
 } from "../lib/types";
 import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
 import { DeploymentResult } from "../lib/types";
-import { supabase } from "../lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import {
   SignInCredentials,
   SignUpCredentials,
