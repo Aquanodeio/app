@@ -8,6 +8,10 @@ import {
   Settings2,
   SquareTerminal,
   Wrench,
+  Zap,
+  Server,
+  Container,
+  Home,
 } from "lucide-react";
 import { NavItem } from "./types";
 
@@ -16,7 +20,7 @@ export const navData: Record<string, NavItem[]> = {
     {
       title: "Inference API",
       url: "#",
-      icon: SquareTerminal,
+      icon: Zap,
       isActive: true,
       items: [
         {
@@ -32,7 +36,7 @@ export const navData: Record<string, NavItem[]> = {
     {
       title: "Backend Apps",
       url: "#",
-      icon: Bot,
+      icon: Server,
       items: [
         {
           title: "Overview",
@@ -47,7 +51,7 @@ export const navData: Record<string, NavItem[]> = {
     {
       title: "Container VMs",
       url: "#",
-      icon: BookOpen,
+      icon: Container,
       items: [
         {
           title: "Overview",
@@ -63,7 +67,7 @@ export const navData: Record<string, NavItem[]> = {
     {
       title: "Agent Terminal",
       url: "/app/chatbot",
-      icon: SquareTerminal,
+      icon: Bot,
     },
     {
       title: "Service Composer",
@@ -75,7 +79,7 @@ export const navData: Record<string, NavItem[]> = {
     {
       title: "Home",
       url: "/",
-      icon: Frame,
+      icon: Home,
     },
     {
       title: "Deployments",
