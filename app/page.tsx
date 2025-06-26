@@ -175,6 +175,21 @@ function RecentDeployments({ user }: { user: any }) {
     }
   };
 
+  const getDeploymentIcon = (type: string) => {
+    switch (type?.toUpperCase()) {
+      case "JUPYTER":
+        return <Activity className="w-4 h-4" />;
+      case "BACKEND":
+        return <Server className="w-4 h-4" />;
+      case "MODELS":
+        return <Cpu className="w-4 h-4" />;
+      case "VMS":
+        return <Database className="w-4 h-4" />;
+      default:
+        return <Server className="w-4 h-4" />;
+    }
+  };
+
   if (!user) return null;
 
   return (
@@ -191,45 +206,66 @@ function RecentDeployments({ user }: { user: any }) {
         </Link>
       </div>
 
-      <Card variant="compact">
-        {isLoading ? (
-          <div className="space-y-3">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 p-3 rounded-md bg-background/20 animate-pulse"
-              >
-                <div className="w-6 h-6 bg-muted/30 rounded" />
-                <div className="flex-1 space-y-1">
-                  <div className="h-3 bg-muted/30 rounded w-1/3" />
-                  <div className="h-2 bg-muted/20 rounded w-1/2" />
+      {isLoading ? (
+        <div className="space-y-3">
+          {[...Array(3)].map((_, i) => (
+            <Card key={i} variant="compact" className="animate-pulse">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-muted/30 rounded-lg" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-muted/30 rounded w-1/3" />
+                  <div className="h-3 bg-muted/20 rounded w-1/2" />
                 </div>
-                <div className="w-12 h-4 bg-muted/30 rounded" />
+                <div className="w-16 h-5 bg-muted/30 rounded-full" />
               </div>
-            ))}
+            </Card>
+          ))}
+        </div>
+      ) : recentDeployments.length === 0 ? (
+        <Card variant="compact" className="text-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-muted/20 flex items-center justify-center">
+              <Server className="w-6 h-6 text-muted-foreground" />
+            </div>
+            <div>
+              <Text variant="base" className="font-medium mb-1">
+                No deployments yet
+              </Text>
+              <Text variant="small" muted>
+                Deploy your first service to get started
+              </Text>
+            </div>
+            <Link href="/app/services" className="mt-2">
+              <Button variant="ghost" size="sm">
+                <Plus className="w-4 h-4 mr-1" />
+                Create Deployment
+              </Button>
+            </Link>
           </div>
-        ) : recentDeployments.length === 0 ? (
-          <div className="text-center py-6">
-            <Text variant="base" muted>
-              No deployments yet
-            </Text>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {recentDeployments.map((deployment) => (
-              <Link
-                key={deployment.id}
-                href={`/app/deployments/${deployment.id}`}
-                className="block group"
+        </Card>
+      ) : (
+        <div className="space-y-3">
+          {recentDeployments.map((deployment) => (
+            <Link
+              key={deployment.id}
+              href={`/app/deployments/${deployment.id}`}
+              className="block group"
+            >
+              <Card
+                variant="compact"
+                interactive
+                className="transition-all duration-200 hover:shadow-md"
               >
-                <div className="flex items-center gap-3 p-2 rounded-md hover:bg-background/30 transition-colors">
-                  <div className="p-1 rounded bg-primary/10">
-                    <Server className="w-3 h-3 text-primary" />
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center border border-accent/20">
+                    <span className="text-accent">
+                      {getDeploymentIcon(deployment.deployment_type)}
+                    </span>
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Text variant="small" className="font-medium truncate">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Text variant="base" className="font-semibold truncate">
                         {getDeploymentType(deployment.deployment_type)}
                       </Text>
                       <StatusBadge variant={getStatusVariant(deployment)}>
@@ -238,18 +274,26 @@ function RecentDeployments({ user }: { user: any }) {
                           : "Active"}
                       </StatusBadge>
                     </div>
-                    <Text variant="caption" muted>
-                      {formatDate(deployment.created_at)}
-                    </Text>
+                    <div className="flex items-center gap-2">
+                      <Text variant="small" muted>
+                        {formatDate(deployment.created_at)}
+                      </Text>
+                      <span className="w-1 h-1 bg-muted-foreground/40 rounded-full" />
+                      <Text variant="small" muted className="truncate">
+                        {/* ID: {deployment?.id?.slice(0, 8)}... */}
+                      </Text>
+                    </div>
                   </div>
 
-                  <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  <div className="flex items-center gap-2 text-muted-foreground group-hover:text-accent transition-colors">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </Card>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
