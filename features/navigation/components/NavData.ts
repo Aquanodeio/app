@@ -103,8 +103,6 @@ export const navData: Record<string, NavItem[]> = {
 export function getBreadcrumb(pathname: string) {
   const allItems = Object.values(navData).flat();
 
-  console.log(allItems, pathname);
-
   for (const item of allItems) {
     if (item.url === pathname) {
       return [item];

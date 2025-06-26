@@ -3,6 +3,7 @@ import { CreditCard, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAquaCredits } from "@/hooks/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface AquaCreditsProps {
   credits?: number;
@@ -12,13 +13,20 @@ interface AquaCreditsProps {
 
 const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
   const { data, isLoading, error } = useAquaCredits();
+  const { state } = useSidebar();
   const router = useRouter();
   const credits = data?.credits ?? 0;
   const isLowCredits = credits < 100;
+  const isCollapsed = state === "collapsed";
 
   const handleClick = () => {
     router.push("/app/payments");
   };
+
+  // Hide the component when sidebar is collapsed
+  if (isCollapsed) {
+    return null;
+  }
 
   return (
     <div className={`${className}`}>

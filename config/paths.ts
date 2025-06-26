@@ -4,10 +4,16 @@ export const paths = {
     getHref: () => "/",
   },
 
-  login: {
-    path: "/login",
-    getHref: (redirectTo?: string | null | undefined) =>
-      `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+  auth: {
+    callback: {
+      path: "/auth/callback",
+      getHref: () => "/auth/callback",
+    },
+    login: {
+      path: "/login",
+      getHref: (redirectTo?: string | null | undefined) =>
+        `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+    },
   },
 
   app: {

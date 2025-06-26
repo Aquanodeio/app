@@ -8,6 +8,7 @@ import Providers from "@/components/providers/providers";
 import { AppSidebar } from "@/features/navigation/components/AppSidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import { paths } from "@/config/paths";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hideSidebarRoutes = ["/login", "/auth/callback"];
+  const hideSidebarRoutes = [paths.auth.login.path, paths.auth.callback.path];
   const pathname = usePathname();
   const isSidebarHidden = hideSidebarRoutes.some((route) =>
     pathname.startsWith(route)
