@@ -1,4 +1,3 @@
-
 export interface Example {
   id: string;
   name: string;
@@ -10,12 +9,11 @@ export interface Example {
     appPort: string;
     runCommands: string;
     memorySize: string;
-    cpuUnits : string;
+    cpuUnits: string;
     storageSize: string;
     deploymentDuration: string;
   };
 }
-
 
 // config: {
 //   deploymentDuration: "1h",
@@ -25,9 +23,6 @@ export interface Example {
 //   appPort: "22",
 // },
 
-// url: (slug: string) => `/app/services/vm/pre-configured/${slug}?from=/app/services/vm/pre-configured`,
-
-
 // Examples list
 export const examples: Example[] = [
   {
@@ -35,7 +30,7 @@ export const examples: Example[] = [
     name: "Express Javascript Server",
     description:
       "Express.js Server with HTML rendered frontend. A simple web server with a calculator interface rendered directly from the backend.",
-    url: (slug) => `/app/examples/${slug}?from=/app/deployments`,
+    url: (slug) => `/examples/${slug}?from=/deployments`,
     config: {
       repoUrl: "https://github.com/Aquanodeio/examples-deploy.git",
       runCommands:
@@ -53,7 +48,7 @@ export const examples: Example[] = [
     name: "Streamlit Python Calculator",
     description:
       "Streamlit Python calculator example. Interactive calculator built with Python and Streamlit for a modern data-focused web interface.",
-    url: (slug) => `/app/examples/${slug}?from=/app/deployments`,
+    url: (slug) => `/examples/${slug}?from=/deployments`,
     config: {
       repoUrl: "https://github.com/Aquanodeio/examples-deploy.git",
       branchName: "main",

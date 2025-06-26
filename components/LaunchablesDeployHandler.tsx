@@ -25,7 +25,7 @@ export function useLaunchablesDeploy({
 }: UseLaunchablesDeployProps) {
   const router = useRouter();
   const { mutate: createDeployment, isPending: isDeploying } =
-    useCreateDeployment("/app/deployments");
+    useCreateDeployment("/deployments");
 
   const [resolvedImage, setResolvedImage] = useState<string | undefined>();
   const [isImage, setIsImage] = useState<boolean>(false);
@@ -86,7 +86,7 @@ export function useLaunchablesDeploy({
         },
         onSuccess: () => {
           toast.success("Deployed successfully!");
-          router.push("/app/deployments");
+          router.push("/deployments");
         },
       }
     );
@@ -113,41 +113,40 @@ export async function resolveImageAsync({
   isImage: boolean;
 }> {
   try {
-  const repo = repository.toLowerCase().trim();
+    const repo = repository.toLowerCase().trim();
 
-  if (repo.includes("hub.docker.com")) {
-    let namespace: string | undefined;
-    let image: string | undefined;
+    if (repo.includes("hub.docker.com")) {
+      let namespace: string | undefined;
+      let image: string | undefined;
 
-    // Match /r/{namespace}/{image}
-    const matchR = repo.match(/hub\.docker\.com\/r\/([^/]+)\/([^/]+)/);
-    if (matchR) {
-      [, namespace, image] = matchR;
+      // Match /r/{namespace}/{image}
+      const matchR = repo.match(/hub\.docker\.com\/r\/([^/]+)\/([^/]+)/);
+      if (matchR) {
+        [, namespace, image] = matchR;
+      }
+
+      // Match /_/image (official image with implicit 'library' namespace)
+      const matchOfficial = repo.match(/hub\.docker\.com\/_\/([^/]+)/);
+      if (matchOfficial) {
+        namespace = "library";
+        image = matchOfficial[1];
+      }
+
+      if (namespace && image) {
+        return {
+          resolvedImage: `${namespace}/${image}`,
+          isImage: true,
+        };
+      }
     }
 
-    // Match /_/image (official image with implicit 'library' namespace)
-    const matchOfficial = repo.match(/hub\.docker\.com\/_\/([^/]+)/);
-    if (matchOfficial) {
-      namespace = "library";
-      image = matchOfficial[1];
-    }
-
-    if (namespace && image) {
+    if (repo.includes("github.com")) {
       return {
-        resolvedImage: `${namespace}/${image}`,
-        isImage: true,
+        resolvedImage: repository,
+        isImage: false,
       };
     }
-  }
-
-
-  if (repo.includes("github.com")) {
-    return {
-      resolvedImage: repository,
-      isImage: false,
-    };
-  }
-  throw new Error("Something went wrong");
+    throw new Error("Something went wrong");
   } catch (err) {
     throw new Error("Error resolving image or repo.", { cause: err });
   }

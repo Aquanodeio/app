@@ -120,7 +120,7 @@ export function GitHubProviderSection({
         provider: "github",
         options: {
           scopes: "repo user:email",
-          redirectTo: `${window.location.origin}/app/services?github=connected`,
+          redirectTo: `${window.location.origin}/services?github=connected`,
         },
       });
 

@@ -14,6 +14,7 @@ import {
   Home,
 } from "lucide-react";
 import { NavItem } from "./types";
+import { paths } from "@/config/paths";
 
 export const navData: Record<string, NavItem[]> = {
   navServices: [
@@ -25,11 +26,11 @@ export const navData: Record<string, NavItem[]> = {
       items: [
         {
           title: "Overview",
-          url: "/app/services/inference",
+          url: "/services/inference",
         },
         {
           title: "Models Gallery",
-          url: "/app/services/inference/models-gallery",
+          url: "/services/inference/models-gallery",
         },
       ],
     },
@@ -40,11 +41,11 @@ export const navData: Record<string, NavItem[]> = {
       items: [
         {
           title: "Overview",
-          url: "/app/services/backend",
+          url: "/services/backend",
         },
         {
           title: "One-Click Apps",
-          url: "/app/services/backend/one-click-apps",
+          url: "/services/backend/one-click-apps",
         },
       ],
     },
@@ -55,22 +56,22 @@ export const navData: Record<string, NavItem[]> = {
       items: [
         {
           title: "Overview",
-          url: "/app/services/container-vms",
+          url: "/services/vm",
         },
         {
           title: "Pre-configured VMs",
-          url: "/app/services/pre-configured",
+          url: "/services/vm/pre-configured",
         },
       ],
     },
     {
       title: "Agent Terminal",
-      url: "/app/chatbot",
+      url: "/chatbot",
       icon: Bot,
     },
     {
       title: "Service Composer",
-      url: "/app/service-composer",
+      url: paths.app.serviceComposer.path,
       icon: Wrench,
     },
   ],
@@ -82,19 +83,19 @@ export const navData: Record<string, NavItem[]> = {
     },
     {
       title: "Deployments",
-      url: "/app/deployments",
+      url: "/deployments",
       icon: PieChart,
     },
   ],
   account: [
     {
       title: "Billing",
-      url: "/app/payments",
+      url: paths.app.billing.path,
       icon: CreditCard,
     },
     {
       title: "Settings",
-      url: "/app/settings",
+      url: "/settings",
       icon: Settings2,
     },
   ],

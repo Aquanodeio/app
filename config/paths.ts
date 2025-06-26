@@ -18,8 +18,16 @@ export const paths = {
 
   app: {
     root: {
-      path: "/app",
-      getHref: () => "/app",
+      path: "/",
+      getHref: () => "/",
+    },
+    billing: {
+      path: "/billing",
+      getHref: () => "/billing",
+    },
+    serviceComposer: {
+      path: "/service-composer",
+      getHref: () => "/service-composer",
     },
     dashboard: {
       path: "",
@@ -27,23 +35,23 @@ export const paths = {
     },
     deployments: {
       path: "deployments",
-      getHref: () => "/app/deployments",
+      getHref: () => "/deployments",
     },
     discussions: {
       path: "discussions",
-      getHref: () => "/app/discussions",
+      getHref: () => "/discussions",
     },
     discussion: {
       path: "discussions/:discussionId",
-      getHref: (id: string) => `/app/discussions/${id}`,
+      getHref: (id: string) => `/discussions/${id}`,
     },
     users: {
       path: "users",
-      getHref: () => "/app/users",
+      getHref: () => "/users",
     },
     profile: {
       path: "profile",
-      getHref: () => "/app/profile",
+      getHref: () => "/profile",
     },
   },
 } as const;

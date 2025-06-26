@@ -123,8 +123,8 @@ Before completing any page edit or creation, verify:
 
 ## Scope
 This rule applies to:
-- All pages in `/app/app/*` (dashboard)
-- All pages in `/app/*` except landing page components
+- All pages in `/*` (dashboard)
+- All pages in `/*` except landing page components
 - All authentication flows (`/signin`, `/signup`, `/reset-password`)
 - All payment pages (`/payment/*`)
 - All component modifications in `/components/*`

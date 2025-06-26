@@ -391,25 +391,3 @@ export async function getSession() {
     return { session: null, error: error as Error };
   }
 }
-
-// Sign in with Google
-export async function signInWithGoogle(): Promise<{ error: Error | null }> {
-  console.log(
-    "Signing in with Google",
-    `${window.location.origin}/app/deployments`
-  );
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/app/deployments`,
-      },
-    });
-
-    if (error) throw error;
-    return { error: null };
-  } catch (error) {
-    console.error("Google sign in error:", error);
-    return { error: error as Error };
-  }
-}

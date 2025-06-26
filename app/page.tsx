@@ -27,25 +27,26 @@ import { useAquaCredits } from "@/hooks/api/useAquaCredits";
 import { getProviderFromEnv } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { isDeploymentActive } from "@/lib/deployment";
+import { paths } from "@/config/paths";
 
 const services = [
   {
     name: "AI Inference",
     description: "Deploy ML models",
     icon: <Cpu className="w-4 h-4" />,
-    href: "/app/services/inference",
+    href: "/services/inference",
   },
   {
     name: "Backend Apps",
     description: "API & web services",
     icon: <Server className="w-4 h-4" />,
-    href: "/app/services/backend",
+    href: "/services/backend",
   },
   {
     name: "Container VMs",
     description: "GPU compute instances",
     icon: <Database className="w-4 h-4" />,
-    href: "/app/services/vm",
+    href: "/services/vm",
   },
 ];
 
@@ -77,7 +78,7 @@ function QuickStats({ user }: { user: any }) {
         value={deploymentsLoading ? "..." : deployments.length.toString()}
         loading={deploymentsLoading}
       />
-      <Link href="/app/payments" className="block">
+      <Link href={paths.app.billing.path} className="block">
         <Card
           variant="compact"
           interactive
@@ -102,7 +103,7 @@ function ServiceGrid() {
         <Heading level={2} className="space-tight">
           Services
         </Heading>
-        <Link href="/app/services">
+        <Link href="/services">
           <Button variant="ghost" size="sm">
             View All
             <ArrowRight className="w-4 h-4 ml-1" />
@@ -198,7 +199,7 @@ function RecentDeployments({ user }: { user: any }) {
         <Heading level={2} className="space-tight">
           Recent Deployments
         </Heading>
-        <Link href="/app/deployments">
+        <Link href="/deployments">
           <Button variant="ghost" size="sm">
             View All
             <ArrowRight className="w-4 h-4 ml-1" />
@@ -235,7 +236,7 @@ function RecentDeployments({ user }: { user: any }) {
                 Deploy your first service to get started
               </Text>
             </div>
-            <Link href="/app/services" className="mt-2">
+            <Link href="/services" className="mt-2">
               <Button variant="ghost" size="sm">
                 <Plus className="w-4 h-4 mr-1" />
                 Create Deployment
@@ -248,7 +249,7 @@ function RecentDeployments({ user }: { user: any }) {
           {recentDeployments.map((deployment) => (
             <Link
               key={deployment.id}
-              href={`/app/deployments/${deployment.id}`}
+              href={`/deployments/${deployment.id}`}
               className="block group"
             >
               <Card

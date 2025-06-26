@@ -116,7 +116,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
               <div className="flex flex-wrap items-center gap-2">
                 <span className="body-small text-muted-foreground">ID:</span>
                 <Link
-                  href={`/app/deployments/${deployment.id}`}
+                  href={`/deployments/${deployment.id}`}
                   className="body-small text-foreground hover:text-primary hover:underline font-medium truncate max-w-[180px] sm:max-w-[240px]"
                   title={deployment.id}
                 >
@@ -426,7 +426,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                 size="sm"
                 className="btn-secondary btn-sm w-full sm:w-auto"
                 onClick={() => {
-                  router.push(`/app/deployments/${deployment.id}`);
+                  router.push(`/deployments/${deployment.id}`);
                 }}
               >
                 View

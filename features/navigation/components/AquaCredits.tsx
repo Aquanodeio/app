@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAquaCredits } from "@/hooks/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
+import { paths } from "@/config/paths";
 
 interface AquaCreditsProps {
   credits?: number;
@@ -20,7 +21,7 @@ const AquaCredits = ({ className = "" }: AquaCreditsProps) => {
   const isCollapsed = state === "collapsed";
 
   const handleClick = () => {
-    router.push("/app/payments");
+    router.push(paths.app.billing.path);
   };
 
   // Hide the component when sidebar is collapsed
