@@ -31,7 +31,7 @@ export default function RootLayout({
           {!isSidebarHidden && <AppSidebar />}
           <SidebarInset>
             {!isSidebarHidden && <AppNavbar />}
-            {children}
+            <div>{children}</div>
           </SidebarInset>
           <Toaster />
         </Providers>

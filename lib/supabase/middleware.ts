@@ -49,8 +49,6 @@ export async function updateSession(request: NextRequest) {
     error,
   } = await supabase.auth.getUser();
 
-  console.log("isPublicRoute", isPublicRoute, pathname, user, error);
-
   // If it's a public route, allow access regardless of auth status
   if (isPublicRoute) {
     return supabaseResponse;
