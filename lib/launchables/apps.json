@@ -29,154 +29,8 @@
       "Argilla",
       "Docker"
     ],
-    "slug": "argilla"
-  },
-  {
-    "name": "Astro",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/astro.svg"
-    ],
-    "description": "Deploy a simple application written using Astro, a high-performance, content-oriented framework.",
-    "project_site": "https://astro.build/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-astro",
-    "technologies": [
-      "Astro"
-    ],
-    "slug": "astro"
-  },
-  {
-    "name": "Authorizer",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/authorizer.svg"
-    ],
-    "description": "Open-source authentication and authorization solution for your applications",
-    "project_site": "https://authorizer.dev/",
-    "category": "Authentication",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/lakhansamani/authorizer",
-    "technologies": [
-      "Authorizer",
-      "PostgreSQL",
-      "Docker"
-    ],
-    "slug": "authorizer"
-  },
-  {
-    "name": "Baselime Log Exporter",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/baselime.svg"
-    ],
-    "description": "Stream logs from your Aquanode Services to Baselime in real time.",
-    "project_site": "https://baselime.io",
-    "category": "Observability",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/koyeb/log-exporter",
-    "technologies": [
-      "Baselime"
-    ],
-    "slug": "baselime-log-exporter"
-  },
-  {
-    "name": "Beego",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/beego.svg"
-    ],
-    "description": "Deploy a basic application written with Beego, a high-performance web framework for Go.",
-    "project_site": "https://github.com/beego/beego",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-beego",
-    "technologies": [
-      "Beego"
-    ],
-    "slug": "beego"
-  },
-  {
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/bun.svg"
-    ],
-    "name": "Bun",
-    "description": "A simple HTTP server using Bun, the all-in-one JavaScript runtime & toolkit designed for speed",
-    "project_site": "https://www.bun.sh/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-bun",
-    "technologies": [
-      "Bun",
-      "Docker"
-    ],
-    "slug": "bun"
-  },
-  {
-    "name": "Bunkey",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/bun.svg",
-      "https://www.koyeb.com/images/one-click-apps/unkey.svg"
-    ],
-    "description": "A starter project using Unkey to authenticate requests to a Bun HTTP server.",
-    "project_site": "https://unkey.dev/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/unkeyed/unkey",
-    "technologies": [
-      "Unkey",
-      "Bun"
-    ],
-    "slug": "bunkey"
-  },
-  {
-    "name": "Cal.com",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/cal.svg"
-    ],
-    "description": "Scheduling infrastructure for absolutely everyone.  You are in charge of your own data, workflow, and appearance.",
-    "project_site": "https://cal.com/",
-    "category": "Office",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/calcom/cal.com",
-    "technologies": [
-      "Cal.com",
-      "PostgreSQL",
-      "Docker"
-    ],
-    "slug": "calcom"
-  },
-  {
-    "name": "Deno",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/deno.svg"
-    ],
-    "description": "A basic web app built and served with Deno, the next-generation JavaScript runtime.",
-    "project_site": "https://deno.com/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-deno",
-    "technologies": [
-      "Deno",
-      "Docker"
-    ],
-    "slug": "deno"
-  },
-  {
-    "name": "Directus",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/directus.svg"
-    ],
-    "description": "Deploy Directus to act as a headless CMS and backend for your apps and services.",
-    "project_site": "https://directus.io/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/directus/directus",
-    "technologies": [
-      "Directus",
-      "Docker",
-      "PostgreSQL",
-      "Redis",
-      "S3"
-    ],
-    "slug": "directus"
+    "slug": "argilla",
+    "port": 6900
   },
   {
     "name": "Django",
@@ -191,42 +45,8 @@
     "technologies": [
       "Django"
     ],
-    "slug": "django"
-  },
-  {
-    "name": "DocuSeal",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/docuseal.svg"
-    ],
-    "description": "Deploy DocuSeal to create, fill and sign digital documents",
-    "project_site": "https://www.docuseal.co/",
-    "category": "Office",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/docuseal/docuseal",
-    "technologies": [
-      "DocuSeal",
-      "PostgreSQL",
-      "Object storage",
-      "Docker"
-    ],
-    "slug": "docuseal"
-  },
-  {
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/express.svg",
-      "https://www.koyeb.com/images/one-click-apps/turso.svg",
-      "https://www.koyeb.com/images/one-click-apps/drizzle.svg"
-    ],
-    "name": "Express with Turso and Drizzle",
-    "description": "A simple to-do app in Node.js using Turso and Drizzle.",
-    "project_site": "https://www.turso.tech/",
-    "category": "Starter",
-    "developer": "Chuks Opia",
-    "repository": "https://github.com/koyeb/example-turso-drizzle",
-    "technologies": [
-      "Turso, Drizzle, ExpressJS"
-    ],
-    "slug": "express-turso-drizzle"
+    "slug": "django",
+    "port": 8000
   },
   {
     "logos": [
@@ -241,7 +61,8 @@
     "technologies": [
       "Express"
     ],
-    "slug": "express"
+    "slug": "express",
+    "port": 3000
   },
   {
     "logos": [
@@ -256,23 +77,8 @@
     "technologies": [
       "FastAPI"
     ],
-    "slug": "fastapi"
-  },
-  {
-    "name": "Fixie",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/fixie.svg"
-    ],
-    "description": "Deploy a Fixie SOCKS proxy to configure static outbound IP addresses for your applications.",
-    "project_site": "https://usefixie.com/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-fixie",
-    "technologies": [
-      "Fixie",
-      "JavaScript"
-    ],
-    "slug": "fixie"
+    "slug": "fastapi",
+    "port": 8000
   },
   {
     "name": "Flask",
@@ -287,7 +93,8 @@
     "technologies": [
       "Flask"
     ],
-    "slug": "flask"
+    "slug": "flask",
+    "port": 3001
   },
   {
     "name": "Flipt",
@@ -298,12 +105,13 @@
     "project_site": "https://flipt.io/",
     "category": "Observability",
     "developer": "Koyeb",
-    "repository": "https://github.com/flipt-io/flipt?tab=readme-ov-file",
+    "repository": "https://hub.docker.com/r/flipt/flipt",
     "technologies": [
       "Flipt",
       "Docker"
     ],
-    "slug": "flipt"
+    "slug": "flipt",
+    "port": 8080
   },
   {
     "name": "Flowise",
@@ -319,71 +127,8 @@
       "Flowise",
       "Docker"
     ],
-    "slug": "flowise"
-  },
-  {
-    "name": "Fooocus",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/docker.svg"
-    ],
-    "description": "Deploy Fooocus, a powerful AI image generation tool, on Aquanode",
-    "project_site": "https://github.com/lllyasviel/Fooocus",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-fooocus",
-    "technologies": [
-      "Fooocus",
-      "Gradio",
-      "Docker"
-    ],
-    "slug": "fooocus"
-  },
-  {
-    "name": "Formbricks",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/formbricks.svg"
-    ],
-    "description": "Formbriks is a free and open-source surveying platform. Gracefully gather feedback at every step of the customer journey.",
-    "project_site": "https://formbricks.com/",
-    "category": "Analytics",
-    "developer": "Koyeb",
-    "repository": "https://github.com/formbricks/formbricks",
-    "technologies": [
-      "Formbriks",
-      "Docker"
-    ],
-    "slug": "formbricks"
-  },
-  {
-    "name": "Ghost",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/ghost.svg"
-    ],
-    "description": "Deploy Ghost, a modern open-source content management system and blogging platform.",
-    "project_site": "https://ghost.org/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-ghost",
-    "technologies": [
-      "Ghost",
-      "Docker"
-    ],
-    "slug": "ghost"
-  },
-  {
-    "name": "Go",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/go.svg"
-    ],
-    "description": "Deploy Go: a statically typed, compiled programming language loved for its performance, development tooling, and portability.",
-    "project_site": "https://go.dev/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-golang",
-    "technologies": [
-      "Go"
-    ],
-    "slug": "go"
+    "slug": "flowise",
+    "port":3000
   },
   {
     "name": "Grafana",
@@ -400,7 +145,8 @@
       "PostgreSQL",
       "Docker"
     ],
-    "slug": "grafana"
+    "slug": "grafana",
+    "port": 3000
   },
   {
     "name": "Hapi",
@@ -415,23 +161,8 @@
     "technologies": [
       "Hapi"
     ],
-    "slug": "hapi"
-  },
-  {
-    "name": "Hasura",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/hasura.svg"
-    ],
-    "description": "Deploy Hasura to build GraphQL APIs on your DB with fine-grained access control.",
-    "project_site": "https://www.hasura.io/",
-    "category": "GraphQL",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/hasura/graphql-engine",
-    "technologies": [
-      "Hasura",
-      "Docker"
-    ],
-    "slug": "hasura"
+    "slug": "hapi",
+    "port": 3000
   },
   {
     "name": "Hono",
@@ -447,23 +178,8 @@
       "Hono",
       "Docker"
     ],
-    "slug": "hono"
-  },
-  {
-    "name": "Java",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/java.svg"
-    ],
-    "description": "A Java application that serves \"hello world\" to web requests.",
-    "project_site": "https://www.java.com/en/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-java",
-    "technologies": [
-      "Java",
-      "Docker"
-    ],
-    "slug": "java"
+    "slug": "hono",
+    "port":3000
   },
   {
     "name": "Label Studio",
@@ -479,24 +195,8 @@
       "Label Studio",
       "Docker"
     ],
-    "slug": "labelstudio"
-  },
-  {
-    "name": "LangServe",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/langchain.svg"
-    ],
-    "description": "LangServe makes it easy to deploy LangChain applications as RESTful APIs.",
-    "project_site": "https://www.langchain.com/langserve",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://github.com/langchain-ai/langserve",
-    "technologies": [
-      "LangServe",
-      "LangChain",
-      "FastAPI"
-    ],
-    "slug": "langserve"
+    "slug": "labelstudio",
+    "port": 8080
   },
   {
     "name": "Livebook",
@@ -513,23 +213,8 @@
       "Elixir",
       "Docker"
     ],
-    "slug": "livebook"
-  },
-  {
-    "name": "LlamaIndex",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/llamaindex.svg"
-    ],
-    "description": "LlamaIndex gives you the tools you need to build production-ready LLM applications from your organization's data.",
-    "project_site": "https://www.llamaindex.ai/",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://github.com/run-llama/llama_index",
-    "technologies": [
-      "LlamaIndex",
-      "Streamlit"
-    ],
-    "slug": "llamaindex"
+    "slug": "livebook",
+    "port": 8080
   },
   {
     "name": "Meilisearch",
@@ -545,40 +230,8 @@
       "Meilisearch",
       "Docker"
     ],
-    "slug": "meilisearch"
-  },
-  {
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/metabase.svg"
-    ],
-    "name": "Metabase",
-    "description": "The fast analytics with a friendly UX and integrated tooling to let your company explore data on their own.",
-    "project_site": "https://www.metabase.com/",
-    "category": "Analytics",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/metabase/metabase",
-    "technologies": [
-      "Java",
-      "PostgreSQL",
-      "Docker"
-    ],
-    "slug": "metabase"
-  },
-  {
-    "name": "MinIO",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/minio.svg"
-    ],
-    "description": "Deploy MinIO, a high-performance, s3-compatible object storage service",
-    "project_site": "https://min.io/",
-    "category": "Storage",
-    "developer": "Koyeb",
-    "repository": "https://github.com/minio/minio",
-    "technologies": [
-      "MinIO",
-      "Docker"
-    ],
-    "slug": "minio"
+    "slug": "meilisearch",
+    "port": 7700
   },
   {
     "logos": [
@@ -593,7 +246,8 @@
     "technologies": [
       "NestJS"
     ],
-    "slug": "nestjs"
+    "slug": "nestjs",
+    "port": 3000
   },
   {
     "logos": [
@@ -608,7 +262,8 @@
     "technologies": [
       "Next.js"
     ],
-    "slug": "next-js"
+    "slug": "next-js",
+    "port": 3000
   },
   {
     "logos": [
@@ -623,7 +278,8 @@
     "technologies": [
       "Nuxt"
     ],
-    "slug": "nuxt"
+    "slug": "nuxt",
+    "port": 3000
   },
   {
     "name": "Ollama",
@@ -634,29 +290,13 @@
     "project_site": "https://ollama.ai/",
     "category": "AI",
     "developer": "Koyeb",
-    "repository": "https://github.com/ollama/ollama",
+    "repository": "https://hub.docker.com/r/ollama/ollama",
     "technologies": [
       "Ollama",
       "Docker"
     ],
-    "slug": "ollama"
-  },
-  {
-    "name": "Open WebUI",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/open-webui.svg"
-    ],
-    "description": "Open WebUI is an extensible, feature-rich and user-friendly WebUI for LLMs.",
-    "project_site": "https://openwebui.com/",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://github.com/open-webui/open-webui",
-    "technologies": [
-      "Open WebUI",
-      "Ollama",
-      "Docker"
-    ],
-    "slug": "open-webui"
+    "slug": "ollama",
+    "port": 11434
   },
   {
     "name": "PGMQ",
@@ -673,23 +313,8 @@
       "PGMQ",
       "Docker"
     ],
-    "slug": "pgmq"
-  },
-  {
-    "name": "PHP",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/php.svg"
-    ],
-    "description": "A basic PHP application.",
-    "project_site": "https://www.php.net/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-php",
-    "technologies": [
-      "PHP",
-      "Docker"
-    ],
-    "slug": "php"
+    "slug": "pgmq",
+    "port": 5432
   },
   {
     "name": "PyTorch Jupyter Notebook",
@@ -701,44 +326,14 @@
     "project_site": null,
     "category": "AI",
     "developer": "Koyeb",
-    "repository": "https://jupyter.org/",
+    "repository": "https://hub.docker.com/r/jupyter/base-notebook",
     "technologies": [
       "PyTorch",
       "Jupyter Notebooks",
       "Docker"
     ],
-    "slug": "pytorch-jupyter"
-  },
-  {
-    "name": "Quickwit",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/quickwit.svg"
-    ],
-    "description": "Deploy Quickwit, a fast, reliable, and highly cost-efficient distributed search engine written in Rust.",
-    "project_site": "https://www.quickwit.io/",
-    "category": "Search",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/quickwit/quickwit",
-    "technologies": [
-      "Quickwit",
-      "Docker"
-    ],
-    "slug": "quickwit"
-  },
-  {
-    "name": "Qwik",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/qwik.svg"
-    ],
-    "description": "Deploy Qwik, a feature-rich web framework focused on performance and modularity.",
-    "project_site": "https://qwik.builder.io/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-qwik",
-    "technologies": [
-      "Qwik"
-    ],
-    "slug": "qwik"
+    "slug": "pytorch-jupyter",
+    "port": 8888
   },
   {
     "name": "Redis",
@@ -754,7 +349,8 @@
       "Redis",
       "Docker"
     ],
-    "slug": "redis"
+    "slug": "redis",
+    "port": 6379
   },
   {
     "logos": [
@@ -769,22 +365,8 @@
     "technologies": [
       "Remix"
     ],
-    "slug": "remix"
-  },
-  {
-    "name": "Ruby on Rails",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/rails.svg"
-    ],
-    "description": "A web-app framework that includes everything needed to create database-backed web applications according to the Model-View-Controller (MVC) pattern.",
-    "project_site": "https://rubyonrails.org/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-rails",
-    "technologies": [
-      "Ruby on Rails"
-    ],
-    "slug": "ruby-on-rails"
+    "slug": "remix",
+    "port": 3000
   },
   {
     "name": "Rust",
@@ -800,23 +382,8 @@
       "Rust",
       "Docker"
     ],
-    "slug": "rust"
-  },
-  {
-    "name": "Shiny (Python)",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/shiny.svg"
-    ],
-    "description": "Deploy Shiny for Python to build and showcase interactive, data-centered web applications",
-    "project_site": "https://shiny.posit.co/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-shiny-python",
-    "technologies": [
-      "Shiny",
-      "Python"
-    ],
-    "slug": "shiny-python"
+    "slug": "rust",
+    "port": 8000
   },
   {
     "name": "Shiny (R)",
@@ -833,58 +400,8 @@
       "R",
       "Docker"
     ],
-    "slug": "shiny-r"
-  },
-  {
-    "name": "Spring Boot",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/spring-boot.svg"
-    ],
-    "description": "A simple Spring Boot application to demonstrate how to get up and running with the Spring framework.",
-    "project_site": "https://spring.io/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-spring-boot",
-    "technologies": [
-      "Spring Boot",
-      "Java",
-      "Docker"
-    ],
-    "slug": "spring-boot"
-  },
-  {
-    "name": "Strapi",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/strapi.svg"
-    ],
-    "description": "Click to deploy Strapi, a content backend and headless CMS, to Aquanode",
-    "project_site": "https://strapi.io/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-strapi",
-    "technologies": [
-      "Strapi",
-      "PostgreSQL",
-      "S3"
-    ],
-    "slug": "strapi"
-  },
-  {
-    "name": "Tailscale SSH",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/tailscale.svg"
-    ],
-    "description": "Deploy Tailscale to get SSH access to your Aquanode Instance.",
-    "project_site": "https://tailscale.com/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-tailscale-ssh",
-    "technologies": [
-      "Tailscale",
-      "SSH",
-      "Docker"
-    ],
-    "slug": "tailscale"
+    "slug": "shiny-r",
+    "port": 3838
   },
   {
     "name": "Text Generation Inference (TGI)",
@@ -900,25 +417,11 @@
       "TGI",
       "Docker"
     ],
-    "slug": "tgi"
-  },
-  {
-    "name": "Uptime Kuma",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/uptime-kuma.svg"
-    ],
-    "description": "Deploy Uptime Kuma, an easy-to-use self-hosted monitoring tool.",
-    "project_site": "https://github.com/louislam/uptime-kuma",
-    "category": "Observability",
-    "developer": "Koyeb",
-    "repository": "https://github.com/koyeb/example-uptime-kuma",
-    "technologies": [
-      "Uptime Kuma",
-      "Litestream",
-      "Object storage",
-      "Docker"
-    ],
-    "slug": "uptime-kuma"
+    "slug": "tgi",
+    "port": 8080,
+    "model": "Qwen/Qwen3-4B"
+
+
   },
   {
     "name": "vLLM",
@@ -934,43 +437,8 @@
       "vLLM",
       "Docker"
     ],
-    "slug": "vllm"
-  },
-  {
-    "name": "Wiki.js",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/wikijs.svg"
-    ],
-    "description": "Wiki.js is an extensible, modern wiki project for creating collaborative knowledge bases",
-    "project_site": "https://js.wiki/",
-    "category": "Starter",
-    "developer": "Koyeb",
-    "repository": "https://hub.docker.com/r/requarks/wiki",
-    "technologies": [
-      "Wiki.js",
-      "Docker"
-    ],
-    "slug": "wikijs"
-  },
-  {
-    "name": "YouTube Video Summarization",
-    "logos": [
-      "https://www.koyeb.com/images/one-click-apps/langchain.svg",
-      "https://www.koyeb.com/images/one-click-apps/streamlit.svg",
-      "https://www.koyeb.com/images/one-click-apps/deepgram.svg"
-    ],
-    "description": "A YouTube video summarization app using Streamlit, Laingchain, Deepgram, and Mistral 7B",
-    "project_site": "https://www.github.com/koyeb/example-youtube-summarization-langchain",
-    "category": "AI",
-    "developer": "Koyeb",
-    "repository": "https://www.github.com/koyeb/example-youtube-summarization-langchain",
-    "technologies": [
-      "Streamlit",
-      "Langchain",
-      "Deepgram",
-      "Mistral 7B"
-    ],
-    "slug": "youtube-video-summarization"
+    "slug": "vllm",
+    "port": 8000
   },
   {
     "name": "ZenML",
@@ -987,6 +455,7 @@
       "Python",
       "Docker"
     ],
-    "slug": "zenml"
+    "slug": "zenml",
+    "port": 8080
   }
 ]
