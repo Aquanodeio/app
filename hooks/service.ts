@@ -19,6 +19,7 @@ import {
   UpdatePasswordRequest,
   AuthResponse,
 } from "./auth/types";
+import router from "next/router";
 
 const VERSION = "/api/v1";
 const API_BASE_URL =
@@ -320,6 +321,8 @@ export async function signOut(): Promise<{ error: Error | null }> {
 
     // Clear the access token after sign out
     authService.setAccessToken(null);
+
+    window.location.href = "/";
 
     return { error: null };
   } catch (error) {

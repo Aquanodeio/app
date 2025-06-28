@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getBreadcrumb } from "./NavData";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -31,8 +32,8 @@ export default function Navbar() {
               {breadcrumb.map((item, index) => {
                 const isLast = index === breadcrumb.length - 1;
                 return (
-                  <>
-                    <BreadcrumbItem key={item.url}>
+                  <React.Fragment key={item.url}>
+                    <BreadcrumbItem>
                       {isLast ? (
                         <BreadcrumbPage>{item.title}</BreadcrumbPage>
                       ) : (
@@ -44,7 +45,7 @@ export default function Navbar() {
                     {!isLast && (
                       <BreadcrumbSeparator className="hidden md:block" />
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </BreadcrumbList>
