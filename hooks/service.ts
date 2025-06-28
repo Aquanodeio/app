@@ -119,9 +119,93 @@ export async function createUser(address: string): Promise<UserResponse> {
 export async function createDeploymentNew(
   data: CreateDeploymentSchemaType
 ): Promise<DeploymentResult> {
+  console.log("Frontend data received:", JSON.stringify(data, null, 2));
+
+  // Transform frontend data to match backend CreateDeploymentSchema format
+  const transformedData = {
+    resource: {
+      cpu: data.config?.appCpuUnits || 1,
+      memory: data.config?.appMemorySize || "1Gi",
+      storage: data.config?.appStorageSize || "1Gi",
+      deploymentDuration: data.config?.deploymentDuration || "1h",
+    },
+    provider: {
+      name:
+        data.provider === "spheron"
+          ? "spheron"
+          : data.provider === "akash"
+            ? "akash"
+            : "spheron",
+    },
+    serviceConfig: (() => {
+      const baseConfig = {
+        env: data.config?.envVars
+          ? Object.entries(data.config.envVars).map(
+              ([key, value]) => `${key}=${value}`
+            )
+          : [],
+        appPort: data.config?.appPort,
+      };
+
+      // Map frontend service types to backend ServiceTypeEnum
+      switch (data.service) {
+        case "BACKEND":
+          // Check if it's a Docker deployment or GitHub deployment
+          if (data.config?.image) {
+            return {
+              type: "DOCKER_IMAGE" as const,
+              image: data.config.image,
+              tag: data.config.tag || "latest",
+              ...baseConfig,
+            };
+          } else {
+            return {
+              type: "BACKEND" as const,
+              repoUrl: data.config?.repoUrl || "",
+              branch: data.config?.branchName || "main",
+              buildCommand: data.config?.runCommands,
+              outputDirectory: data.config?.outputDirectory || "dist",
+              ...baseConfig,
+            };
+          }
+
+        case "MODELS":
+          return {
+            type: "MODELS" as const,
+            modelSlug: data.config?.slug || "",
+            ...baseConfig,
+          };
+
+        case "VMS":
+          return {
+            type: "VMS" as const,
+            vmSlug: data.config?.slug || "",
+            sshPubKey: data.config?.envVars?.SSH_PUBKEY || "",
+            env: baseConfig.env,
+          };
+
+        case "JUPYTER":
+          return {
+            type: "DOCKER_IMAGE" as const,
+            image: data.config?.image || "jupyter/base-notebook",
+            tag: data.config?.tag || "latest",
+            ...baseConfig,
+          };
+
+        default:
+          throw new Error(`Unsupported service type: ${data.service}`);
+      }
+    })(),
+  };
+
+  console.log(
+    "Transformed data to backend:",
+    JSON.stringify(transformedData, null, 2)
+  );
+
   return request<DeploymentResult>("/deployments/deploy", {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(transformedData),
   });
 }
 

@@ -156,19 +156,16 @@ const LaunchableDeploymentPage: React.FC<LaunchableDeploymentPageProps> = ({
       envVars.SSH_PUBKEY = publicKey;
     }
 
-    const configToPass: DeploymentConfig = {
-      ...createConfigObject(),
-      envVars: Object.keys(envVars).length > 0 ? envVars : undefined,
-    };
-
     createDeployment({
       service: serviceConfig.type,
       tier: "CUSTOM",
       provider: serviceConfig.provider,
-      config: configToPass,
+      config: {
+        ...createConfigObject(),
+        envVars: Object.keys(envVars).length > 0 ? envVars : undefined,
+        slug: templateId, // Pass the template slug
+      },
     });
-
-    console.log("Deployment config:", configToPass);
   };
 
   // Template not found

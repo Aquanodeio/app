@@ -211,6 +211,7 @@ export const useServiceDeploy = (config: ServiceDeployConfig) => {
           ...(config.showEnvironmentVars && { envVars }),
           ...(config.showBuildSettings && {
             runCommands: buildSettingsConfig.runCommand,
+            outputDirectory: buildSettingsConfig.outputDirectory,
           }),
           ...configOverrides,
         },
@@ -222,28 +223,44 @@ export const useServiceDeploy = (config: ServiceDeployConfig) => {
     provider: ProviderType,
     configOverrides?: any
   ) => {
-    const configToPass: DeploymentConfig = {
-      serviceType:
-        config.serviceType === "BACKEND" ? ServiceType.BACKEND : undefined,
-      ...createConfigObject(),
-      ...(config.showSourceControl && {
-        repoUrl: sourceControlConfig.repoUrl,
-        branchName: sourceControlConfig.branchName,
+    // Get environment variables
+    const envVars = {
+      ...parseEnvVars(),
+      ...(config.showBuildSettings && {
+        BUILD_COMMAND: buildSettingsConfig.buildCommand,
+        INSTALL_COMMAND: buildSettingsConfig.installCommand,
+        OUTPUT_DIRECTORY: buildSettingsConfig.outputDirectory,
       }),
-      ...(config.showEnvironmentVars && {
-        envVars: parseEnvVars(),
-      }),
-      ...configOverrides,
     };
 
+    // Create the complete payload for the API
     createDeployment({
       service: config.serviceType,
       tier: "CUSTOM",
       provider: provider,
-      config: configToPass,
+      config: {
+        ...createConfigObject(),
+        ...(config.showSourceControl && {
+          repoUrl: sourceControlConfig.repoUrl,
+          branchName: sourceControlConfig.branchName,
+        }),
+        ...(config.showEnvironmentVars && { envVars }),
+        ...(config.showBuildSettings && {
+          runCommands: buildSettingsConfig.runCommand,
+          outputDirectory: buildSettingsConfig.outputDirectory,
+        }),
+        // Handle Docker deployments
+        ...(sourceType === "docker" && {
+          image: dockerImage,
+          tag: dockerTag,
+          ...(privateRegistry && {
+            dockerUsername,
+            dockerPassword,
+          }),
+        }),
+        ...configOverrides,
+      },
     });
-
-    console.log("Deployment config:", configToPass);
 
     // Show custom deployment toast
     const customDeployButtonAction = () => {

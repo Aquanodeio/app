@@ -18,6 +18,11 @@ export const CreateDeploymentSchema = z.object({
       runCommands: z.string().optional(),
       allowAutoscale: z.boolean(),
       disablePull: z.boolean(),
+      slug: z.string().optional(),
+      tag: z.string().optional(),
+      dockerUsername: z.string().optional(),
+      dockerPassword: z.string().optional(),
+      outputDirectory: z.string().optional(),
     })
     .optional(),
 });
