@@ -86,10 +86,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   return (
     <div className="grid gap-3 w-full">
       {deployments.map((deployment) => {
-        const deploymentActive = isDeploymentActive(
-          deployment.created_at,
-          deployment.duration
-        );
+        const deploymentActive = deployment.status === "ACTIVE";
 
         const appUrl = deployment.app_url;
 

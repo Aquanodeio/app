@@ -141,6 +141,7 @@ export interface Deployment {
   user: string;
   monitoring_id: string;
   name: null;
+  status: string;
 }
 
 export interface GetDeploymentsResponse {
