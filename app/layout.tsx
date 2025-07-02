@@ -17,7 +17,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hideSidebarRoutes = [paths.auth.login.path, paths.auth.callback.path];
+  const hideSidebarRoutes = [
+    paths.auth.login.path,
+    paths.auth.callback.path,
+    paths.waitlist.path,
+  ];
   const pathname = usePathname();
   const isSidebarHidden = hideSidebarRoutes.some((route) =>
     pathname.startsWith(route)

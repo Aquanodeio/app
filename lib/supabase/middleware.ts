@@ -1,17 +1,49 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { publicEnv } from "@/config/public-env";
+import { paths } from "@/config/paths";
+
+// Helper function to check if user is on waitlist
+async function checkWaitlistStatus(
+  supabase: any,
+  userId: string
+): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from("whitelisted")
+      .select("user_id")
+      .eq("user_id", userId)
+      .single();
+
+    // If no error and data exists, user is on waitlist (approved)
+    return !error && data;
+  } catch (error) {
+    console.error("Waitlist check failed:", error);
+    return false;
+  }
+}
 
 export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Define public routes that don't require authentication
-  const publicRoutes = ["/login", "/auth/callback"];
+  const publicRoutes = [paths.auth.login.path, paths.auth.callback.path];
+
+  // Define routes that bypass waitlist (like a waitlist landing page)
+  const waitlistBypassRoutes = [
+    paths.waitlist.path,
+    paths.auth.login.path,
+    paths.auth.callback.path,
+  ];
 
   // Check if the current path is a public route
   const isPublicRoute = publicRoutes.some(
-    (route) =>
-      pathname === route || (route !== "/" && pathname.startsWith(route))
+    (route) => pathname === route || pathname.startsWith(route)
+  );
+
+  // Check if the current path bypasses waitlist
+  const bypassesWaitlist = waitlistBypassRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route)
   );
 
   // Skip auth check for static files, API routes, and Next.js internal files
@@ -68,6 +100,16 @@ export async function updateSession(request: NextRequest) {
     (pathname === "/login" || pathname === "/signin" || pathname === "/signup")
   ) {
     return NextResponse.redirect(new URL("/app", request.url));
+  }
+
+  // WAITLIST GATING: Check if authenticated user is on waitlist
+  if (user && !bypassesWaitlist) {
+    const isOnWaitlist = await checkWaitlistStatus(supabase, user.id);
+
+    if (!isOnWaitlist) {
+      // User is not on waitlist, redirect to waitlist page
+      return NextResponse.redirect(new URL("/waitlist", request.url));
+    }
   }
 
   return supabaseResponse;

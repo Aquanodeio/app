@@ -16,6 +16,11 @@ export const paths = {
     },
   },
 
+  waitlist: {
+    path: "/waitlist",
+    getHref: () => "/waitlist",
+  },
+
   app: {
     root: {
       path: "/",
