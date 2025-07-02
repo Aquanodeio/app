@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/Separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getBreadcrumb } from "./NavData";
 import { usePathname } from "next/navigation";
