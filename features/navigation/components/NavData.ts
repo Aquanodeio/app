@@ -34,21 +34,21 @@ export const navData: Record<string, NavItem[]> = {
         },
       ],
     },
-    {
-      title: "Backend Apps",
-      url: "#",
-      icon: Server,
-      items: [
-        {
-          title: "Overview",
-          url: "/services/backend",
-        },
-        {
-          title: "One-Click Apps",
-          url: "/services/backend/one-click-apps",
-        },
-      ],
-    },
+    // {
+    //   title: "Backend Apps",
+    //   url: "#",
+    //   icon: Server,
+    //   items: [
+    //     {
+    //       title: "Overview",
+    //       url: "/services/backend",
+    //     },
+    //     {
+    //       title: "One-Click Apps",
+    //       url: "/services/backend/one-click-apps",
+    //     },
+    //   ],
+    // },
     {
       title: "Container VMs",
       url: "#",
@@ -64,16 +64,16 @@ export const navData: Record<string, NavItem[]> = {
         },
       ],
     },
-    {
-      title: "Agent Terminal",
-      url: "/chatbot",
-      icon: Bot,
-    },
-    {
-      title: "Service Composer",
-      url: paths.app.serviceComposer.path,
-      icon: Wrench,
-    },
+    // {
+    //   title: "Agent Terminal",
+    //   url: "/chatbot",
+    //   icon: Bot,
+    // },
+    // {
+    //   title: "Service Composer",
+    //   url: paths.app.serviceComposer.path,
+    //   icon: Wrench,
+    // },
   ],
   home: [
     {
@@ -93,11 +93,11 @@ export const navData: Record<string, NavItem[]> = {
       url: paths.app.billing.path,
       icon: CreditCard,
     },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2,
-    },
+    // {
+    //   title: "Settings",
+    //   url: "/settings",
+    //   icon: Settings2,
+    // },
   ],
 };
 
