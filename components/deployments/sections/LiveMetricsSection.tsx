@@ -22,7 +22,10 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Check if deployment is active
-  const deploymentActive = isDeploymentActive(deployment.createdAt, deployment.duration);
+  const deploymentActive = isDeploymentActive(
+    deployment.created_at,
+    deployment.duration
+  );
 
   const fetchStats = async () => {
     // Don't fetch if deployment is expired
@@ -32,15 +35,17 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/monitoring/stats/${deployment.deploymentId}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/monitoring/stats/${deployment.id}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch stats');
+        throw new Error("Failed to fetch stats");
       }
       const data = await response.json();
       setStats(data);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch metrics');
+      setError(err instanceof Error ? err.message : "Failed to fetch metrics");
     }
   };
 
@@ -51,13 +56,13 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
     };
 
     getInitialStats();
-    
+
     // Only set up interval if deployment is active
     if (deploymentActive) {
       const interval = setInterval(fetchStats, 1000);
       return () => clearInterval(interval);
     }
-  }, [deployment.deploymentId, deploymentActive]);
+  }, [deployment.id, deploymentActive]);
 
   // Show expired state
   if (!deploymentActive) {
@@ -68,7 +73,7 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
             <Activity size={20} className="text-muted-foreground" />
             <Heading level={4}>Live Metrics</Heading>
           </div>
-          
+
           <div className="py-12 text-center">
             <div className="flex flex-col items-center gap-3">
               <Clock size={32} className="text-muted-foreground" />
@@ -160,7 +165,7 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
             Refresh
           </Button>
         </div>
-        
+
         <Grid variant="responsive-2" className="gap-6">
           {/* Memory Usage Card */}
           <Card variant="compact" className="bg-secondary/5">
@@ -173,22 +178,29 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <Text variant="caption" muted>Current</Text>
+                  <Text variant="caption" muted>
+                    Current
+                  </Text>
                   <Text variant="small" className="font-mono font-medium">
-                    {(latestStats.memory_current_bytes / 1024 / 1024).toFixed(2)} MB
+                    {(latestStats.memory_current_bytes / 1024 / 1024).toFixed(
+                      2
+                    )}{" "}
+                    MB
                   </Text>
                 </div>
                 <div className="flex justify-between items-center">
-                  <Text variant="caption" muted>Maximum</Text>
+                  <Text variant="caption" muted>
+                    Maximum
+                  </Text>
                   <Text variant="small" className="font-mono font-medium">
                     {(latestStats.memory_max_bytes / 1024 / 1024).toFixed(2)} MB
                   </Text>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-blue-500 transition-all duration-300"
-                    style={{ 
-                      width: `${Math.min((latestStats.memory_current_bytes / latestStats.memory_max_bytes) * 100, 100)}%` 
+                    style={{
+                      width: `${Math.min((latestStats.memory_current_bytes / latestStats.memory_max_bytes) * 100, 100)}%`,
                     }}
                   />
                 </div>
@@ -207,19 +219,25 @@ export function LiveMetricsSection({ deployment }: SectionProps) {
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <Text variant="caption" muted>Total</Text>
+                  <Text variant="caption" muted>
+                    Total
+                  </Text>
                   <Text variant="small" className="font-mono font-medium">
                     {(latestStats.cpu_usage_usec / 1000000).toFixed(2)}s
                   </Text>
                 </div>
                 <div className="flex justify-between items-center">
-                  <Text variant="caption" muted>User</Text>
+                  <Text variant="caption" muted>
+                    User
+                  </Text>
                   <Text variant="small" className="font-mono font-medium">
                     {(latestStats.cpu_user_usec / 1000000).toFixed(2)}s
                   </Text>
                 </div>
                 <div className="flex justify-between items-center">
-                  <Text variant="caption" muted>System</Text>
+                  <Text variant="caption" muted>
+                    System
+                  </Text>
                   <Text variant="small" className="font-mono font-medium">
                     {(latestStats.cpu_system_usec / 1000000).toFixed(2)}s
                   </Text>

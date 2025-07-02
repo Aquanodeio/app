@@ -31,7 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 interface GitHubRepo {
   id: number;
@@ -120,7 +120,7 @@ export function GitHubProviderSection({
         provider: "github",
         options: {
           scopes: "repo user:email",
-          redirectTo: `${window.location.origin}/app/services?github=connected`,
+          redirectTo: `${window.location.origin}/services?github=connected`,
         },
       });
 

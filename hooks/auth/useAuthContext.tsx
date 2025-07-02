@@ -6,8 +6,14 @@ import {
   ReactNode,
 } from "react";
 import { AuthUser } from "./types";
-import { signIn, signUp, signOut, resetPassword, getSession } from "@/hooks/service";
-import { supabase } from "@/lib/supabase";
+import {
+  signIn,
+  signUp,
+  signOut,
+  resetPassword,
+  getSession,
+} from "@/hooks/service";
+import { supabase } from "@/lib/supabase/client";
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -47,8 +53,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const getInitialSession = async () => {
       try {
         const { session, error } = await getSession();
-
-        console.log("session", session);
 
         if (error) {
           console.error("Error fetching session:", error);

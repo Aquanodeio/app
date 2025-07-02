@@ -5,8 +5,6 @@ import { createChatTools } from "@/lib/chat/tools";
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-
-
 export async function POST(req: Request) {
   const { messages } = await req.json();
 

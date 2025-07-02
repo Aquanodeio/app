@@ -20,7 +20,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
   isDeploymentActive,
   isLoading,
   activeInstances,
-  serviceName,  
+  serviceName,
 }) => {
   return (
     <div className="space-y-4">
@@ -42,22 +42,24 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
           Recent Activity
         </Heading>
         {deployments.length === 0 ? (
-          <Text variant="small" muted>No recent activity</Text>
+          <Text variant="small" muted>
+            No recent activity
+          </Text>
         ) : (
           <div className="space-y-4">
             {deployments.slice(0, 3).map((deployment) => (
               <div
-                key={deployment.deploymentId}
+                key={deployment.id}
                 className="border-b border-border/40 pb-3 last:border-0 last:pb-0"
               >
                 <div className="flex items-center justify-between mb-1">
                   <Text variant="small" className="font-medium">
-                    {serviceName} {deployment.deploymentId}
+                    {serviceName} {deployment.id}
                   </Text>
                   <span
                     className={`status-badge ${
                       isDeploymentActive(
-                        deployment.createdAt,
+                        deployment.created_at,
                         deployment.duration
                       )
                         ? "status-active"
@@ -65,7 +67,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
                     }`}
                   >
                     {isDeploymentActive(
-                      deployment.createdAt,
+                      deployment.created_at,
                       deployment.duration
                     )
                       ? "Active"
@@ -73,7 +75,7 @@ const ServiceSidebar: React.FC<ServiceSidebarProps> = ({
                   </span>
                 </div>
                 <Text variant="small" muted>
-                  {formatDistanceToNow(new Date(deployment.createdAt))} ago
+                  {formatDistanceToNow(new Date(deployment.created_at))} ago
                 </Text>
               </div>
             ))}

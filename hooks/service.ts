@@ -11,7 +11,7 @@ import {
 } from "../lib/types";
 import { CreateDeploymentSchemaType } from "@/lib/schemas/deployment";
 import { DeploymentResult } from "../lib/types";
-import { supabase } from "../lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import {
   SignInCredentials,
   SignUpCredentials,
@@ -19,8 +19,11 @@ import {
   UpdatePasswordRequest,
   AuthResponse,
 } from "./auth/types";
+import router from "next/router";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080";
+const VERSION = "/api/v1";
+const API_BASE_URL =
+  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3080") + VERSION;
 
 // User response interface
 interface UserResponse {
@@ -48,7 +51,9 @@ class AuthService {
   }
 
   private async initializeFromSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (session?.access_token) {
       this._accessToken = session.access_token;
     }
@@ -105,7 +110,7 @@ export async function request<T>(
 
 // User Management
 export async function createUser(address: string): Promise<UserResponse> {
-  return request<UserResponse>("/api/user/register", {
+  return request<UserResponse>("/user/register", {
     method: "POST",
     body: JSON.stringify({ address }),
   });
@@ -114,9 +119,93 @@ export async function createUser(address: string): Promise<UserResponse> {
 export async function createDeploymentNew(
   data: CreateDeploymentSchemaType
 ): Promise<DeploymentResult> {
-  return request<DeploymentResult>("/api/deployments/deploy", {
+  console.log("Frontend data received:", JSON.stringify(data, null, 2));
+
+  // Transform frontend data to match backend CreateDeploymentSchema format
+  const transformedData = {
+    resource: {
+      cpu: data.config?.appCpuUnits || 1,
+      memory: data.config?.appMemorySize || "1Gi",
+      storage: data.config?.appStorageSize || "1Gi",
+      deploymentDuration: data.config?.deploymentDuration || "1h",
+    },
+    provider: {
+      name:
+        data.provider === "spheron"
+          ? "spheron"
+          : data.provider === "akash"
+            ? "akash"
+            : "spheron",
+    },
+    serviceConfig: (() => {
+      const baseConfig = {
+        env: data.config?.envVars
+          ? Object.entries(data.config.envVars).map(
+              ([key, value]) => `${key}=${value}`
+            )
+          : [],
+        appPort: data.config?.appPort,
+      };
+
+      // Map frontend service types to backend ServiceTypeEnum
+      switch (data.service) {
+        case "BACKEND":
+          // Check if it's a Docker deployment or GitHub deployment
+          if (data.config?.image) {
+            return {
+              type: "DOCKER_IMAGE" as const,
+              image: data.config.image,
+              tag: data.config.tag || "latest",
+              ...baseConfig,
+            };
+          } else {
+            return {
+              type: "BACKEND" as const,
+              repoUrl: data.config?.repoUrl || "",
+              branch: data.config?.branchName || "main",
+              buildCommand: data.config?.runCommands,
+              outputDirectory: data.config?.outputDirectory || "dist",
+              ...baseConfig,
+            };
+          }
+
+        case "MODELS":
+          return {
+            type: "MODELS" as const,
+            modelSlug: data.config?.slug || "",
+            ...baseConfig,
+          };
+
+        case "VMS":
+          return {
+            type: "VMS" as const,
+            vmSlug: data.config?.slug || "",
+            sshPubKey: data.config?.envVars?.SSH_PUBKEY || "",
+            env: baseConfig.env,
+          };
+
+        case "JUPYTER":
+          return {
+            type: "DOCKER_IMAGE" as const,
+            image: data.config?.image || "jupyter/base-notebook",
+            tag: data.config?.tag || "latest",
+            ...baseConfig,
+          };
+
+        default:
+          throw new Error(`Unsupported service type: ${data.service}`);
+      }
+    })(),
+  };
+
+  console.log(
+    "Transformed data to backend:",
+    JSON.stringify(transformedData, null, 2)
+  );
+
+  return request<DeploymentResult>("/deployments/deploy", {
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(transformedData),
   });
 }
 
@@ -126,36 +215,27 @@ export async function getUserDeployments(
   type?: ServiceType,
   provider?: ProviderType
 ): Promise<Deployment[]> {
-  return request<GetDeploymentsResponse>("/api/deployments/user", {
-    method: "POST",
-    body: JSON.stringify({
-      user,
-      type: type || null,
-      provider: provider || null,
-    } as GetDeploymentsRequest),
-  }).then((response) => {
-    return response.deployments;
-  });
+  const query = new URLSearchParams();
+  if (type) query.set("type", type);
+
+  return request<Deployment[]>(
+    "/deployments" + (query.toString() ? `?${query.toString()}` : ""),
+    {
+      method: "GET",
+    }
+  );
 }
 
 // Get deployment by ID
 export async function getDeploymentById(
   deploymentId: number
 ): Promise<Deployment> {
-  return request<Deployment>(`/api/deployments/${deploymentId}`);
-}
-
-// Get service instances by type
-export async function getServiceInstances(type: string): Promise<any[]> {
-  return request<any[]>("/api/deployments/service-instances", {
-    method: "POST",
-    body: JSON.stringify({ type }),
-  });
+  return request<Deployment>(`/deployments/${deploymentId}`);
 }
 
 // Close a deployment
 export async function closeDeployment(deploymentId: number): Promise<void> {
-  return request<void>("/api/deployments/close", {
+  return request<void>("/deployments/close", {
     method: "POST",
     body: JSON.stringify({ deploymentId }),
   });
@@ -167,7 +247,7 @@ export async function getUserDeploymentsByType(
   type: string,
   provider?: ProviderType
 ): Promise<Deployment[]> {
-  return request<Deployment[]>("/api/deployments/user", {
+  return request<Deployment[]>("/deployments/user", {
     method: "POST",
     body: JSON.stringify({
       userId,
@@ -175,107 +255,6 @@ export async function getUserDeploymentsByType(
       provider: provider || null,
     }),
   });
-}
-
-// AI Chat Services
-export async function sendChatMessage(
-  chatRequest: ChatRequest,
-  onStream?: (text: string) => void
-): Promise<ChatResponse> {
-  if (onStream) {
-    const token = authService.getAccessToken();
-    // Streaming request
-    const response = await fetch(`${API_BASE_URL}/api/agent/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: JSON.stringify({
-        ...chatRequest,
-        stream: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: "An unknown error occurred" }));
-      throw new Error(error.message || "An error occurred");
-    }
-
-    if (!response.body) {
-      throw new Error("Response body is null");
-    }
-
-    // Process the stream using the ReadableStream API
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    let accumulatedText = "";
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        // Decode the chunk and add to buffer
-        buffer += decoder.decode(value, { stream: true });
-
-        // Process complete lines in the buffer
-        const lines = buffer.split("\n");
-        // Keep the last potentially incomplete line in the buffer
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.substring(6).trim();
-
-            if (data === "[DONE]") {
-              return { text: accumulatedText };
-            }
-
-            // Skip empty data
-            if (!data) {
-              continue;
-            }
-
-            try {
-              // Ensure we're parsing valid JSON
-              const parsed = JSON.parse(data);
-              if (parsed.choices && parsed.choices[0]) {
-                const deltaContent = parsed.choices[0]?.delta?.content || "";
-                if (deltaContent) {
-                  accumulatedText += deltaContent;
-                  onStream(deltaContent);
-                }
-              }
-            } catch (e) {
-              console.error("Error parsing SSE data:", e, data);
-              // Continue processing other chunks instead of breaking
-              continue;
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Stream reading error:", error);
-      throw error;
-    } finally {
-      reader.releaseLock();
-    }
-
-    return { text: accumulatedText };
-  } else {
-    // Non-streaming request
-    return request<ChatResponse>("/api/agent/chat/completions", {
-      method: "POST",
-      body: JSON.stringify({
-        ...chatRequest,
-        stream: false,
-      }),
-    });
-  }
 }
 
 export async function getChatHistory(): Promise<ChatMessage[]> {
@@ -291,20 +270,26 @@ export async function clearChatHistory(): Promise<void> {
 }
 
 export async function getAquaCredits(): Promise<{ credits: number }> {
-  return request<{ credits: number }>("/api/credits");
+  return request<{ credits: number }>("/credits");
 }
 
 // Purchase Aqua Credits with cryptocurrency
-export async function purchaseCredits(amount: number, creditAmount: number, currency: string = 'BTC'): Promise<any> {
-  return request<any>("/api/credits/purchase", {
+export async function purchaseCredits(
+  amount: number,
+  creditAmount: number,
+  currency: string = "BTC"
+): Promise<any> {
+  return request<any>("/credits/purchase", {
     method: "POST",
     body: JSON.stringify({ amount, creditAmount, currency }),
   });
 }
 
 // Get supported cryptocurrencies for payment
-export async function getSupportedCryptocurrencies(): Promise<SupportedCryptoCurrency[]> {
-  return request<SupportedCryptoCurrency[]>("/api/payment/currencies");
+export async function getSupportedCryptocurrencies(): Promise<
+  SupportedCryptoCurrency[]
+> {
+  return request<SupportedCryptoCurrency[]>("/payment/currencies");
 }
 
 // Get paginated deployments
@@ -314,7 +299,7 @@ export async function getPaginatedDeployments(
   limit = 10
 ): Promise<PaginatedResponse<Deployment>> {
   return request<PaginatedResponse<Deployment>>(
-    `/api/deployments/paginated?userId=${userId}&page=${page}&limit=${limit}`
+    `/deployments/paginated?userId=${userId}&page=${page}&limit=${limit}`
   );
 }
 
@@ -329,14 +314,14 @@ export interface UserProfile {
 }
 
 export async function getProfile(): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/profile");
+  return request<UserProfile>("/user/profile");
 }
 
 // Update user profile
 export async function updateProfile(
   profileData: Partial<UserProfile>
 ): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/profile", {
+  return request<UserProfile>("/user/profile", {
     method: "PUT",
     body: JSON.stringify(profileData),
   });
@@ -347,7 +332,7 @@ export async function syncUser(
   supabaseUserId: string,
   email: string
 ): Promise<UserProfile> {
-  return request<UserProfile>("/api/user/sync", {
+  return request<UserProfile>("/user/sync", {
     method: "POST",
     body: JSON.stringify({ supabaseUserId, email }),
   });
@@ -417,10 +402,12 @@ export async function signOut(): Promise<{ error: Error | null }> {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
-    
+
     // Clear the access token after sign out
     authService.setAccessToken(null);
-    
+
+    window.location.href = "/";
+
     return { error: null };
   } catch (error) {
     console.error("Sign out error:", error);
@@ -489,27 +476,5 @@ export async function getSession() {
   } catch (error) {
     console.error("Get session error:", error);
     return { session: null, error: error as Error };
-  }
-}
-
-// Sign in with Google
-export async function signInWithGoogle(): Promise<{ error: Error | null }> {
-  console.log(
-    "Signing in with Google",
-    `${window.location.origin}/app/deployments`
-  );
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/app/deployments`,
-      },
-    });
-
-    if (error) throw error;
-    return { error: null };
-  } catch (error) {
-    console.error("Google sign in error:", error);
-    return { error: error as Error };
   }
 }

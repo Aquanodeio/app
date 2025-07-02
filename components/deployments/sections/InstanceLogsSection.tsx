@@ -9,19 +9,25 @@ import { isDeploymentActive } from "@/lib/deployment";
 
 export function InstanceLogsSection({ deployment }: SectionProps) {
   // Check if deployment is active
-  const deploymentActive = isDeploymentActive(deployment.createdAt, deployment.duration);
+  const deploymentActive = isDeploymentActive(
+    deployment.created_at,
+    deployment.duration
+  );
 
-  const { 
-    data: logs, 
-    isLoading: logsLoading, 
+  const {
+    data: logs,
+    isLoading: logsLoading,
     error: logsError,
     refetch: refetchLogs,
-    isFetching
-  } = useDeploymentLogs(Number(deployment.leaseId), deployment.provider as ProviderType);
-  
+    isFetching,
+  } = useDeploymentLogs(
+    Number(deployment.lease_id),
+    deployment.provider as ProviderType
+  );
+
   // Format logs for display
   const formattedLogs = logs || "No logs available";
-  
+
   return (
     <div className="space-y-6">
       <div>
@@ -31,20 +37,23 @@ export function InstanceLogsSection({ deployment }: SectionProps) {
             <Heading level={2}>Instance Logs</Heading>
           </div>
           {deploymentActive && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => refetchLogs()}
               disabled={isFetching}
               className="hover:bg-secondary/30"
             >
-              <RefreshCw size={16} className={`mr-2 ${isFetching ? 'animate-spin' : ''}`} />
-              {isFetching ? 'Refreshing...' : 'Refresh'}
+              <RefreshCw
+                size={16}
+                className={`mr-2 ${isFetching ? "animate-spin" : ""}`}
+              />
+              {isFetching ? "Refreshing..." : "Refresh"}
             </Button>
           )}
         </div>
       </div>
-      
+
       <Card variant="primary" className="h-full flex flex-col">
         {!deploymentActive ? (
           <div className="py-16 text-center">
@@ -68,7 +77,9 @@ export function InstanceLogsSection({ deployment }: SectionProps) {
                 Loading logs...
               </div>
             ) : logsError ? (
-              <div className="text-red-400">Error loading logs: {String(logsError)}</div>
+              <div className="text-red-400">
+                Error loading logs: {String(logsError)}
+              </div>
             ) : (
               <pre className="whitespace-pre-wrap break-all text-gray-100 leading-relaxed">
                 {formattedLogs}
@@ -79,4 +90,4 @@ export function InstanceLogsSection({ deployment }: SectionProps) {
       </Card>
     </div>
   );
-} 
+}

@@ -38,7 +38,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   const router = useRouter();
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
-  console.log("deployments", serviceName)
+  console.log("deployments", serviceName);
 
   const renderSkeletonDeployments = () => (
     <div className="grid gap-3">
@@ -86,42 +86,38 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
   return (
     <div className="grid gap-3 w-full">
       {deployments.map((deployment) => {
-        const deploymentActive = isDeploymentActive(
-          deployment.createdAt,
-          deployment.duration
-        );
+        const deploymentActive = deployment.status === "ACTIVE";
 
-        const appUrl = deployment.appUrl;
+        const appUrl = deployment.app_url;
 
         let Url;
         if (appUrl) {
-          Url = new URL(appUrl)
-        } 
+          Url = new URL(appUrl);
+        }
 
         const port = Url?.port;
         const hostname = Url?.hostname;
 
         if (deploymentActive) {
-          console.log("deploymentActive", deployment)
+          console.log("deploymentActive", deployment);
         }
 
         const sshCommand = `ssh -i <private-key> root@${hostname} -p ${port}`;
 
-
         return (
           <div
-            key={deployment.deploymentId}
+            key={deployment.id}
             className="card-primary flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full overflow-hidden"
           >
             <div className="space-y-2 flex-grow min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="body-small text-muted-foreground">ID:</span>
                 <Link
-                  href={`/app/deployments/${deployment.deploymentId}`}
+                  href={`/deployments/${deployment.id}`}
                   className="body-small text-foreground hover:text-primary hover:underline font-medium truncate max-w-[180px] sm:max-w-[240px]"
-                  title={deployment.deploymentId}
+                  title={deployment.id}
                 >
-                  {deployment.deploymentId}
+                  {deployment.id}
                 </Link>
                 <span
                   className={`status-badge ${
@@ -131,17 +127,17 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                   {deploymentActive ? "Active" : "Expired"}
                 </span>
               </div>
-              {deployment.appUrl && (
+              {deployment.app_url && (
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="body-small text-muted-foreground">URL:</span>
                   <a
-                    href={deployment.appUrl}
+                    href={deployment.app_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="body-small text-foreground hover:text-primary hover:underline truncate max-w-[180px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-md"
-                    title={deployment.appUrl}
+                    title={deployment.app_url}
                   >
-                    {deployment.appUrl}
+                    {deployment.app_url}
                   </a>
                 </div>
               )}
@@ -150,7 +146,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                   Created:
                 </span>
                 <span className="body-small text-muted-foreground/90">
-                  {formatDistanceToNow(new Date(deployment.createdAt))} ago
+                  {formatDistanceToNow(new Date(deployment.created_at))} ago
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -164,7 +160,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
               </div>
             </div>
             <div className="flex flex-wrap gap-2 self-end md:self-center mt-2 md:mt-0">
-              {deployment.appUrl &&
+              {deployment.app_url &&
                 deploymentActive &&
                 (serviceName === "VM" ? (
                   <Dialog>
@@ -180,12 +176,15 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                       <DialogHeader>
                         <DialogTitle>SSH into VM</DialogTitle>
                         <DialogDescription>
-                          Copy the command below and run it in your terminal with your private key
+                          Copy the command below and run it in your terminal
+                          with your private key
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div>
-                          <Label className="body-small text-muted-foreground">SSH Command</Label>
+                          <Label className="body-small text-muted-foreground">
+                            SSH Command
+                          </Label>
                           <div className="relative mt-2">
                             <Input
                               readOnly
@@ -198,13 +197,19 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
                               onClick={async () => {
                                 await navigator.clipboard.writeText(sshCommand);
-                                setCopiedStates(prev => ({ ...prev, [deployment.deploymentId]: true }));
+                                setCopiedStates((prev) => ({
+                                  ...prev,
+                                  [deployment.id]: true,
+                                }));
                                 setTimeout(() => {
-                                  setCopiedStates(prev => ({ ...prev, [deployment.deploymentId]: false }));
+                                  setCopiedStates((prev) => ({
+                                    ...prev,
+                                    [deployment.id]: false,
+                                  }));
                                 }, 2000);
                               }}
                             >
-                              {copiedStates[deployment.deploymentId] ? (
+                              {copiedStates[deployment.id] ? (
                                 <>
                                   <Check className="h-3 w-3 mr-1" />
                                   Copied
@@ -219,17 +224,32 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                           </div>
                         </div>
                         <div className="card-glass p-3 space-y-2">
-                          <p className="body-small font-medium">Instructions:</p>
+                          <p className="body-small font-medium">
+                            Instructions:
+                          </p>
                           <ol className="body-small text-muted-foreground space-y-1 list-decimal list-inside">
-                            <li>Replace <code className="bg-muted px-1 rounded text-xs">private-key</code> with your private key file path</li>
-                            <li>Ensure your private key has correct permissions: <code className="bg-muted px-1 rounded text-xs">chmod 600 your-key.pem</code></li>
+                            <li>
+                              Replace{" "}
+                              <code className="bg-muted px-1 rounded text-xs">
+                                private-key
+                              </code>{" "}
+                              with your private key file path
+                            </li>
+                            <li>
+                              Ensure your private key has correct permissions:{" "}
+                              <code className="bg-muted px-1 rounded text-xs">
+                                chmod 600 your-key.pem
+                              </code>
+                            </li>
                             <li>Run the command in your terminal</li>
                           </ol>
                         </div>
                       </div>
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button className="btn-secondary btn-sm">Close</Button>
+                          <Button className="btn-secondary btn-sm">
+                            Close
+                          </Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
@@ -248,16 +268,19 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                       <DialogHeader>
                         <DialogTitle>Model API Access</DialogTitle>
                         <DialogDescription>
-                          Connect to your Ollama model using the API endpoint below
+                          Connect to your Ollama model using the API endpoint
+                          below
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div>
-                          <Label className="body-small text-muted-foreground">API Endpoint</Label>
+                          <Label className="body-small text-muted-foreground">
+                            API Endpoint
+                          </Label>
                           <div className="relative mt-2">
                             <Input
                               readOnly
-                              value={deployment.appUrl || ''}
+                              value={deployment.app_url || ""}
                               className="font-mono text-sm pr-20"
                             />
                             <Button
@@ -265,14 +288,22 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                               variant="ghost"
                               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
                               onClick={async () => {
-                                await navigator.clipboard.writeText(deployment.appUrl || '');
-                                setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_url`]: true }));
+                                await navigator.clipboard.writeText(
+                                  deployment.app_url || ""
+                                );
+                                setCopiedStates((prev) => ({
+                                  ...prev,
+                                  [`${deployment.id}_url`]: true,
+                                }));
                                 setTimeout(() => {
-                                  setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_url`]: false }));
+                                  setCopiedStates((prev) => ({
+                                    ...prev,
+                                    [`${deployment.id}_url`]: false,
+                                  }));
                                 }, 2000);
                               }}
                             >
-                              {copiedStates[`${deployment.deploymentId}_url`] ? (
+                              {copiedStates[`${deployment.id}_url`] ? (
                                 <>
                                   <Check className="h-3 w-3 mr-1" />
                                   Copied
@@ -286,13 +317,15 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                             </Button>
                           </div>
                         </div>
-                        
+
                         <div>
-                          <Label className="body-small text-muted-foreground">cURL Example</Label>
+                          <Label className="body-small text-muted-foreground">
+                            cURL Example
+                          </Label>
                           <div className="relative mt-2">
                             <Input
                               readOnly
-                              value={`curl -X POST ${deployment.appUrl}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`}
+                              value={`curl -X POST ${deployment.app_url}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`}
                               className="font-mono text-xs pr-20"
                             />
                             <Button
@@ -300,15 +333,23 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                               variant="ghost"
                               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 px-2 text-xs"
                               onClick={async () => {
-                                const curlCommand = `curl -X POST ${deployment.appUrl}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`;
-                                await navigator.clipboard.writeText(curlCommand);
-                                setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_curl`]: true }));
+                                const curlCommand = `curl -X POST ${deployment.app_url}/api/chat -H "Content-Type: application/json" -d '{"model":"deepseek-r1","messages":[{"role":"user","content":"Hello world!"}]}'`;
+                                await navigator.clipboard.writeText(
+                                  curlCommand
+                                );
+                                setCopiedStates((prev) => ({
+                                  ...prev,
+                                  [`${deployment.id}_curl`]: true,
+                                }));
                                 setTimeout(() => {
-                                  setCopiedStates(prev => ({ ...prev, [`${deployment.deploymentId}_curl`]: false }));
+                                  setCopiedStates((prev) => ({
+                                    ...prev,
+                                    [`${deployment.id}_curl`]: false,
+                                  }));
                                 }, 2000);
                               }}
                             >
-                              {copiedStates[`${deployment.deploymentId}_curl`] ? (
+                              {copiedStates[`${deployment.id}_curl`] ? (
                                 <>
                                   <Check className="h-3 w-3 mr-1" />
                                   Copied
@@ -324,29 +365,46 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                         </div>
 
                         <div className="card-glass p-4 space-y-3">
-                          <p className="body-small font-medium text-foreground">Usage Instructions:</p>
+                          <p className="body-small font-medium text-foreground">
+                            Usage Instructions:
+                          </p>
                           <div className="space-y-3">
                             <div>
-                              <p className="body-small font-medium text-muted-foreground mb-1">1. API Integration</p>
-                              <p className="body-small text-muted-foreground/90">Use the endpoint above to connect your applications to the model</p>
+                              <p className="body-small font-medium text-muted-foreground mb-1">
+                                1. API Integration
+                              </p>
+                              <p className="body-small text-muted-foreground/90">
+                                Use the endpoint above to connect your
+                                applications to the model
+                              </p>
                             </div>
                             <div>
-                              <p className="body-small font-medium text-muted-foreground mb-1">2. API Documentation</p>
-                              <p className="body-small text-muted-foreground/90">Check <code className="bg-muted px-1 rounded text-xs">{deployment.appUrl}/api/tags</code> for available models</p>
+                              <p className="body-small font-medium text-muted-foreground mb-1">
+                                2. API Documentation
+                              </p>
+                              <p className="body-small text-muted-foreground/90">
+                                Check{" "}
+                                <code className="bg-muted px-1 rounded text-xs">
+                                  {deployment.app_url}/api/tags
+                                </code>{" "}
+                                for available models
+                              </p>
                             </div>
                           </div>
                         </div>
                       </div>
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button className="btn-secondary btn-sm">Close</Button>
+                          <Button className="btn-secondary btn-sm">
+                            Close
+                          </Button>
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
                 ) : (
                   <a
-                    href={deployment.appUrl}
+                    href={deployment.app_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto"
@@ -365,7 +423,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                 size="sm"
                 className="btn-secondary btn-sm w-full sm:w-auto"
                 onClick={() => {
-                  router.push(`/app/deployments/${deployment.deploymentId}`);
+                  router.push(`/deployments/${deployment.id}`);
                 }}
               >
                 View
@@ -375,7 +433,7 @@ const DeploymentsList: React.FC<DeploymentsListProps> = ({
                   variant="outline"
                   size="sm"
                   className="btn-secondary btn-sm text-destructive hover:text-destructive w-full sm:w-auto"
-                  onClick={() => onDelete && onDelete(deployment.deploymentId)}
+                  onClick={() => onDelete && onDelete(deployment.id)}
                 >
                   Stop
                 </Button>

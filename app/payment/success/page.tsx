@@ -1,17 +1,17 @@
 "use client";
 
-import React, { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useQueryClient } from '@tanstack/react-query';
-import { aquaCreditsKey } from '@/hooks/api/useAquaCredits';
+import React, { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { aquaCreditsKey } from "@/hooks/api/useAquaCredits";
 
 const PaymentSuccessPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const orderNumber = searchParams.get('order');
+  const orderNumber = searchParams.get("order");
 
   useEffect(() => {
     // Invalidate credits query to refresh the balance
@@ -24,21 +24,22 @@ const PaymentSuccessPage = () => {
         <div className="space-element">
           <CheckCircle className="h-16 w-16 text-green-500 mb-4 mx-auto" />
         </div>
-        
+
         <h1 className="auth-title">Payment Successful!</h1>
         <p className="auth-subtitle space-element">
-          Your payment has been processed successfully. Your Aqua Credits will be added to your account shortly.
+          Your payment has been processed successfully. Your Aqua Credits will
+          be added to your account shortly.
         </p>
-        
+
         {orderNumber && (
           <p className="body-small text-muted-foreground space-element">
             Order Reference: {orderNumber}
           </p>
         )}
-        
+
         <div className="mt-6">
-          <Button 
-            onClick={() => router.push('/app/deployments')}
+          <Button
+            onClick={() => router.push("/deployments")}
             className="btn-primary btn-md w-full"
           >
             Return to Dashboard
@@ -49,4 +50,4 @@ const PaymentSuccessPage = () => {
   );
 };
 
-export default PaymentSuccessPage; 
+export default PaymentSuccessPage;
